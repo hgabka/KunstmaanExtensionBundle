@@ -1,6 +1,6 @@
 <?php
 
-namespace Webtown\KunstmaanExtensionBundle\Controller;
+namespace Hgabka\KunstmaanExtensionBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -23,7 +23,7 @@ class CacheController extends Controller
     public function purgeAction()
     {
         try {
-            $this->get('webtown_kunstmaan_extension.cache_manager')->forcePurgeAll();
+            $this->get('hgabka_kunstmaan_extension.cache_manager')->forcePurgeAll();
             $this->addFlash('success', $this->get('translator')->trans('kuma_admin.cache.flash.cache_purged'));
         } catch (\Exception $e) {
             $this->addFlash('error', $this->get('translator')->trans(

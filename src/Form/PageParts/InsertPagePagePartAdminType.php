@@ -1,6 +1,6 @@
 <?php
 
-namespace Webtown\KunstmaanExtensionBundle\Form\PageParts;
+namespace Hgabka\KunstmaanExtensionBundle\Form\PageParts;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
@@ -13,8 +13,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Webtown\KunstmaanExtensionBundle\Entity\InsertablePageInterface;
-use Webtown\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart;
+use Hgabka\KunstmaanExtensionBundle\Entity\InsertablePageInterface;
+use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart;
 
 /**
  * InsertPagePagePartAdminType
@@ -175,7 +175,7 @@ class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'webtown_kunstmaanextensionbundle_insertpagepageparttype';
+        return 'hgabka_kunstmaanextensionbundle_insertpagepageparttype';
     }
 
     /**
@@ -186,7 +186,7 @@ class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => '\Webtown\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart'
+            'data_class' => '\Hgabka\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart'
         ]);
     }
 }

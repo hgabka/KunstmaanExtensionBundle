@@ -6,27 +6,27 @@
  * Time: 10:14
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Entity\PageParts;
+namespace Hgabka\KunstmaanExtensionBundle\Entity\PageParts;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\PagePartBundle\Entity\AbstractPagePart;
 use Symfony\Component\Form\AbstractType;
-use Webtown\KunstmaanExtensionBundle\Entity\SliderImage;
-use Webtown\KunstmaanExtensionBundle\Form\PageParts\SliderPagePartAdminType;
+use Hgabka\KunstmaanExtensionBundle\Entity\SliderImage;
+use Hgabka\KunstmaanExtensionBundle\Form\PageParts\SliderPagePartAdminType;
 
 /**
  * ImagePagePart
  *
  * @ORM\Entity
- * @ORM\Table(name="webtown_kunstmaan_slider_page_parts")
+ * @ORM\Table(name="hgabka_kunstmaan_slider_page_parts")
  */
 class SliderPagePart extends AbstractPagePart
 {
     /**
      * @var ArrayCollection|SliderImage[] $images
      *
-     * @ORM\OneToMany(targetEntity="\Webtown\KunstmaanExtensionBundle\Entity\SliderImage", mappedBy="sliderPagePart", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="\Hgabka\KunstmaanExtensionBundle\Entity\SliderImage", mappedBy="sliderPagePart", cascade={"persist"})
      * @ORM\OrderBy({"displayOrder" = "ASC"})
      */
     protected $images;
@@ -78,7 +78,7 @@ class SliderPagePart extends AbstractPagePart
      */
     public function getDefaultView()
     {
-        return 'WebtownKunstmaanExtensionBundle:PageParts:SliderPagePart/view.html.twig';
+        return 'HgabkaKunstmaanExtensionBundle:PageParts:SliderPagePart/view.html.twig';
     }
 
     /**
@@ -88,7 +88,7 @@ class SliderPagePart extends AbstractPagePart
      */
     public function getAdminView()
     {
-        return 'WebtownKunstmaanExtensionBundle:PageParts:SliderPagePart/view-admin.html.twig';
+        return 'HgabkaKunstmaanExtensionBundle:PageParts:SliderPagePart/view-admin.html.twig';
     }
 
     /**

@@ -6,14 +6,14 @@
  * Time: 17:11
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Configuration;
+namespace Hgabka\KunstmaanExtensionBundle\Configuration;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Elastica\Document;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Webtown\KunstmaanExtensionBundle\Entity\SearchableEntityInterface;
-use Webtown\KunstmaanExtensionBundle\Event\IndexEntityEvent;
+use Hgabka\KunstmaanExtensionBundle\Entity\SearchableEntityInterface;
+use Hgabka\KunstmaanExtensionBundle\Event\IndexEntityEvent;
 use Kunstmaan\AdminBundle\Helper\DomainConfigurationInterface;
 use Kunstmaan\NodeSearchBundle\Helper\SearchBoostInterface;
 use Kunstmaan\SearchBundle\Configuration\SearchConfigurationInterface;

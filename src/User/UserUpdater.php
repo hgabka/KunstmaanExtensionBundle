@@ -6,7 +6,7 @@
  * Time: 14:18
  */
 
-namespace Webtown\KunstmaanExtensionBundle\User;
+namespace Hgabka\KunstmaanExtensionBundle\User;
 
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 /**
  * Stores and update changable user details
  *
- * @author Zoltan Feher <whitezo@webtown.hu>
+ * @author Gabe <hgabka@gmail.com>
  */
 class UserUpdater
 {

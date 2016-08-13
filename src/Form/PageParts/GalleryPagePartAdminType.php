@@ -1,6 +1,6 @@
 <?php
 
-namespace Webtown\KunstmaanExtensionBundle\Form\PageParts;
+namespace Hgabka\KunstmaanExtensionBundle\Form\PageParts;
 
 use Kunstmaan\MediaBundle\Repository\FolderRepository;
 use Symfony\Component\Form\AbstractType;
@@ -51,7 +51,7 @@ class GalleryPagePartAdminType extends AbstractType
      */
     public function getName()
     {
-        return 'webtown_kunstmaan_extension_gallery_admin_type';
+        return 'hgabka_kunstmaan_extension_gallery_admin_type';
     }
 
     /**
@@ -62,7 +62,7 @@ class GalleryPagePartAdminType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => '\Webtown\KunstmaanExtensionBundle\Entity\PageParts\GalleryPagePart'
+            'data_class' => '\Hgabka\KunstmaanExtensionBundle\Entity\PageParts\GalleryPagePart'
         ]);
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Webtown\KunstmaanExtensionBundle\Entity\PageParts;
+namespace Hgabka\KunstmaanExtensionBundle\Entity\PageParts;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * InsertPagePagePart
  *
- * @ORM\Table(name="webtown_kunstmaanextensionbundle_insert_page_page_parts")
+ * @ORM\Table(name="hgabka_kunstmaanextensionbundle_insert_page_page_parts")
  * @ORM\Entity
  */
 class InsertPagePagePart extends \Kunstmaan\PagePartBundle\Entity\AbstractPagePart
@@ -53,16 +53,16 @@ class InsertPagePagePart extends \Kunstmaan\PagePartBundle\Entity\AbstractPagePa
      */
     public function getDefaultView()
     {
-        return 'WebtownKunstmaanExtensionBundle:PageParts:InsertPagePagePart/view.html.twig';
+        return 'HgabkaKunstmaanExtensionBundle:PageParts:InsertPagePagePart/view.html.twig';
     }
 
     /**
      * Get the admin form type.
      *
-     * @return \Webtown\KunstmaanExtensionBundle\Form\PageParts\InsertPagePagePartAdminType
+     * @return \Hgabka\KunstmaanExtensionBundle\Form\PageParts\InsertPagePagePartAdminType
      */
     public function getDefaultAdminType()
     {
-        return 'webtown_kunstmaan_extension.page_insert.admin_form_type';
+        return 'hgabka_kunstmaan_extension.page_insert.admin_form_type';
     }
 }

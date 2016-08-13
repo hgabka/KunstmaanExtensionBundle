@@ -6,7 +6,7 @@
  * Time: 17:35
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Translation\Extraction\File;
+namespace Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File;
 
 use Doctrine\Common\Annotations\DocParser;
 use JMS\TranslationBundle\Annotation\Desc;

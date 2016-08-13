@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: chris
+ * User: gabe
  * Date: 2016.04.14.
  * Time: 15:59
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Translation\Extraction\File;
+namespace Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File;
 
 use JMS\TranslationBundle\Model\FileSource;
 use JMS\TranslationBundle\Model\Message;
@@ -19,7 +19,7 @@ use Symfony\Component\Yaml\Parser;
  *
  * Collect the original translations
  *
- * @package Webtown\KunstmaanExtensionBundle\Translation\Extraction\File
+ * @package Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File
  *
  * @todo (Chris) Nem tud együtt működni a gyorsítással! Meg kell oldani, hogy a gyorsítást ki lehessen kapcsolni VAGY lehessen beállítani szabályokat, ahol a preformance tesztet kihagyva újra és újra fut az egész.
  */

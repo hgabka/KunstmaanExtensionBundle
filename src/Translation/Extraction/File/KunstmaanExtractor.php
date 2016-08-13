@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: chris
+ * User: gabe
  * Date: 2016.04.14.
  * Time: 13:48
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Translation\Extraction\File;
+namespace Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File;
 
 use JMS\TranslationBundle\Annotation\Desc;
 use JMS\TranslationBundle\Annotation\Ignore;
@@ -26,7 +26,7 @@ use Symfony\Component\Yaml\Parser;
  *  - custom class and methods (self::enterNode())
  *  - page part names from config ymls (self::visitFile())
  *
- * @package Webtown\KunstmaanExtensionBundle\Translation\Extraction\File
+ * @package Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File
  *
  * @see \JMS\TranslationBundle\JMSTranslationBundle
  */

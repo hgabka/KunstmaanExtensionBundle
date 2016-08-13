@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: whitezo
+ * User: gabe
  * Date: 2016. 08. 03.
  * Time: 17:00
  */
 
-namespace Webtown\KunstmaanExtensionBundle\User;
+namespace Hgabka\KunstmaanExtensionBundle\User;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Kunstmaan\AdminBundle\Entity\User;
@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 /**
  * UserEditCommand db services
  *
- * @author Zoltan Feher <whitezo@webtown.hu>
+ * @author Gabe <hgabka@gmail.com>
  */
 class UserEditService
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Webtown\KunstmaanExtensionBundle\Command;
+namespace Hgabka\KunstmaanExtensionBundle\Command;
 
 use Kunstmaan\AdminBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -11,8 +11,8 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Webtown\KunstmaanExtensionBundle\User\UserEditService;
-use Webtown\KunstmaanExtensionBundle\User\UserUpdater;
+use Hgabka\KunstmaanExtensionBundle\User\UserEditService;
+use Hgabka\KunstmaanExtensionBundle\User\UserUpdater;
 
 class UserEditCommand extends ContainerAwareCommand
 {
@@ -55,7 +55,7 @@ class UserEditCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('webtown:kunstmaan:user-edit')
+            ->setName('hgabka:kunstmaan:user-edit')
             ->setDescription('Edit user details')
             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL)
             ->addOption('email', 'm', InputOption::VALUE_OPTIONAL);
@@ -69,7 +69,7 @@ class UserEditCommand extends ContainerAwareCommand
         $this->logger = new SymfonyStyle($input, $output);
         $this->input = $input;
         $this->output = $output;
-        $this->userEditor = $this->getContainer()->get('webtown_kunstmaan_extension.user_edit');
+        $this->userEditor = $this->getContainer()->get('hgabka_kunstmaan_extension.user_edit');
 
         $this->logger->title('User updater');
 
@@ -194,7 +194,7 @@ EOL;
             ->setTo($to)
             ->setBody(
                 $this->getContainer()->get('twig')->render(
-                    '@WebtownKunstmaanExtension/email/user_edit.html.twig',
+                    '@HgabkaKunstmaanExtension/email/user_edit.html.twig',
                     ['changes' => $changedValues]
                 ),
                 'text/html'

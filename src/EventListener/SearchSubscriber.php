@@ -1,17 +1,17 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: chris
+ * User: gabe
  * Date: 2016.05.03.
  * Time: 17:14
  */
 
-namespace Webtown\KunstmaanExtensionBundle\EventListener;
+namespace Hgabka\KunstmaanExtensionBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use Webtown\KunstmaanExtensionBundle\Entity\SearchableEntityInterface;
+use Hgabka\KunstmaanExtensionBundle\Entity\SearchableEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SearchSubscriber implements EventSubscriber
@@ -84,7 +84,7 @@ class SearchSubscriber implements EventSubscriber
      */
     protected function index(SearchableEntityInterface $entity)
     {
-        $configuration = $this->container->get('webtown_kunstmaan_extension.searchable_entity_configuration');
+        $configuration = $this->container->get('hgabka_kunstmaan_extension.searchable_entity_configuration');
         $configuration->indexEntity($entity);
     }
 
@@ -93,7 +93,7 @@ class SearchSubscriber implements EventSubscriber
      */
     protected function delete(SearchableEntityInterface $entity)
     {
-        $configuration = $this->container->get('webtown_kunstmaan_extension.searchable_entity_configuration');
+        $configuration = $this->container->get('hgabka_kunstmaan_extension.searchable_entity_configuration');
         $configuration->deleteEntity($entity);
     }
 }

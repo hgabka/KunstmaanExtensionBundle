@@ -1,19 +1,19 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: chris
+ * User: gabe
  * Date: 2016.03.08.
  * Time: 10:43
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Form\PageParts;
+namespace Hgabka\KunstmaanExtensionBundle\Form\PageParts;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Webtown\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
-use Webtown\KunstmaanExtensionBundle\Form\SliderImageAdminType;
+use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
+use Hgabka\KunstmaanExtensionBundle\Form\SliderImageAdminType;
 
 class SliderPagePartAdminType extends AbstractType
 {
@@ -67,6 +67,6 @@ class SliderPagePartAdminType extends AbstractType
      */
     public function getName()
     {
-        return 'webtown_kunstmaan_extension_slider_admin_type';
+        return 'hgabka_kunstmaan_extension_slider_admin_type';
     }
 }

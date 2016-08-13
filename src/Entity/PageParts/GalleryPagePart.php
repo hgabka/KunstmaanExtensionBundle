@@ -1,17 +1,17 @@
 <?php
 
-namespace Webtown\KunstmaanExtensionBundle\Entity\PageParts;
+namespace Hgabka\KunstmaanExtensionBundle\Entity\PageParts;
 
 use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\MediaBundle\Entity\Folder;
 use Kunstmaan\PagePartBundle\Entity\AbstractPagePart;
 use Symfony\Component\Validator\Constraints as Assert;
-use Webtown\KunstmaanExtensionBundle\Form\PageParts\GalleryPagePartAdminType;
+use Hgabka\KunstmaanExtensionBundle\Form\PageParts\GalleryPagePartAdminType;
 
 /**
  * GalleryPagePart
  *
- * @ORM\Table(name="webtown_kunstmaan_gallery_page_parts")
+ * @ORM\Table(name="hgabka_kunstmaan_gallery_page_parts")
  * @ORM\Entity
  */
 class GalleryPagePart extends AbstractPagePart
@@ -33,7 +33,7 @@ class GalleryPagePart extends AbstractPagePart
      */
     public function getDefaultView()
     {
-        return 'WebtownKunstmaanExtensionBundle:PageParts:GalleryPagePart/view.html.twig';
+        return 'HgabkaKunstmaanExtensionBundle:PageParts:GalleryPagePart/view.html.twig';
     }
 
     /**

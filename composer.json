@@ -1,20 +1,15 @@
 {
-    "name": "webtown/kunstmaan-extension-bundle",
+    "name": "hgabka/kunstmaan-extension-bundle",
     "type": "kunstmaan-bundle",
     "description": "Kunstmaan extension bundle",
     "keywords": [
     ],
-    "homepage": "https://github.com/webtown-php/KunstmaanExtensionBundle",
+    "homepage": "https://github.com/hgabka/KunstmaanExtensionBundle",
     "license": "proprietary",
     "authors": [
         {
-            "name": "Krisztián Ferenczi",
-            "email": "ferenczi.krisztian@gmail.com",
-            "role": "Developer"
-        },
-        {
-            "name": "László Somogyi",
-            "email": "somogyi.laszlo@webtown.hu",
+            "name": "Gabe",
+            "email": "hgabka@gmail.com",
             "role": "Developer"
         }
     ],
@@ -31,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Webtown\\KunstmaanExtensionBundle\\": "src"
+            "Hgabka\\KunstmaanExtensionBundle\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Webtown\\KunstmaanExtensionBundle\\Tests\\": "tests"
+            "Hgabka\\KunstmaanExtensionBundle\\Tests\\": "tests"
         }
     },
     "scripts": {

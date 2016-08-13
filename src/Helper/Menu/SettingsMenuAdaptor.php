@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: chris
+ * User: gabe
  * Date: 2016.04.19.
  * Time: 14:10
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Helper\Menu;
+namespace Hgabka\KunstmaanExtensionBundle\Helper\Menu;
 
 use Kunstmaan\AdminBundle\Helper\Menu\MenuAdaptorInterface;
 use Kunstmaan\AdminBundle\Helper\Menu\MenuBuilder;

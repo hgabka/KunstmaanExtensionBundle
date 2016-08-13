@@ -1,4 +1,4 @@
 KunstmaanAdminBundle_cache_routes:
-    resource: '@WebtownKunstmaanExtensionBundle/Controller/CacheController.php'
+    resource: '@HgabkaKunstmaanExtensionBundle/Controller/CacheController.php'
     type:     annotation
     prefix:   /admin/settings/cache

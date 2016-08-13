@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: chris
+ * User: gabe
  * Date: 2016.04.20.
  * Time: 9:35
  */
 
-namespace Webtown\KunstmaanExtensionBundle\HttpCache;
+namespace Hgabka\KunstmaanExtensionBundle\HttpCache;
 
 use FOS\HttpCacheBundle\CacheManager;
 use Symfony\Component\Filesystem\Filesystem;

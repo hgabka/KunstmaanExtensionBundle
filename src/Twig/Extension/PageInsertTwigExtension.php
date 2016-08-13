@@ -1,6 +1,6 @@
 <?php
 
-namespace Webtown\KunstmaanExtensionBundle\Twig\Extension;
+namespace Hgabka\KunstmaanExtensionBundle\Twig\Extension;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
@@ -8,9 +8,9 @@ use Kunstmaan\NodeBundle\Entity\AbstractPage;
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
 use Kunstmaan\PagePartBundle\Helper\HasPagePartsInterface;
 use Kunstmaan\PagePartBundle\Twig\Extension\PagePartTwigExtension;
-use Webtown\KunstmaanExtensionBundle\Entity\InsertablePageInterface;
-use Webtown\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart;
-use Webtown\KunstmaanExtensionBundle\Exception\InsertedMaxDepthException;
+use Hgabka\KunstmaanExtensionBundle\Entity\InsertablePageInterface;
+use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart;
+use Hgabka\KunstmaanExtensionBundle\Exception\InsertedMaxDepthException;
 
 class PageInsertTwigExtension extends \Twig_Extension
 {

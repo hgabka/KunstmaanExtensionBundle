@@ -6,7 +6,7 @@
  * Time: 17:29
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Entity;
+namespace Hgabka\KunstmaanExtensionBundle\Entity;
 
 interface SearchableEntityInterface
 {

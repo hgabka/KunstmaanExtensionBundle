@@ -6,26 +6,26 @@
  * Time: 10:15
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Entity;
+namespace Hgabka\KunstmaanExtensionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Kunstmaan\MediaBundle\Entity\Media;
 use Symfony\Component\Validator\Constraints as Assert;
-use Webtown\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
+use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
 
 /**
  * ImagePagePart
  *
  * @ORM\Entity
- * @ORM\Table(name="webtown_kunstmaan_slider_image")
+ * @ORM\Table(name="hgabka_kunstmaan_slider_image")
  */
 class SliderImage extends AbstractEntity
 {
     /**
      * @var SliderPagePart $sliderPagePart
      *
-     * @ORM\ManyToOne(targetEntity="\Webtown\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart", inversedBy="images", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="\Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart", inversedBy="images", cascade={"persist"})
      * @ORM\JoinColumn(name="slider_page_part_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $sliderPagePart;

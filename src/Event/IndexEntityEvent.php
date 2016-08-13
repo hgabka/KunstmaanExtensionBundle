@@ -1,15 +1,15 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: chris
+ * User: gabe
  * Date: 2016.05.04.
  * Time: 13:51
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Event;
+namespace Hgabka\KunstmaanExtensionBundle\Event;
 
 
-use Webtown\KunstmaanExtensionBundle\Entity\SearchableEntityInterface;
+use Hgabka\KunstmaanExtensionBundle\Entity\SearchableEntityInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 class IndexEntityEvent extends Event

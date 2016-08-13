@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: chris
+ * User: gabe
  * Date: 2016.04.20.
  * Time: 9:34
  */
 
-namespace Webtown\KunstmaanExtensionBundle\EventListener;
+namespace Hgabka\KunstmaanExtensionBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -15,7 +15,7 @@ use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Kunstmaan\NodeBundle\Entity\PageInterface;
 use Kunstmaan\PagePartBundle\Helper\PagePartInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Webtown\KunstmaanExtensionBundle\HttpCache\Manager;
+use Hgabka\KunstmaanExtensionBundle\HttpCache\Manager;
 
 class CachePurgeSubscriber implements EventSubscriber
 {

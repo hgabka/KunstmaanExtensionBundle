@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: chris
+ * User: gabe
  * Date: 2016.05.05.
  * Time: 15:23
  */
 
-namespace Webtown\KunstmaanExtensionBundle\Twig\Extension;
+namespace Hgabka\KunstmaanExtensionBundle\Twig\Extension;
 
 
 use Symfony\Bridge\Twig\Extension\RoutingExtension;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Webtown\KunstmaanExtensionBundle\Form;
+namespace Hgabka\KunstmaanExtensionBundle\Form;
 
 use Kunstmaan\MediaBundle\Form\Type\MediaType;
 use Kunstmaan\NodeBundle\Form\Type\URLChooserType;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Webtown\KunstmaanExtensionBundle\Entity\SliderImage;
+use Hgabka\KunstmaanExtensionBundle\Entity\SliderImage;
 
 class SliderImageAdminType extends AbstractType
 {
@@ -55,6 +55,6 @@ class SliderImageAdminType extends AbstractType
 
     public function getName()
     {
-        return 'webtown_kunstmaan_extension_bundle_slider_image_admin_type';
+        return 'hgabka_kunstmaan_extension_bundle_slider_image_admin_type';
     }
 }
