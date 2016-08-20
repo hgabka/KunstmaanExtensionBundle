@@ -17,7 +17,7 @@
 }
 
 .tag-list div.tag > span.fa-del::before {
-  content: "?";
+  content: "";
 }
 
 .tag-list div.tag > span.fa {
