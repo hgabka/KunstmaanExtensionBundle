@@ -1,0 +1,53 @@
+{% block object_autocomplete_widget %}
+    {% spaceless %}
+        {{ form_widget(form.title) }}
+        <div class="tag-list">
+          {{ form_widget(form.items) }}
+        </div>
+
+        <script type="text/javascript">
+            document.addEventListener( "DOMContentLoaded", function() {
+                var $input = $('#{{ form.title.vars.id }}');
+                var $form = $input.next('.tag-list').find('div').first();
+
+                var $currentItems = $form.find('> .tag');
+                $form.data('index', $currentItems.length);
+                $input.autocomplete({
+                    source: '{{ url ?: url(route.name, route.parameters|default([]))|e('js') }}',
+                    minLength: {{ form.vars.minimum_input_length }},
+                    select: function (event, ui) {
+                        addAutocompleteItem(ui.item, $form, this);
+
+                        return false;
+                    }
+                });
+
+                $input.dblclick(function() {
+                    $(this).autocomplete('search', '');
+                })
+            }, false);
+        </script>
+    {% endspaceless %}
+{% endblock %}
+
+{% block entity_autocomplete_widget %}
+    {{ block('object_autocomplete_widget') }}
+{% endblock %}
+
+{% block document_autocomplete_widget %}
+    {{ block('object_autocomplete_widget') }}
+{% endblock %}
+
+{% block object_autocomplete_item_widget %}
+    {% spaceless %}
+        <div class="tag">
+            <input type="hidden" {{ block('widget_attributes') }} {% if value.id is defined %}value="{{ value.id }}" {% endif %}/>
+            <span class="tag-label">
+            {% if value.label is defined %}
+                {{ value.label }}
+            {% endif %}
+            </span>
+            <span onclick="$(this).parent('div.tag').remove();return false;" class="fa fa-del"></span>
+        </div>
+    {% endspaceless %}
+{% endblock %}
