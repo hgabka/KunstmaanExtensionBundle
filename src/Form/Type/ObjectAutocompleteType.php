@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Hgabka\KunstmaanExtensionBundle\Form\Transformer\ObjectAutocompleteViewTransformer;
+use Hgabka\KunstmaanExtensionBundle\Form\Transformer\ObjectAutocompleteModelTransformer;
 use Symfony\Bridge\Doctrine\Form\EventListener\MergeDoctrineCollectionListener;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -47,6 +48,10 @@ class ObjectAutocompleteType extends AbstractType
         $builder->add('title', TextType::class, ['attr' => $options['attr']]);
         $builder->add('items', CollectionType::class, [
             'entry_type' => ObjectAutocompleteItemType::class,
+            'entry_options' => [
+                'repository' => $this->registry->getManager()->getRepository($options['class']),
+                'to_string_callback' =>$options['to_string_callback'],
+            ],
             'allow_add' => true,
             'allow_delete' => true,
             'attr' => array_merge($options['attr'], [
