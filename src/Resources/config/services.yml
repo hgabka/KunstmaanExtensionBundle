@@ -94,3 +94,15 @@ services:
         arguments:
           - "@doctrine"
           - "@security.password_encoder"
+
+    hgabka_kunstmaan_extension.form.type.autocomplete_entity_type:
+        class: Hgabka\KunstmaanExtensionBundle\Form\Type\EntityAutocompleteType
+        arguments:  ['@doctrine']
+        tags:
+            - { name: form.type }
+
+    ujhazpublicbundle.form.type.autocomplete_document_type:
+        class: Hgabka\KunstmaanExtensionBundle\Form\Type\DocumentAutocompleteType
+        arguments:  ['@doctrine_mongodb']
+        tags:
+            - { name: form.type }
