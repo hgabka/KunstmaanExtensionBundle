@@ -51,3 +51,34 @@
         </div>
     {% endspaceless %}
 {% endblock %}
+
+{% block datepicker_widget %}
+    <div class="date-input js-datepicker"
+         data-format="{{ format }}"
+    >
+        {{ block('form_widget_simple') }}
+        <span id="datepicker-button-{{ kind is defined ? kind : 'start' }}"></span>
+    </div>
+{% endblock %}
+
+{% block datetimepicker_widget %}
+    {{ block('datepicker_widget') }}
+{% endblock %}
+
+{% block datepicker_range_widget %}
+    <div class="date-filter-container">
+        <div class="date-start">{{ form.start.vars.label|trans({}, translation_domain) }}</div>
+        <div class="date-select range-dependant" data-target="{{ form.end.vars.id }}" data-range="lt" data-errormsg="{{ 'range_error.from'|trans }}">
+            {{ form_widget(form.start) }}
+        </div>
+    </div>
+
+    <div class="clear-15"></div>
+
+    <div class="date-filter-container">
+        <div class="date-end">{{ form.end.vars.label|trans({}, translation_domain) }}</div>
+        <div class="date-select range-dependant" data-target="{{ form.start.vars.id }}" data-range="gt" data-errormsg="{{ 'range_error.to'|trans }}">
+            {{ form_widget(form.end) }}
+        </div>
+    </div>
+{% endblock %}
