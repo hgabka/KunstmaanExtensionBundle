@@ -53,6 +53,7 @@ class ObjectAutocompleteItemViewTransformer  implements DataTransformerInterface
                 return ['id' => $value, 'label' => $label];
             }
         }
+
         return $value;
     }
 
