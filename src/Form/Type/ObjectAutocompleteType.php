@@ -6,7 +6,7 @@
  * Time: 14:16
  */
 
-namespace Ujhaz\PublicBundle\Form\Type;
+namespace Hgabka\KunstmaanExtensionBundle\Form\Type;
 
 use Doctrine\Common\Persistence\AbstractManagerRegistry;
 use Symfony\Component\Form\AbstractType;
@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Ujhaz\PublicBundle\Form\ObjectAutocompleteViewTransformer;
+use Hgabka\KunstmaanExtensionBundle\Form\ObjectAutocompleteViewTransformer;
 use Symfony\Bridge\Doctrine\Form\EventListener\MergeDoctrineCollectionListener;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
