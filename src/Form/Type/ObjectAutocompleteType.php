@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Hgabka\KunstmaanExtensionBundle\Form\ObjectAutocompleteViewTransformer;
+use Hgabka\KunstmaanExtensionBundle\Form\Transformer\ObjectAutocompleteViewTransformer;
 use Symfony\Bridge\Doctrine\Form\EventListener\MergeDoctrineCollectionListener;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
