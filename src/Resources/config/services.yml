@@ -101,8 +101,8 @@ services:
         tags:
             - { name: form.type }
 
-    ujhazpublicbundle.form.type.autocomplete_document_type:
-        class: Hgabka\KunstmaanExtensionBundle\Form\Type\DocumentAutocompleteType
-        arguments:  ['@doctrine_mongodb']
-        tags:
-            - { name: form.type }
+#    ujhazpublicbundle.form.type.autocomplete_document_type:
+#        class: Hgabka\KunstmaanExtensionBundle\Form\Type\DocumentAutocompleteType
+#        arguments:  ['@doctrine_mongodb']
+#        tags:
+#            - { name: form.type }
