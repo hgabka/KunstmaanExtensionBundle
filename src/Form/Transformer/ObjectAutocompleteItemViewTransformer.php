@@ -68,7 +68,8 @@ class ObjectAutocompleteItemViewTransformer  implements DataTransformerInterface
         if (is_array($value))
         {
             return $value['id'];
-        }    
+        }
+        
         return $value;
     }
 }
