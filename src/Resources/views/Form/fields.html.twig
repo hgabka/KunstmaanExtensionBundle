@@ -54,7 +54,7 @@
 
 {% block datepicker_widget %}
     <div class="date-input js-datepicker" {{ block('widget_attributes') }} 
-         data-format="{{ format }}"
+         data-format="{{ format }}" data-locale="{{ locale }}"
     >
         {{ block('form_widget_simple') }}
         <span id="datepicker-button-{{ kind is defined ? kind : 'start' }}"></span>

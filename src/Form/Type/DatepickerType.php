@@ -52,8 +52,8 @@ class DatepickerType extends AbstractType
         foreach (array_keys($this->jsOpts) as $optName) {
             $view->vars[$optName] = $options[$optName];
         }
-        if (!isset($view->vars['attr']['data-options']))
-        {    
+        
+        if (!isset($view->vars['attr']['data-options'])) {    
             $view->vars['attr']['data-options'] = json_encode($options['js-options']);
         }    
     }
