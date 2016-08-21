@@ -48,7 +48,11 @@ class ObjectAutocompleteItemViewTransformer  implements DataTransformerInterface
             if (is_string($value))
             {
                 $obj = $this->repository->find($value);
-                $label = is_null($this->callback) ? (string)$obj : $obj->{$this->callback};
+                if (!$obj)
+                {
+                    return;
+                }    
+                $label = is_null($this->callback) ? (string)$obj : $obj->{$this->callback}();
 
                 return ['id' => $value, 'label' => $label];
             }

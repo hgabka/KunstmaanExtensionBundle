@@ -53,7 +53,7 @@
 {% endblock %}
 
 {% block datepicker_widget %}
-    <div class="date-input js-datepicker"
+    <div class="date-input js-datepicker" {{ block('widget_attributes') }} 
          data-format="{{ format }}"
     >
         {{ block('form_widget_simple') }}

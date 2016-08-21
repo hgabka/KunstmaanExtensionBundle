@@ -50,7 +50,7 @@ class ObjectAutocompleteType extends AbstractType
             'entry_type' => ObjectAutocompleteItemType::class,
             'entry_options' => [
                 'repository' => $this->registry->getManager()->getRepository($options['class']),
-                'to_string_callback' =>$options['to_string_callback'],
+                'to_string_callback' => $options['to_string_callback'],
             ],
             'allow_add' => true,
             'allow_delete' => true,

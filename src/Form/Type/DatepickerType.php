@@ -20,6 +20,7 @@ class DatepickerType extends AbstractType
 {
     protected $jsOpts = [
         'format' => 'YYYY-MM-DD',
+        'js-options' => [],
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -45,6 +46,10 @@ class DatepickerType extends AbstractType
 
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
+        if (!isset($options['attr']['data-options']))
+        {
+            $options['attr']['data-options'] = json_encode($options['js-options']);
+        }
         foreach (array_keys($this->jsOpts) as $optName) {
             $view->vars[$optName] = $options[$optName];
         }
