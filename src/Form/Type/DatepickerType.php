@@ -20,6 +20,7 @@ class DatepickerType extends AbstractType
 {
     protected $jsOpts = [
         'format' => 'YYYY-MM-DD',
+        'locale' => 'hu',
         'js-options' => [],
     ];
 
@@ -42,17 +43,19 @@ class DatepickerType extends AbstractType
                 return $reverse;
             }
         ));
+
+        $builder->setAttribute('data-options', json_encode($options['js-options']));
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        if (!isset($options['attr']['data-options']))
-        {
-            $options['attr']['data-options'] = json_encode($options['js-options']);
-        }
         foreach (array_keys($this->jsOpts) as $optName) {
             $view->vars[$optName] = $options[$optName];
         }
+        if (!isset($view->vars['attr']['data-options']))
+        {    
+            $view->vars['attr']['data-options'] = json_encode($options['js-options']);
+        }    
     }
 
     public function configureOptions(OptionsResolver $resolver)
