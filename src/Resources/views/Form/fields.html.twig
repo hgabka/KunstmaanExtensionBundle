@@ -53,11 +53,16 @@
 {% endblock %}
 
 {% block datepicker_widget %}
-    <div class="date-input js-datepicker" {{ block('widget_attributes') }} 
+    <div class="date-input js-datepicker{% if use_button %} input-group date{% endif %}" {{ block('widget_attributes') }} 
          data-format="{{ format }}" data-locale="{{ locale }}"
     >
         {{ block('form_widget_simple') }}
-        <span id="datepicker-button-{{ kind is defined ? kind : 'start' }}"></span>
+        {% if use_button %}
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        {% endif %}    
+
     </div>
 {% endblock %}
 
