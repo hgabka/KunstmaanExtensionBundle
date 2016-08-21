@@ -21,7 +21,7 @@ class DatepickerType extends AbstractType
     protected $jsOpts = [
         'format' => 'YYYY-MM-DD',
         'locale' => 'hu',
-        'use-button' => true
+        'use_button' => true,
         'js-options' => [],
     ];
 
