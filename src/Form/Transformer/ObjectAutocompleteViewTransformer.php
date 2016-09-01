@@ -22,14 +22,14 @@ class ObjectAutocompleteViewTransformer implements DataTransformerInterface
     protected $repository;
 
     /**
-     * @var array
+     * @var string
      */
-    protected $options;
+    protected $callback;
 
-    public function __construct(ObjectRepository $repository, $options)
+    public function __construct(ObjectRepository $repository, $callback)
     {
         $this->repository = $repository;
-        $this->options = $options;
+        $this->callback = $callback;
     }
 
     /**
@@ -55,8 +55,8 @@ class ObjectAutocompleteViewTransformer implements DataTransformerInterface
         foreach ($collection as $entity)
         {
             $result['items'][] = [
-                'label' => is_null($this->options['to_string_callback'])
-                    ? (string)$entity : $entity->{$this->options['to_string_callback']}(),
+                'label' => is_null($this->callback)
+                    ? (string)$entity : $entity->{$this->callback}(),
                 'id' => $entity->getId()
             ];
         }

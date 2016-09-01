@@ -4,28 +4,37 @@
         <div class="tag-list">
           {{ form_widget(form.items) }}
         </div>
-
         <script type="text/javascript">
-            document.addEventListener( "DOMContentLoaded", function() {
+            var cb = function() {
                 var $input = $('#{{ form.title.vars.id }}');
                 var $form = $input.next('.tag-list').find('div').first();
 
                 var $currentItems = $form.find('> .tag');
                 $form.data('index', $currentItems.length);
+                {% set acSource = source is defined and source is not empty ? source | json_encode : ("'"~(url ?: url(route.name, route.parameters|default([]))|e('js'))~"'") %}
                 $input.autocomplete({
-                    source: '{{ url ?: url(route.name, route.parameters|default([]))|e('js') }}',
-                    minLength: {{ form.vars.minimum_input_length }},
-                    select: function (event, ui) {
-                        addAutocompleteItem(ui.item, $form, this);
+                                        source: {{ acSource | raw }},
+                                        minLength: {{ form.vars.minimum_input_length }},
+                                        select: function (event, ui) {
+                                            addAutocompleteItem(ui.item, $form, this);
 
-                        return false;
-                    }
-                });
+                                            return false;
+                                        }
+                                    });
 
                 $input.dblclick(function() {
                     $(this).autocomplete('search', '');
                 })
-            }, false);
+            };
+
+            document.addEventListener( "DOMContentLoaded", cb, false);
+            {% if kumaPagePartEvents is not empty %}
+                if (typeof kunstmaanbundles !== 'undefined') {
+                    {% for event in kumaPagePartEvents %}
+                        kunstmaanbundles.pagepartEditor.subscribeToEvent('{{ event }}', cb);
+                    {% endfor %}
+                }
+            {% endif %}
         </script>
     {% endspaceless %}
 {% endblock %}

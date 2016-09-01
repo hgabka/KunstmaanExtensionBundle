@@ -37,10 +37,11 @@ class ObjectAutocompleteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $repo = $this->registry->getManager()->getRepository($options['class']);
         $builder
             ->addEventSubscriber(new MergeDoctrineCollectionListener())
             ->addViewTransformer(new ObjectAutocompleteViewTransformer(
-                $this->registry->getManager()->getRepository($options['class']), $options),
+                $repo, $options['to_string_callback']),
                 true
             )
         ;
@@ -49,7 +50,7 @@ class ObjectAutocompleteType extends AbstractType
         $builder->add('items', CollectionType::class, [
             'entry_type' => ObjectAutocompleteItemType::class,
             'entry_options' => [
-                'repository' => $this->registry->getManager()->getRepository($options['class']),
+                'repository' => $repo,
                 'to_string_callback' => $options['to_string_callback'],
             ],
             'allow_add' => true,
@@ -70,6 +71,8 @@ class ObjectAutocompleteType extends AbstractType
         // ajax parameters
         $view->vars['url'] = $options['url'];
         $view->vars['route'] = $options['route'];
+        $view->vars['source'] = $options['source'];
+        $view->vars['kumaPagePartEvents'] = $options['kuma_pagepart_events'];
     }
 
     public function getParent()
@@ -94,6 +97,8 @@ class ObjectAutocompleteType extends AbstractType
             'minimum_input_length' => 0,
             'maximum_items' => null,
             'to_string_callback' => null,
+            'source'               => [],
+            'kuma_pagepart_events'          => [],
             'url' => '',
             'route' => [
                 'name' => '',
