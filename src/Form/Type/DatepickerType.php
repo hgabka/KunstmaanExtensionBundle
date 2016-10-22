@@ -72,6 +72,6 @@ class DatepickerType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'datepicker';
+        return 'kuma_datepicker';
     }
 }
