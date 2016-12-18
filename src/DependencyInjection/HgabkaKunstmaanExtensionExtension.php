@@ -47,7 +47,7 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
                 case 'twig':
                     $container->prependExtensionConfig(
                         $name,
-                        array('form' => array('resources' => array($this->formTypeTemplate)))
+                        array('form_themes' => array($this->formTypeTemplate))
                     );
                     break;
             }
