@@ -17,7 +17,7 @@ abstract class ConstantsChoiceList extends ArrayChoiceList implements \IteratorA
 {
     public function __construct()
     {
-        $choices = array_flip($this->prefixElements($this->getAllConstants()));
+        $choices = $this->prefixElements($this->getAllConstants());
 
         parent::__construct($choices, function($v) {
             // return the value or ArrayChoiceList will reindex with numerics
