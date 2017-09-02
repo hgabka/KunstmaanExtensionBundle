@@ -1,3 +1,11 @@
+{% block hgabka_kunstmaanextension_plain_widget %}
+    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' form-control-static')|trim }) %}
+
+    <div id="{{ id }}" {%- for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        {% if is_html %}{{ value|raw }}{% else %}{{ is_date ? value|date(date_format|default(null)) : value }}{% endif %}
+    </div>
+{% endblock %}
+
 {% block object_autocomplete_widget %}
     {% spaceless %}
         {{ form_widget(form.title) }}
