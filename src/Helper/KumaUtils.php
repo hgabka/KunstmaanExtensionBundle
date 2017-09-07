@@ -31,7 +31,7 @@ class KumaUtils
         if (!empty($baseLocale) && in_array($baseLocale, $availableLocales)) {
             return $baseLocale;
         }
-        
+
         $request = $this->requestStack->getMasterRequest();
 
         $locale = $request ? $request->getLocale() : null;
@@ -50,5 +50,23 @@ class KumaUtils
     public function getAvailableLocales(bool $frontend = true) : array
     {
         return $frontend ? $this->domainConfiguration->getFrontendLocales() : $this->domainConfiguration->getBackendLocales();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultLocale() : ?string
+    {
+        return $this->domainConfiguration->getDefaultLocale();
+    }
+
+    public function getMasterRequest()
+    {
+        return $this->requestStack->getMasterRequest();
+    }
+
+    public function isMultiLanguage()
+    {
+        return $this->domainConfiguration->isMultiLanguage();
     }
 }
