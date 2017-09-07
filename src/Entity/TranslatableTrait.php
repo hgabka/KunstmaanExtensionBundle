@@ -48,7 +48,8 @@ trait TranslatableTrait
         }
 
         if (!$translation = $this->translations->get($locale)) {
-            $translation = new self::getTranslationEntityClass();
+            $class = self::getTranslationEntityClass();
+            $translation = new $class;
             $translation->setLocale($locale);
             $this->addTranslation($translation);
         }
