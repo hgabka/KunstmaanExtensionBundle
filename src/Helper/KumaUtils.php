@@ -20,17 +20,30 @@ class KumaUtils
         $this->requestStack = $requestStack;
     }
 
-    public function getCurrentLocale(bool $frontend = true)
+    /**
+     * @param bool $frontend
+     * @return null|string
+     */
+    public function getCurrentLocale(bool $frontend = true) : ?string
     {
         $request = $this->requestStack->getMasterRequest();
 
         $locale = $request ? $request->getLocale() : null;
 
-        $availableLocales = $frontend ? $this->domainConfiguration->getFrontendLocales() : $this->domainConfiguration->getBackendLocales();
+        $availableLocales = $this->getAvailableLocales($frontend);
         if (!empty($locale) && in_array($locale, $availableLocales)) {
             return $locale;
         }
 
         return $this->domainConfiguration->getDefaultLocale();
+    }
+
+    /**
+     * @param bool $frontend
+     * @return array
+     */
+    public function getAvailableLocales(bool $frontend = true) : array
+    {
+        return $frontend ? $this->domainConfiguration->getFrontendLocales() : $this->domainConfiguration->getBackendLocales();
     }
 }
