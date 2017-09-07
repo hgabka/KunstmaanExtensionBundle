@@ -24,13 +24,18 @@ class KumaUtils
      * @param bool $frontend
      * @return null|string
      */
-    public function getCurrentLocale(bool $frontend = true) : ?string
+    public function getCurrentLocale(?string $baseLocale = null, bool $frontend = true) : ?string
     {
+        $availableLocales = $this->getAvailableLocales($frontend);
+
+        if (!empty($baseLocale) && in_array($baseLocale, $availableLocales)) {
+            return $baseLocale;
+        }
+        
         $request = $this->requestStack->getMasterRequest();
 
         $locale = $request ? $request->getLocale() : null;
 
-        $availableLocales = $this->getAvailableLocales($frontend);
         if (!empty($locale) && in_array($locale, $availableLocales)) {
             return $locale;
         }
