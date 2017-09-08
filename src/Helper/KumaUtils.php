@@ -31,6 +31,7 @@ class KumaUtils
     }
 
     /**
+     * @param null $baseLocale
      * @param bool $frontend
      * @return null|string
      */
@@ -102,5 +103,37 @@ class KumaUtils
     public function getMediaContent(Media $media)
     {
         return file_get_contents($this->getMediaPath($media));
+    }
+
+    /**
+     * @return DomainConfiguration
+     */
+    public function getDomainConfiguration(): DomainConfiguration
+    {
+        return $this->domainConfiguration;
+    }
+
+    /**
+     * @return RequestStack
+     */
+    public function getRequestStack(): RequestStack
+    {
+        return $this->requestStack;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProjectDir(): string
+    {
+        return $this->projectDir;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebDir(): string
+    {
+        return $this->projectDir . '/web';
     }
 }
