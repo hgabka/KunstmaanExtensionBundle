@@ -18,7 +18,7 @@ use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
  * ImagePagePart
  *
  * @ORM\Entity
- * @ORM\Table(name="hgabka_kunstmaan_slider_image")
+ * @ORM\Table(name="hg_kuma_extension_slider_image")
  */
 class SliderImage extends AbstractEntity
 {

@@ -1,5 +1,6 @@
 <?php
-namespace Hgabka\KunstmaanExtensionBundle\Helper
+
+namespace Hgabka\KunstmaanExtensionBundle\Helper;
 
 use Kunstmaan\AdminBundle\Helper\DomainConfiguration;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -24,7 +25,7 @@ class KumaUtils
      * @param bool $frontend
      * @return null|string
      */
-    public function getCurrentLocale(?string $baseLocale = null, bool $frontend = true) : ?string
+    public function getCurrentLocale($baseLocale = null, bool $frontend = true)
     {
         $availableLocales = $this->getAvailableLocales($frontend);
 
@@ -55,7 +56,7 @@ class KumaUtils
     /**
      * @return string
      */
-    public function getDefaultLocale() : ?string
+    public function getDefaultLocale()
     {
         return $this->domainConfiguration->getDefaultLocale();
     }

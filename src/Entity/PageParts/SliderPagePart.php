@@ -19,7 +19,7 @@ use Hgabka\KunstmaanExtensionBundle\Form\PageParts\SliderPagePartAdminType;
  * ImagePagePart
  *
  * @ORM\Entity
- * @ORM\Table(name="hgabka_kunstmaan_slider_page_parts")
+ * @ORM\Table(name="hg_kuma_extension_slider_page_parts")
  */
 class SliderPagePart extends AbstractPagePart
 {

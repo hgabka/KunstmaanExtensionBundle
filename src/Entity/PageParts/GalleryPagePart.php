@@ -11,7 +11,7 @@ use Hgabka\KunstmaanExtensionBundle\Form\PageParts\GalleryPagePartAdminType;
 /**
  * GalleryPagePart
  *
- * @ORM\Table(name="hgabka_kunstmaan_gallery_page_parts")
+ * @ORM\Table(name="hg_kuma_extension_gallery_page_parts")
  * @ORM\Entity
  */
 class GalleryPagePart extends AbstractPagePart

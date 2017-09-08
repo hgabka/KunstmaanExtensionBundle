@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * InsertPagePagePart
  *
- * @ORM\Table(name="hgabka_kunstmaanextensionbundle_insert_page_page_parts")
+ * @ORM\Table(name="hg_kuma_extension_insert_page_page_parts")
  * @ORM\Entity
  */
 class InsertPagePagePart extends \Kunstmaan\PagePartBundle\Entity\AbstractPagePart
