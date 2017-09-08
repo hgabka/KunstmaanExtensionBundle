@@ -3,6 +3,7 @@
 namespace Hgabka\KunstmaanExtensionBundle\Helper;
 
 use Kunstmaan\AdminBundle\Helper\DomainConfiguration;
+use Kunstmaan\MediaBundle\Entity\Media;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class KumaUtils
@@ -12,13 +13,21 @@ class KumaUtils
 
     /** @var  RequestStack */
     protected $requestStack;
+
+    /** @var string  */
+    protected $projectDir;
+
     /**
      * KumaUtils constructor.
+     * @param DomainConfiguration $domainConfiguration
+     * @param RequestStack $requestStack
+     * @param string $projectDir
      */
-    public function __construct(DomainConfiguration $domainConfiguration, RequestStack $requestStack)
+    public function __construct(DomainConfiguration $domainConfiguration, RequestStack $requestStack, string $projectDir)
     {
         $this->domainConfiguration = $domainConfiguration;
         $this->requestStack = $requestStack;
+        $this->projectDir = $projectDir;
     }
 
     /**
@@ -61,13 +70,37 @@ class KumaUtils
         return $this->domainConfiguration->getDefaultLocale();
     }
 
+    /**
+     * @return null|\Symfony\Component\HttpFoundation\Request
+     */
     public function getMasterRequest()
     {
         return $this->requestStack->getMasterRequest();
     }
 
+    /**
+     * @return bool
+     */
     public function isMultiLanguage()
     {
         return $this->domainConfiguration->isMultiLanguage();
+    }
+
+    /**
+     * @param Media $media
+     * @return string
+     */
+    public function getMediaPath(Media $media)
+    {
+        return $this->projectDir.'/web/'.$media->getUrl();
+    }
+
+    /**
+     * @param Media $media
+     * @return bool|string
+     */
+    public function getMediaContent(Media $media)
+    {
+        return file_get_contents($this->getMediaPath($media));
     }
 }

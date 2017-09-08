@@ -89,4 +89,4 @@ services:
 
     hgabka_kunstmaan_extension.kuma_utils:
         class: Hgabka\KunstmaanExtensionBundle\Helper\KumaUtils
-        arguments:  ["@kunstmaan_admin.domain_configuration", "@request_stack"]
+        arguments:  ["@kunstmaan_admin.domain_configuration", "@request_stack", "%kernel.project_dir%"]
