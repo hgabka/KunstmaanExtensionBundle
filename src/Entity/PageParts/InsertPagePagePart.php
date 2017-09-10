@@ -1,11 +1,19 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Entity\PageParts;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * InsertPagePagePart
+ * InsertPagePagePart.
  *
  * @ORM\Table(name="hg_kuma_extension_insert_page_page_parts")
  * @ORM\Entity
@@ -23,7 +31,7 @@ class InsertPagePagePart extends \Kunstmaan\PagePartBundle\Entity\AbstractPagePa
     private $node;
 
     /**
-     * Set node
+     * Set node.
      *
      * @param \Kunstmaan\NodeBundle\Entity\Node $node
      *
@@ -37,7 +45,7 @@ class InsertPagePagePart extends \Kunstmaan\PagePartBundle\Entity\AbstractPagePa
     }
 
     /**
-     * Get node
+     * Get node.
      *
      * @return \Kunstmaan\NodeBundle\Entity\Node
      */

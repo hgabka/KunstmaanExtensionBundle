@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: whitezo
- * Date: 2016. 08. 04.
- * Time: 14:18
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\User;
@@ -12,7 +14,7 @@ use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 /**
- * Stores and update changable user details
+ * Stores and update changable user details.
  *
  * @author Gabe <hgabka@gmail.com>
  */
@@ -100,9 +102,9 @@ class UserUpdater
         $changed = [];
         $ref = new \ReflectionClass($this);
         foreach ($ref->getProperties() as $prop) {
-            $method = 'get' . ucfirst($prop->getName());
+            $method = 'get'.ucfirst($prop->getName());
             $newVal = $update->$method();
-            if ($this->$method() != $newVal) {
+            if ($this->$method() !== $newVal) {
                 $changed[$prop->getName()] = $newVal;
             }
         }

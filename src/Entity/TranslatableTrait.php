@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Entity;
 
 use Prezent\Doctrine\Translatable\Annotation as Prezent;
@@ -15,7 +23,7 @@ trait TranslatableTrait
     private $currentLocale;
 
     /**
-     * Cache current translation. Useful in Doctrine 2.4+
+     * Cache current translation. Useful in Doctrine 2.4+.
      */
     private $currentTranslation;
 
@@ -27,11 +35,14 @@ trait TranslatableTrait
     public function setCurrentLocale($locale)
     {
         $this->currentLocale = $locale;
+
         return $this;
     }
 
     /**
-     * Translation helper method
+     * Translation helper method.
+     *
+     * @param null|mixed $locale
      */
     public function translate($locale = null)
     {
@@ -49,12 +60,13 @@ trait TranslatableTrait
 
         if (!$translation = $this->translations->get($locale)) {
             $class = self::getTranslationEntityClass();
-            $translation = new $class;
+            $translation = new $class();
             $translation->setLocale($locale);
             $this->addTranslation($translation);
         }
 
         $this->currentTranslation = $translation;
+
         return $translation;
     }
 }

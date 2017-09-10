@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Form\PageParts;
 
 use Kunstmaan\MediaBundle\Repository\FolderRepository;
@@ -8,11 +16,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * GalleryPagePartAdminType
+ * GalleryPagePartAdminType.
  */
 class GalleryPagePartAdminType extends AbstractType
 {
-
     /**
      * Builds the form.
      *
@@ -39,7 +46,7 @@ class GalleryPagePartAdminType extends AbstractType
             'expanded' => false,
             'query_builder' => function (FolderRepository $r) {
                 return $r->getChildrenQueryBuilder();
-            }
+            },
         ])
         ;
     }
@@ -57,12 +64,12 @@ class GalleryPagePartAdminType extends AbstractType
     /**
      * Sets the default options for this type.
      *
-     * @param OptionsResolver $resolver The resolver for the options.
+     * @param OptionsResolver $resolver the resolver for the options
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => '\Hgabka\KunstmaanExtensionBundle\Entity\PageParts\GalleryPagePart'
+            'data_class' => '\Hgabka\KunstmaanExtensionBundle\Entity\PageParts\GalleryPagePart',
         ]);
     }
 }

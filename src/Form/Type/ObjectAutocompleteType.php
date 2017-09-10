@@ -1,29 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gabe
- * Date: 2016.08.16.
- * Time: 14:16
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Form\Type;
 
 use Doctrine\Common\Persistence\AbstractManagerRegistry;
+use Hgabka\KunstmaanExtensionBundle\Form\Transformer\ObjectAutocompleteViewTransformer;
+use Symfony\Bridge\Doctrine\Form\EventListener\MergeDoctrineCollectionListener;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Hgabka\KunstmaanExtensionBundle\Form\Transformer\ObjectAutocompleteViewTransformer;
-use Hgabka\KunstmaanExtensionBundle\Form\Transformer\ObjectAutocompleteModelTransformer;
-use Symfony\Bridge\Doctrine\Form\EventListener\MergeDoctrineCollectionListener;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ObjectAutocompleteType extends AbstractType
 {
     /**
-     * @var AbstractManagerRegistry $doctrine
+     * @var AbstractManagerRegistry
      */
     private $registry;
 
@@ -40,8 +41,11 @@ class ObjectAutocompleteType extends AbstractType
         $repo = $this->registry->getManager()->getRepository($options['class']);
         $builder
             ->addEventSubscriber(new MergeDoctrineCollectionListener())
-            ->addViewTransformer(new ObjectAutocompleteViewTransformer(
-                $repo, $options['to_string_callback']),
+            ->addViewTransformer(
+                new ObjectAutocompleteViewTransformer(
+                $repo,
+                $options['to_string_callback']
+            ),
                 true
             )
         ;
@@ -97,8 +101,8 @@ class ObjectAutocompleteType extends AbstractType
             'minimum_input_length' => 0,
             'maximum_items' => null,
             'to_string_callback' => null,
-            'source'               => [],
-            'kuma_pagepart_events'          => [],
+            'source' => [],
+            'kuma_pagepart_events' => [],
             'url' => '',
             'route' => [
                 'name' => '',

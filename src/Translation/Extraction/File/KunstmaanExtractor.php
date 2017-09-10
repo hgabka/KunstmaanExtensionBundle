@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: gabe
- * Date: 2016.04.14.
- * Time: 13:48
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File;
@@ -20,13 +22,12 @@ use PhpParser\Node;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * Class KunstmaanExtractor
+ * Class KunstmaanExtractor.
  *
  * Kunstmaan specific translation extractor:
  *  - custom class and methods (self::enterNode())
  *  - page part names from config ymls (self::visitFile())
  *
- * @package Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File
  *
  * @see \JMS\TranslationBundle\JMSTranslationBundle
  */
@@ -44,7 +45,7 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
         /**
          * Configuration:
          *  Key: name of class or method
-         *  Value: the translation ID number from arguments (starting from 0!)
+         *  Value: the translation ID number from arguments (starting from 0!).
          */
         $classConfigs = [
             'SimpleListAction' => 1,
@@ -105,7 +106,7 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
 
             return;
         }
-        /**
+        /*
          * A getPossibleChildTypes() függvény válaszából gyűjti ki a Page neveket. Eg:
          * <code>
          *      public function getPossibleChildTypes()
@@ -129,7 +130,7 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
          */
         if ($node instanceof Node\Stmt\ClassMethod
             && is_string($node->name)
-            && $node->name == 'getPossibleChildTypes'
+            && $node->name === 'getPossibleChildTypes'
             // Interface esetén ez üres.
             && $node->getStmts()
         ) {
@@ -143,7 +144,7 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
                             /** @var Node\Expr\ArrayItem $subArrayItem */
                             foreach ($arrayItem->value->items as $subArrayItem) {
                                 if ($subArrayItem->key instanceof Node\Scalar\String_
-                                    && $subArrayItem->key->value == 'name'
+                                    && $subArrayItem->key->value === 'name'
                                     && $subArrayItem->value instanceof Node\Scalar\String_
                                 ) {
                                     $id = $subArrayItem->value->value;
@@ -163,7 +164,7 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
             }
         }
 
-        /**
+        /*
          * A getPossibleChildTypes() függvény válaszából gyűjti ki a Page neveket. Eg:
          * <code>
          *      public function getSearchType()
@@ -174,7 +175,7 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
          */
         if ($node instanceof Node\Stmt\ClassMethod
             && is_string($node->name)
-            && $node->name == 'getSearchType'
+            && $node->name === 'getSearchType'
             // Interface esetén ez üres.
             && $node->getStmts()
         ) {
@@ -192,43 +193,17 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
                 }
             }
         }
-
-        return;
-    }
-
-    /**
-     * @param Node|Node\Expr\New_|Node\Expr\MethodCall $node
-     * @param $argumentNumber
-     * @param $desc
-     * @param $meaning
-     */
-    protected function registerArgument(Node $node, $argumentNumber,$desc, $meaning)
-    {
-        if (array_key_exists($argumentNumber, $node->args)) {
-            $argument =  $node->args[$argumentNumber];
-            if ($argument->value instanceof Node\Scalar\String_) {
-                $id = $argument->value->value;
-                $domain = self::DOMAIN;
-
-                $message = new Message($id, $domain);
-                $message->setDesc($desc);
-                $message->setMeaning($meaning);
-                $message->addSource(new FileSource((string) $this->file, $node->getLine()));
-
-                $this->catalogue->add($message);
-            }
-        }
     }
 
     /**
      * Collect the pagepart names!
      *
-     * @param \SplFileInfo $file
+     * @param \SplFileInfo     $file
      * @param MessageCatalogue $catalogue
      */
     public function visitFile(\SplFileInfo $file, MessageCatalogue $catalogue)
     {
-        if ($file->getExtension() != 'yml') {
+        if ($file->getExtension() !== 'yml') {
             return;
         }
         $path = strtr($file->getRealPath(), DIRECTORY_SEPARATOR, '/');
@@ -241,9 +216,33 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
             foreach ($pagePartConfigs['types'] as $type) {
                 if (is_array($type) && array_key_exists('name', $type)) {
                     $message = new Message($type['name']);
-                    $message->addSource(new FileSource((string)$file));
+                    $message->addSource(new FileSource((string) $file));
                     $catalogue->add($message);
                 }
+            }
+        }
+    }
+
+    /**
+     * @param Node|Node\Expr\MethodCall|Node\Expr\New_ $node
+     * @param $argumentNumber
+     * @param $desc
+     * @param $meaning
+     */
+    protected function registerArgument(Node $node, $argumentNumber, $desc, $meaning)
+    {
+        if (array_key_exists($argumentNumber, $node->args)) {
+            $argument = $node->args[$argumentNumber];
+            if ($argument->value instanceof Node\Scalar\String_) {
+                $id = $argument->value->value;
+                $domain = self::DOMAIN;
+
+                $message = new Message($id, $domain);
+                $message->setDesc($desc);
+                $message->setMeaning($meaning);
+                $message->addSource(new FileSource((string) $this->file, $node->getLine()));
+
+                $this->catalogue->add($message);
             }
         }
     }

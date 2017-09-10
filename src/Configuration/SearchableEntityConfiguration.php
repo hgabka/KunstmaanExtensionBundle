@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: chris
- * Date: 2016.05.04.
- * Time: 17:11
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Configuration;
@@ -11,7 +13,6 @@ namespace Hgabka\KunstmaanExtensionBundle\Configuration;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Elastica\Document;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Hgabka\KunstmaanExtensionBundle\Entity\SearchableEntityInterface;
 use Hgabka\KunstmaanExtensionBundle\Event\IndexEntityEvent;
 use Kunstmaan\AdminBundle\Helper\DomainConfigurationInterface;
@@ -20,6 +21,7 @@ use Kunstmaan\SearchBundle\Configuration\SearchConfigurationInterface;
 use Kunstmaan\SearchBundle\Provider\SearchProviderInterface;
 use Kunstmaan\UtilitiesBundle\Helper\ClassLookup;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SearchableEntityConfiguration implements SearchConfigurationInterface
 {
@@ -41,22 +43,22 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
     /** @var Registry */
     protected $doctrine;
 
-    /** @var  EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
     /** @var array|Document[] */
-    protected $documents = array();
+    protected $documents = [];
 
     /** @var LoggerInterface */
-    protected $logger = null;
+    protected $logger;
 
     /**
      * @param $name
      * @param $type
-     * @param SearchProviderInterface $searchProvider
+     * @param SearchProviderInterface      $searchProvider
      * @param DomainConfigurationInterface $domainConfiguration
      * @param $analyzerLanguages
-     * @param Registry $doctrine
+     * @param Registry                 $doctrine
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
@@ -68,17 +70,17 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
         Registry $doctrine,
         EventDispatcherInterface $eventDispatcher
     ) {
-        $this->indexName           = $name;
-        $this->indexType           = $type;
-        $this->searchProvider      = $searchProvider;
-        $this->locales             = $domainConfiguration->getBackendLocales();
-        $this->analyzerLanguages   = $analyzerLanguages;
-        $this->doctrine            = $doctrine;
-        $this->eventDispatcher     = $eventDispatcher;
+        $this->indexName = $name;
+        $this->indexType = $type;
+        $this->searchProvider = $searchProvider;
+        $this->locales = $domainConfiguration->getBackendLocales();
+        $this->analyzerLanguages = $analyzerLanguages;
+        $this->doctrine = $doctrine;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
-     * Create indexes
+     * Create indexes.
      */
     public function createIndex()
     {
@@ -86,7 +88,7 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
     }
 
     /**
-     * Populate the indexes
+     * Populate the indexes.
      */
     public function populateIndex()
     {
@@ -112,7 +114,7 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
     }
 
     /**
-     * Delete indexes
+     * Delete indexes.
      */
     public function deleteIndex()
     {
@@ -144,8 +146,8 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
     public function deleteEntity(SearchableEntityInterface $entity)
     {
         foreach ($this->locales as $locale) {
-            $uid       = $this->getDocUid($entity, $locale);
-            $indexType = $this->indexType . '_' . $locale;
+            $uid = $this->getDocUid($entity, $locale);
+            $indexType = $this->indexType.'_'.$locale;
             $this->searchProvider->deleteDocument($this->indexName, $indexType, $uid);
         }
     }
@@ -157,13 +159,13 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
 //            'node_id'             => $node->getId(),
 //            'node_translation_id' => $nodeTranslation->getId(),
 //            'node_version_id'     => $publicNodeVersion->getId(),
-            'title'               => $entity->getSearchTitle($locale),
-            'lang'                => $locale,
-            'route_name'          => $entity->getSearchRouteName(),
-            'route_parameters'    => $entity->getSearchRouteParameters(),
-            'entity'              => ClassLookup::getClass($entity),
-            'view_roles'          => ['IS_AUTHENTICATED_ANONYMOUSLY'],
-            'content'             => $this->removeHtml($entity->getSearchContent($locale)),
+            'title' => $entity->getSearchTitle($locale),
+            'lang' => $locale,
+            'route_name' => $entity->getSearchRouteName(),
+            'route_parameters' => $entity->getSearchRouteParameters(),
+            'entity' => ClassLookup::getClass($entity),
+            'view_roles' => ['IS_AUTHENTICATED_ANONYMOUSLY'],
+            'content' => $this->removeHtml($entity->getSearchContent($locale)),
         ];
 
         // Analyzer field
@@ -176,13 +178,13 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
         $this->documents[] = $this->searchProvider->createDocument(
             $uid,
             $doc,
-            $this->indexName . '_' . $locale,
-            $this->indexType . '_' . $locale
+            $this->indexName.'_'.$locale,
+            $this->indexType.'_'.$locale
         );
     }
 
     /**
-     * Add content analyzer to the index document
+     * Add content analyzer to the index document.
      *
      * @param string $locale
      * @param array  $doc
@@ -191,7 +193,7 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
      */
     protected function addAnalyzer($locale, &$doc)
     {
-        $language               = $this->analyzerLanguages[$locale]['analyzer'];
+        $language = $this->analyzerLanguages[$locale]['analyzer'];
         $doc['contentanalyzer'] = $language;
     }
 
@@ -206,7 +208,7 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
 
     /**
      * Add custom data to index document (you can override to add custom fields
-     * to the search index)
+     * to the search index).
      *
      * @param SearchableEntityInterface $entity
      * @param array                     $doc
@@ -222,7 +224,7 @@ class SearchableEntityConfiguration implements SearchConfigurationInterface
     }
 
     /**
-     * Removes all HTML markup & decode HTML entities
+     * Removes all HTML markup & decode HTML entities.
      *
      * @param $text
      *

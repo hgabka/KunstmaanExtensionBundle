@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: chris
- * Date: 2016.05.03.
- * Time: 17:29
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Entity;
@@ -16,13 +18,15 @@ interface SearchableEntityInterface
     public function getId();
 
     /**
-     * @param string|null $locale
+     * @param null|string $locale
+     *
      * @return string
      */
     public function getSearchTitle($locale = null);
 
     /**
-     * @param string|null $locale
+     * @param null|string $locale
+     *
      * @return string
      */
     public function getSearchContent($locale = null);

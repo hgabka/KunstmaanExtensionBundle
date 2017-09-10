@@ -1,18 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gabe
- * Date: 2016.08.17.
- * Time: 11:26
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Form\Transformer;
 
-use Doctrine\Common\Persistence\ObjectRepository;
-use Symfony\Component\Form\Exception\TransformationFailedException;
-use Symfony\Component\Form\DataTransformerInterface;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class ObjectAutocompleteViewTransformer implements DataTransformerInterface
 {
@@ -37,9 +39,9 @@ class ObjectAutocompleteViewTransformer implements DataTransformerInterface
      *
      * @param Collection $collection A collection of entities
      *
-     * @return mixed An array of entities
-     *
      * @throws TransformationFailedException
+     *
+     * @return mixed An array of entities
      */
     public function transform($collection)
     {
@@ -52,12 +54,11 @@ class ObjectAutocompleteViewTransformer implements DataTransformerInterface
             return $result;
         }
 
-        foreach ($collection as $entity)
-        {
+        foreach ($collection as $entity) {
             $result['items'][] = [
-                'label' => is_null($this->callback)
-                    ? (string)$entity : $entity->{$this->callback}(),
-                'id' => $entity->getId()
+                'label' => null === $this->callback
+                    ? (string) $entity : $entity->{$this->callback}(),
+                'id' => $entity->getId(),
             ];
         }
 
@@ -85,5 +86,4 @@ class ObjectAutocompleteViewTransformer implements DataTransformerInterface
 
         return $collection;
     }
-
 }

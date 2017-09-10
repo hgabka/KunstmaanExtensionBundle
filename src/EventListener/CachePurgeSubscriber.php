@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: gabe
- * Date: 2016.04.20.
- * Time: 9:34
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\EventListener;
@@ -11,11 +13,11 @@ namespace Hgabka\KunstmaanExtensionBundle\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
+use Hgabka\KunstmaanExtensionBundle\HttpCache\Manager;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Kunstmaan\NodeBundle\Entity\PageInterface;
 use Kunstmaan\PagePartBundle\Helper\PagePartInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Hgabka\KunstmaanExtensionBundle\HttpCache\Manager;
 
 class CachePurgeSubscriber implements EventSubscriber
 {
@@ -25,12 +27,13 @@ class CachePurgeSubscriber implements EventSubscriber
     protected $httpCacheManager;
 
     /**
-     * @var Session|null
+     * @var null|Session
      */
     protected $session;
 
     /**
      * CachePurgeSubscriber constructor.
+     *
      * @param Manager $httpCacheManager
      * @param Session $session
      */

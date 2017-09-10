@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Helper;
 
 use Kunstmaan\AdminBundle\Helper\DomainConfiguration;
@@ -8,20 +16,21 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class KumaUtils
 {
-    /** @var  DomainConfiguration */
+    /** @var DomainConfiguration */
     protected $domainConfiguration;
 
-    /** @var  RequestStack */
+    /** @var RequestStack */
     protected $requestStack;
 
-    /** @var string  */
+    /** @var string */
     protected $projectDir;
 
     /**
      * KumaUtils constructor.
+     *
      * @param DomainConfiguration $domainConfiguration
-     * @param RequestStack $requestStack
-     * @param string $projectDir
+     * @param RequestStack        $requestStack
+     * @param string              $projectDir
      */
     public function __construct(DomainConfiguration $domainConfiguration, RequestStack $requestStack, string $projectDir)
     {
@@ -33,13 +42,14 @@ class KumaUtils
     /**
      * @param null $baseLocale
      * @param bool $frontend
+     *
      * @return null|string
      */
     public function getCurrentLocale($baseLocale = null, bool $frontend = true)
     {
         $availableLocales = $this->getAvailableLocales($frontend);
 
-        if (!empty($baseLocale) && in_array($baseLocale, $availableLocales)) {
+        if (!empty($baseLocale) && in_array($baseLocale, $availableLocales, true)) {
             return $baseLocale;
         }
 
@@ -47,7 +57,7 @@ class KumaUtils
 
         $locale = $request ? $request->getLocale() : null;
 
-        if (!empty($locale) && in_array($locale, $availableLocales)) {
+        if (!empty($locale) && in_array($locale, $availableLocales, true)) {
             return $locale;
         }
 
@@ -56,9 +66,10 @@ class KumaUtils
 
     /**
      * @param bool $frontend
+     *
      * @return array
      */
-    public function getAvailableLocales(bool $frontend = true) : array
+    public function getAvailableLocales(bool $frontend = true): array
     {
         return $frontend ? $this->domainConfiguration->getFrontendLocales() : $this->domainConfiguration->getBackendLocales();
     }
@@ -89,6 +100,7 @@ class KumaUtils
 
     /**
      * @param Media $media
+     *
      * @return string
      */
     public function getMediaPath(Media $media)
@@ -98,6 +110,7 @@ class KumaUtils
 
     /**
      * @param Media $media
+     *
      * @return bool|string
      */
     public function getMediaContent(Media $media)
@@ -134,23 +147,23 @@ class KumaUtils
      */
     public function getWebDir(): string
     {
-        return $this->projectDir . '/web';
+        return $this->projectDir.'/web';
     }
 
     public static function slugify($text, $subst = '-')
     {
-        setlocale(LC_ALL, "hu_HU.utf-8");
+        setlocale(LC_ALL, 'hu_HU.utf-8');
         $subst = substr($subst, 0, 1);
         // replace all non letters or digits by -
         $text = preg_replace('~[^\\pL0-9]+~u', $subst, $text); // substitutes anything but letters, numbers and '_' with separator
-        $text = trim($text, "-");
-        $text = iconv("utf-8", "us-ascii//TRANSLIT", $text); // TRANSLIT does the whole job
+        $text = trim($text, '-');
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); // TRANSLIT does the whole job
         $text = strtolower($text);
-        $text = preg_replace('~[^-a-z0-9_' . $subst . ']+~', '', $text); // keep only letters, numbers, '_' and separator  $text = preg_replace('~[^\\pL0-9_]+~u', '-', $text); // substitutes anything but letters, numbers and '_' with separator
-        $text = trim($text, "-");
-        $text = iconv("utf-8", "us-ascii//TRANSLIT", $text); // TRANSLIT does the whole job
+        $text = preg_replace('~[^-a-z0-9_'.$subst.']+~', '', $text); // keep only letters, numbers, '_' and separator  $text = preg_replace('~[^\\pL0-9_]+~u', '-', $text); // substitutes anything but letters, numbers and '_' with separator
+        $text = trim($text, '-');
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); // TRANSLIT does the whole job
         $text = strtolower($text);
-        $text = preg_replace('~[^-a-z0-9_' . $subst . ']+~', '', $text); // keep only letters, numbers, '_' and separator
+        $text = preg_replace('~[^-a-z0-9_'.$subst.']+~', '', $text); // keep only letters, numbers, '_' and separator
 
         if (empty($text)) {
             return '';

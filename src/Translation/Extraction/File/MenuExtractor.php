@@ -1,14 +1,15 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: chris
- * Date: 2016.04.12.
- * Time: 17:35
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File;
 
-use Doctrine\Common\Annotations\DocParser;
 use JMS\TranslationBundle\Annotation\Desc;
 use JMS\TranslationBundle\Annotation\Ignore;
 use JMS\TranslationBundle\Annotation\Meaning;
@@ -32,8 +33,8 @@ class MenuExtractor extends DefaultPhpFileExtractor
         ];
         if (!$node instanceof Node\Expr\MethodCall
             || !is_string($node->name)
-            || !in_array(strtolower($node->name), $functions)
-            || count($node->args) == 0
+            || !in_array(strtolower($node->name), $functions, true)
+            || count($node->args) === 0
             || !$node->args[0]->value instanceof String_
         ) {
             $this->previousNode = $node;
@@ -47,7 +48,7 @@ class MenuExtractor extends DefaultPhpFileExtractor
             if ($docComment instanceof Doc) {
                 $docComment = $docComment->getText();
             }
-            foreach ($this->docParser->parse($docComment, 'file ' . $this->file . ' near line ' . $node->getLine()) as $annot) {
+            foreach ($this->docParser->parse($docComment, 'file '.$this->file.' near line '.$node->getLine()) as $annot) {
                 if ($annot instanceof Ignore) {
                     $ignore = true;
                 } elseif ($annot instanceof Desc) {

@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: gabe
- * Date: 2016.05.03.
- * Time: 17:14
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\EventListener;
@@ -17,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SearchSubscriber implements EventSubscriber
 {
     /**
-     * @var ContainerInterface $container
+     * @var ContainerInterface
      */
     protected $container;
 

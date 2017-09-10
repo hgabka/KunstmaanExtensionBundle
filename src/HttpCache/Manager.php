@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: gabe
- * Date: 2016.04.20.
- * Time: 9:35
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\HttpCache;
@@ -32,8 +34,9 @@ class Manager
 
     /**
      * Manager constructor.
-     * @param string $cacheDir
-     * @param Filesystem $filesystem
+     *
+     * @param string       $cacheDir
+     * @param Filesystem   $filesystem
      * @param CacheManager $fosHttpCacheManager
      */
     public function __construct($cacheDir, Filesystem $filesystem, CacheManager $fosHttpCacheManager = null)
@@ -45,7 +48,7 @@ class Manager
 
     public function forcePurgeAll()
     {
-        $cacheDir = $this->cacheDir . DIRECTORY_SEPARATOR . 'http_cache';
+        $cacheDir = $this->cacheDir.DIRECTORY_SEPARATOR.'http_cache';
         if ($this->filesystem->exists($cacheDir) && is_dir($cacheDir)) {
             $this->filesystem->remove(new \FilesystemIterator($cacheDir));
         }

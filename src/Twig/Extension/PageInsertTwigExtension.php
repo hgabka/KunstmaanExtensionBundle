@@ -1,16 +1,24 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Twig\Extension;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use Hgabka\KunstmaanExtensionBundle\Entity\InsertablePageInterface;
+use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart;
+use Hgabka\KunstmaanExtensionBundle\Exception\InsertedMaxDepthException;
 use Kunstmaan\NodeBundle\Entity\AbstractPage;
 use Kunstmaan\NodeBundle\Entity\NodeTranslation;
 use Kunstmaan\PagePartBundle\Helper\HasPagePartsInterface;
 use Kunstmaan\PagePartBundle\Twig\Extension\PagePartTwigExtension;
-use Hgabka\KunstmaanExtensionBundle\Entity\InsertablePageInterface;
-use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart;
-use Hgabka\KunstmaanExtensionBundle\Exception\InsertedMaxDepthException;
 
 class PageInsertTwigExtension extends \Twig_Extension
 {
@@ -54,7 +62,7 @@ class PageInsertTwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('render_deep_inserted_pageparts', [$this, 'renderDeepInsertedPageParts'], [
                 'needs_environment' => true,
                 'needs_context' => true,
-                'is_safe' => ['html']
+                'is_safe' => ['html'],
             ]),
             new \Twig_SimpleFunction('render_inserted_pageparts', [$this, 'renderInsertedPageParts'], [
               'needs_environment' => true,
@@ -75,10 +83,11 @@ class PageInsertTwigExtension extends \Twig_Extension
       $contextName = 'main',
       array $parameters = []
     ) {
-        /** @var HasPagePartsInterface|AbstractPage $page */
+        /** @var AbstractPage|HasPagePartsInterface $page */
         $page = $this->getPageFromInsertPagePagePart($insertPagePagePart, $locale, $includeOffline);
         if (!$page instanceof InsertablePageInterface) {
-            throw new \InvalidArgumentException(sprintf('Only pages which implement %s interface can be inserted as page part!',
+            throw new \InvalidArgumentException(sprintf(
+                'Only pages which implement %s interface can be inserted as page part!',
                 InsertablePageInterface::class
             ));
         }
@@ -98,7 +107,7 @@ class PageInsertTwigExtension extends \Twig_Extension
         $contextName = 'main',
         array $parameters = []
     ) {
-        /** @var HasPagePartsInterface|AbstractPage $page */
+        /** @var AbstractPage|HasPagePartsInterface $page */
         $page = $this->getPageFromInsertPagePagePart($insertPagePagePart, $locale, $includeOffline);
         $this->insertedPages[] = $page;
         if (count($this->insertedPages) > $this->maxDepth) {

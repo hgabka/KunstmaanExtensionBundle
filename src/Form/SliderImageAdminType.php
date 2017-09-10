@@ -1,7 +1,16 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Form;
 
+use Hgabka\KunstmaanExtensionBundle\Entity\SliderImage;
 use Kunstmaan\MediaBundle\Form\Type\MediaType;
 use Kunstmaan\NodeBundle\Form\Type\URLChooserType;
 use Symfony\Component\Form\AbstractType;
@@ -10,7 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Hgabka\KunstmaanExtensionBundle\Entity\SliderImage;
 
 class SliderImageAdminType extends AbstractType
 {
@@ -19,29 +27,29 @@ class SliderImageAdminType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder->add('media', MediaType::class, [
-            'label'     => 'wt_kuma_extension.slider.form.image.label',
+            'label' => 'wt_kuma_extension.slider.form.image.label',
             'mediatype' => 'image',
-            'required'  => true,
+            'required' => true,
         ]);
         $builder->add('captionTitle', TextType::class, [
-            'label'     => 'wt_kuma_extension.slider.form.caption_title.label',
-            'required'  => false,
+            'label' => 'wt_kuma_extension.slider.form.caption_title.label',
+            'required' => false,
         ]);
         $builder->add('caption', TextType::class, [
-            'label'     => 'wt_kuma_extension.slider.form.caption.label',
-            'required'  => false,
+            'label' => 'wt_kuma_extension.slider.form.caption.label',
+            'required' => false,
         ]);
         $builder->add('altText', TextType::class, [
-            'label'     => 'wt_kuma_extension.slider.form.alt_text.label',
-            'required'  => false,
+            'label' => 'wt_kuma_extension.slider.form.alt_text.label',
+            'required' => false,
         ]);
         $builder->add('link', URLChooserType::class, [
-            'label'     => 'wt_kuma_extension.slider.form.link.label',
-            'required'  => false,
+            'label' => 'wt_kuma_extension.slider.form.link.label',
+            'required' => false,
         ]);
         $builder->add('openInNewWindow', CheckboxType::class, [
-            'label'     => 'wt_kuma_extension.slider.form.open_in_new_window.label',
-            'required'  => false,
+            'label' => 'wt_kuma_extension.slider.form.open_in_new_window.label',
+            'required' => false,
         ]);
         $builder->add('displayOrder', HiddenType::class);
     }

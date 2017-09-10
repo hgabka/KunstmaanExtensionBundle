@@ -1,13 +1,14 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: gabe
- * Date: 2016.05.05.
- * Time: 15:23
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Twig\Extension;
-
 
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
 
@@ -20,6 +21,7 @@ class SearchTwigExtension extends \Twig_Extension
 
     /**
      * SearchTwigExtension constructor.
+     *
      * @param RoutingExtension $routingExtension
      */
     public function __construct(RoutingExtension $routingExtension)

@@ -1,7 +1,17 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Command;
 
+use Hgabka\KunstmaanExtensionBundle\User\UserEditService;
+use Hgabka\KunstmaanExtensionBundle\User\UserUpdater;
 use Kunstmaan\AdminBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,27 +21,25 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Hgabka\KunstmaanExtensionBundle\User\UserEditService;
-use Hgabka\KunstmaanExtensionBundle\User\UserUpdater;
 
 class UserEditCommand extends ContainerAwareCommand
 {
     /**
-     * User select question
+     * User select question.
      *
      * @var string
      */
     const PLEASE_SELECT_A_USER = 'Please select a user';
     /**
-     * @var UserEditService
-     */
-    protected $userEditor;
-    /**
-     * Max displayable users in multiple choice list
+     * Max displayable users in multiple choice list.
      *
      * @var int
      */
     const MAX_USER_CHOICES = 10;
+    /**
+     * @var UserEditService
+     */
+    protected $userEditor;
     /**
      * @var InputInterface
      */
@@ -79,7 +87,7 @@ class UserEditCommand extends ContainerAwareCommand
     }
 
     /**
-     * Handle user selection depending on options and user count in db
+     * Handle user selection depending on options and user count in db.
      */
     protected function selectionHandler()
     {
@@ -94,7 +102,7 @@ class UserEditCommand extends ContainerAwareCommand
     }
 
     /**
-     * Multiple choices user select
+     * Multiple choices user select.
      *
      * @param User[] $choices
      */
@@ -111,7 +119,7 @@ class UserEditCommand extends ContainerAwareCommand
     }
 
     /**
-     * Autocomplete user select
+     * Autocomplete user select.
      */
     protected function autocomplete()
     {
@@ -124,7 +132,7 @@ class UserEditCommand extends ContainerAwareCommand
         }
         $user = $this->getChoiceByUsernameOrEmail($selectedUser);
         // kiválasztott egy usert
-        if (!is_null($user)) {
+        if (null !== $user) {
             $this->editor($user);
             // nem választott konkrét usert
         } else {
@@ -134,7 +142,7 @@ class UserEditCommand extends ContainerAwareCommand
     }
 
     /**
-     * Show user editor
+     * Show user editor.
      *
      * @param User $user
      */
@@ -181,7 +189,7 @@ EOL;
     }
 
     /**
-     * Send email notification about changes
+     * Send email notification about changes.
      *
      * @param       $to
      * @param array $changedValues
@@ -203,9 +211,10 @@ EOL;
     }
 
     /**
-     * Find User by username
+     * Find User by username.
      *
      * @param string $username
+     * @param mixed  $selection
      *
      * @return User
      */
@@ -221,14 +230,13 @@ EOL;
                 return $item;
             }
         }
-
-        return;
     }
 
     /**
-     * Find User by username or email
+     * Find User by username or email.
      *
      * @param string $username
+     * @param mixed  $selection
      *
      * @return User
      */
@@ -242,12 +250,10 @@ EOL;
                 return $item;
             }
         }
-
-        return;
     }
 
     /**
-     * Ask question
+     * Ask question.
      *
      * @param Question $question
      *
@@ -259,7 +265,7 @@ EOL;
     }
 
     /**
-     * Ask for new user properties
+     * Ask for new user properties.
      *
      * @param User $user
      *
@@ -268,7 +274,7 @@ EOL;
     protected function getNewValues(User $user)
     {
         $newProps = new UserUpdater();
-        $this->logger->section('Editing user ' . $user->getEmail() . ' (' . $user->getUsername() . ')');
+        $this->logger->section('Editing user '.$user->getEmail().' ('.$user->getUsername().')');
         $this->logger->comment('leave empty to keep unchanged');
         $newProps->setUsername($this->ask(new Question('Username', $user->getUsername())));
         $newProps->setEmail($this->ask(new Question('E-mail address', $user->getEmail())));

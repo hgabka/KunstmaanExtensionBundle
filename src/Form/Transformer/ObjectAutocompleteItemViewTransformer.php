@@ -1,19 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gábor
- * Date: 2016. 08. 20.
- * Time: 12:43
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Form\Transformer;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class ObjectAutocompleteItemViewTransformer  implements DataTransformerInterface
+class ObjectAutocompleteItemViewTransformer implements DataTransformerInterface
 {
     /**
      * @var ObjectRepository
@@ -31,28 +32,24 @@ class ObjectAutocompleteItemViewTransformer  implements DataTransformerInterface
         $this->callback = $callback;
     }
 
-
     /**
      * Transforms a string into an array.
      *
      * @param mixed $value
      *
-     * @return mixed An array of entities
-     *
      * @throws TransformationFailedException
+     *
+     * @return mixed An array of entities
      */
     public function transform($value)
     {
-        if (!empty($value))
-        {
-            if (is_string($value))
-            {
+        if (!empty($value)) {
+            if (is_string($value)) {
                 $obj = $this->repository->find($value);
-                if (!$obj)
-                {
+                if (!$obj) {
                     return;
-                }    
-                $label = is_null($this->callback) ? (string)$obj : $obj->{$this->callback}();
+                }
+                $label = null === $this->callback ? (string) $obj : $obj->{$this->callback}();
 
                 return ['id' => $value, 'label' => $label];
             }
@@ -70,11 +67,10 @@ class ObjectAutocompleteItemViewTransformer  implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             return $value['id'];
         }
-        
+
         return $value;
     }
 }

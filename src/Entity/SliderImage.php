@@ -1,21 +1,23 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: chris
- * Date: 2016.03.08.
- * Time: 10:15
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Kunstmaan\MediaBundle\Entity\Media;
 use Symfony\Component\Validator\Constraints as Assert;
-use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
 
 /**
- * ImagePagePart
+ * ImagePagePart.
  *
  * @ORM\Entity
  * @ORM\Table(name="hg_kuma_extension_slider_image")
@@ -23,12 +25,23 @@ use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
 class SliderImage extends AbstractEntity
 {
     /**
-     * @var SliderPagePart $sliderPagePart
+     * @var SliderPagePart
      *
      * @ORM\ManyToOne(targetEntity="\Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart", inversedBy="images", cascade={"persist"})
      * @ORM\JoinColumn(name="slider_page_part_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $sliderPagePart;
+
+    /**
+     * Sorting.
+     *
+     * @var int
+     *
+     * @ORM\Column(name="display_order", type="integer", nullable=false, options={
+     *          "unsigned": true,
+     *          "comment": "Sorting"})
+     */
+    protected $displayOrder;
 
     /**
      * @var Media
@@ -73,17 +86,6 @@ class SliderImage extends AbstractEntity
      * @ORM\Column(name="open_in_new_window", type="boolean", nullable=true)
      */
     private $openInNewWindow;
-
-    /**
-     * Sorting
-     *
-     * @var int $displayOrder
-     *
-     * @ORM\Column(name="display_order", type="integer", nullable=false, options={
-     *          "unsigned": true,
-     *          "comment": "Sorting"})
-     */
-    protected $displayOrder;
 
     /**
      * @return SliderPagePart

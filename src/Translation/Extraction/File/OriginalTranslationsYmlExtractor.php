@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: gabe
- * Date: 2016.04.14.
- * Time: 15:59
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File;
@@ -15,11 +17,10 @@ use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * Class OriginalTranslationsYmlExtractor
+ * Class OriginalTranslationsYmlExtractor.
  *
  * Collect the original translations
  *
- * @package Hgabka\KunstmaanExtensionBundle\Translation\Extraction\File
  *
  * @todo (Chris) Nem tud együtt működni a gyorsítással! Meg kell oldani, hogy a gyorsítást ki lehessen kapcsolni VAGY lehessen beállítani szabályokat, ahol a preformance tesztet kihagyva újra és újra fut az egész.
  */
@@ -44,7 +45,7 @@ class OriginalTranslationsYmlExtractor implements FileVisitorInterface
      *
      * This is not called if handled by a more specific method.
      *
-     * @param \SplFileInfo $file
+     * @param \SplFileInfo     $file
      * @param MessageCatalogue $catalogue
      */
     public function visitFile(\SplFileInfo $file, MessageCatalogue $catalogue)
@@ -69,22 +70,54 @@ class OriginalTranslationsYmlExtractor implements FileVisitorInterface
             switch ($fileLocale) {
                 case $catalogueLocale:
                     $message->setLocaleString($translation);
+
                     break;
                 case 'en':
                     $message->setMeaning(sprintf('En: `%s`', $translation));
+
                     break;
             }
             $catalogue->add($message);
         }
     }
 
+    /**
+     * Called when a PHP file is encountered.
+     *
+     * The visitor already gets a parsed AST passed along.
+     *
+     * @param \SplFileInfo     $file
+     * @param MessageCatalogue $catalogue
+     * @param array            $ast
+     *
+     * @codeCoverageIgnore
+     */
+    public function visitPhpFile(\SplFileInfo $file, MessageCatalogue $catalogue, array $ast)
+    {
+    }
+
+    /**
+     * Called when a Twig file is encountered.
+     *
+     * The visitor already gets a parsed AST passed along.
+     *
+     * @param \SplFileInfo     $file
+     * @param MessageCatalogue $catalogue
+     * @param \Twig_Node       $ast
+     *
+     * @codeCoverageIgnore
+     */
+    public function visitTwigFile(\SplFileInfo $file, MessageCatalogue $catalogue, \Twig_Node $ast)
+    {
+    }
+
     protected function skipThisLocale(\SplFileInfo $file, $locale)
     {
         $fileLocale = $this->getFilePiece($file, self::FILE_PIECE_LOCALE);
         // Ha ez éppen az adott nyelven készített fájl, pl: messages.hu.yml...
-        if ($fileLocale && $fileLocale == $locale) {
+        if ($fileLocale && $fileLocale === $locale) {
             return false;
-        } elseif ($fileLocale != 'en') {
+        } elseif ($fileLocale !== 'en') {
             return true;
         }
 
@@ -93,14 +126,14 @@ class OriginalTranslationsYmlExtractor implements FileVisitorInterface
             $locale,
             $this->getFilePiece($file, self::FILE_PIECE_EXTENSION),
         ]);
-        $catalogueFilePath = $file->getPath() . DIRECTORY_SEPARATOR . $catalogueFileName;
+        $catalogueFilePath = $file->getPath().DIRECTORY_SEPARATOR.$catalogueFileName;
 
         return file_exists($catalogueFilePath);
     }
 
     /**
      * @param \SplFileInfo $file
-     * @param string $pieceName
+     * @param string       $pieceName
      *
      * @return string
      */
@@ -142,7 +175,7 @@ class OriginalTranslationsYmlExtractor implements FileVisitorInterface
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 foreach ($this->getChildrenKeys($value) as $subKey => $subValue) {
-                    $keys[$key . '.' . $subKey] = $subValue;
+                    $keys[$key.'.'.$subKey] = $subValue;
                 }
             } else {
                 $keys[$key] = $value;
@@ -150,36 +183,6 @@ class OriginalTranslationsYmlExtractor implements FileVisitorInterface
         }
 
         return $keys;
-    }
-
-    /**
-     * Called when a PHP file is encountered.
-     *
-     * The visitor already gets a parsed AST passed along.
-     *
-     * @param \SplFileInfo $file
-     * @param MessageCatalogue $catalogue
-     * @param array $ast
-     *
-     * @codeCoverageIgnore
-     */
-    public function visitPhpFile(\SplFileInfo $file, MessageCatalogue $catalogue, array $ast)
-    {
-    }
-
-    /**
-     * Called when a Twig file is encountered.
-     *
-     * The visitor already gets a parsed AST passed along.
-     *
-     * @param \SplFileInfo $file
-     * @param MessageCatalogue $catalogue
-     * @param \Twig_Node $ast
-     *
-     * @codeCoverageIgnore
-     */
-    public function visitTwigFile(\SplFileInfo $file, MessageCatalogue $catalogue, \Twig_Node $ast)
-    {
     }
 
     /**

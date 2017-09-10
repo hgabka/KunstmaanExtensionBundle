@@ -1,12 +1,20 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Timestampable Trait, usable with PHP >= 5.4
+ * Timestampable Trait, usable with PHP >= 5.4.
  *
  * @author Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -30,7 +38,8 @@ trait TimestampableEntity
     /**
      * Sets createdAt.
      *
-     * @param  \DateTime $createdAt
+     * @param \DateTime $createdAt
+     *
      * @return $this
      */
     public function setCreatedAt(\DateTime $createdAt)
@@ -53,7 +62,8 @@ trait TimestampableEntity
     /**
      * Sets updatedAt.
      *
-     * @param  \DateTime $updatedAt
+     * @param \DateTime $updatedAt
+     *
      * @return $this
      */
     public function setUpdatedAt(\DateTime $updatedAt)

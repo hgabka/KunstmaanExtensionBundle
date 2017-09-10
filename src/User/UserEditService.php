@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gabe
- * Date: 2016. 08. 03.
- * Time: 17:00
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\User;
@@ -13,7 +15,7 @@ use Kunstmaan\AdminBundle\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 /**
- * UserEditCommand db services
+ * UserEditCommand db services.
  *
  * @author Gabe <hgabka@gmail.com>
  */
@@ -55,7 +57,7 @@ class UserEditService
     }
 
     /**
-     * Find user choices
+     * Find user choices.
      *
      * @param string $username
      * @param string $email
@@ -71,11 +73,11 @@ class UserEditService
         $method = $or ? 'orWhere' : 'andWhere';
         if ($username) {
             $qb->$method('u.username LIKE :username');
-            $qb->setParameter('username', '%' . $username . '%');
+            $qb->setParameter('username', '%'.$username.'%');
         }
         if ($email) {
             $qb->$method('u.email LIKE :email');
-            $qb->setParameter('email', '%' . $email . '%');
+            $qb->setParameter('email', '%'.$email.'%');
         }
         if ($limit) {
             $qb->setMaxResults($limit);
@@ -85,7 +87,7 @@ class UserEditService
     }
 
     /**
-     * Get selector choices as combined username+email
+     * Get selector choices as combined username+email.
      *
      * @param User[] $choices
      *
@@ -102,7 +104,7 @@ class UserEditService
     }
 
     /**
-     * User choices is separate usernames/email for autocomplete
+     * User choices is separate usernames/email for autocomplete.
      *
      * @param User[] $choices
      *
@@ -120,7 +122,7 @@ class UserEditService
     }
 
     /**
-     * Update user details
+     * Update user details.
      *
      * @param User        $user
      * @param UserUpdater $up

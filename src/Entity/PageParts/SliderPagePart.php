@@ -1,22 +1,24 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: chris
- * Date: 2016.03.08.
- * Time: 10:14
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Entity\PageParts;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Kunstmaan\PagePartBundle\Entity\AbstractPagePart;
-use Symfony\Component\Form\AbstractType;
 use Hgabka\KunstmaanExtensionBundle\Entity\SliderImage;
 use Hgabka\KunstmaanExtensionBundle\Form\PageParts\SliderPagePartAdminType;
+use Kunstmaan\PagePartBundle\Entity\AbstractPagePart;
+use Symfony\Component\Form\AbstractType;
 
 /**
- * ImagePagePart
+ * ImagePagePart.
  *
  * @ORM\Entity
  * @ORM\Table(name="hg_kuma_extension_slider_page_parts")
@@ -24,7 +26,7 @@ use Hgabka\KunstmaanExtensionBundle\Form\PageParts\SliderPagePartAdminType;
 class SliderPagePart extends AbstractPagePart
 {
     /**
-     * @var ArrayCollection|SliderImage[] $images
+     * @var ArrayCollection|SliderImage[]
      *
      * @ORM\OneToMany(targetEntity="\Hgabka\KunstmaanExtensionBundle\Entity\SliderImage", mappedBy="sliderPagePart", cascade={"persist"})
      * @ORM\OrderBy({"displayOrder" = "ASC"})
@@ -72,7 +74,7 @@ class SliderPagePart extends AbstractPagePart
     }
 
     /**
-     * Returns the view used in the frontend
+     * Returns the view used in the frontend.
      *
      * @return string
      */
@@ -82,7 +84,7 @@ class SliderPagePart extends AbstractPagePart
     }
 
     /**
-     * Returns the view used in the backend
+     * Returns the view used in the backend.
      *
      * @return string
      */

@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gábor
- * Date: 2016. 08. 20.
- * Time: 15:43
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Form\Type;
@@ -53,10 +55,10 @@ class DatepickerType extends AbstractType
         foreach (array_keys($this->jsOpts) as $optName) {
             $view->vars[$optName] = $options[$optName];
         }
-        
-        if (!isset($view->vars['attr']['data-options'])) {    
+
+        if (!isset($view->vars['attr']['data-options'])) {
             $view->vars['attr']['data-options'] = json_encode($options['js-options']);
-        }    
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

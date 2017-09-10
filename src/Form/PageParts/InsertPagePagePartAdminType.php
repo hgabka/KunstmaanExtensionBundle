@@ -1,9 +1,19 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Form\PageParts;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use Hgabka\KunstmaanExtensionBundle\Entity\InsertablePageInterface;
+use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart;
 use Kunstmaan\NodeBundle\Entity\AbstractPage;
 use Kunstmaan\NodeBundle\Entity\Node;
 use Kunstmaan\PagePartBundle\PagePartConfigurationReader\PagePartConfigurationReaderInterface;
@@ -13,11 +23,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Hgabka\KunstmaanExtensionBundle\Entity\InsertablePageInterface;
-use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart;
 
 /**
- * InsertPagePagePartAdminType
+ * InsertPagePagePartAdminType.
  */
 class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
 {
@@ -42,9 +50,9 @@ class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
     /**
      * InsertPagePagePartAdminType constructor.
      *
-     * @param RequestStack                          $requestStack
-     * @param Registry                              $doctrine
-     * @param PagePartConfigurationReaderInterface  $pagePartConfigReader
+     * @param RequestStack                         $requestStack
+     * @param Registry                             $doctrine
+     * @param PagePartConfigurationReaderInterface $pagePartConfigReader
      */
     public function __construct(RequestStack $requestStack, Registry $doctrine, PagePartConfigurationReaderInterface $pagePartConfigReader)
     {
@@ -72,8 +80,8 @@ class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
 
         parent::buildForm($builder, $options);
         $builder->add('node', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
-            'label'    => 'wt_kuma_extension.insert_page.form.label.inserted_node',
-            'class'    => 'Kunstmaan\NodeBundle\Entity\Node',
+            'label' => 'wt_kuma_extension.insert_page.form.label.inserted_node',
+            'class' => 'Kunstmaan\NodeBundle\Entity\Node',
             'expanded' => false,
             'multiple' => false,
             'required' => true,
@@ -81,7 +89,7 @@ class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
                 /** @var AbstractPage $page */
                 $page = $choice->getNodeTranslation($locale, true)->getRef($em);
 
-                return str_repeat('-', $choice->getLevel() * 2) . ' ' . $page->getPageTitle();
+                return str_repeat('-', $choice->getLevel() * 2).' '.$page->getPageTitle();
             },
         ]);
     }
@@ -98,7 +106,6 @@ class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
     {
         $data = $form->getData();
         if ($data instanceof InsertPagePagePart) {
-
             $this->validateParentPage();
 
             $reflections = [];
@@ -119,6 +126,28 @@ class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
                 }
             }
         }
+    }
+
+    /**
+     * Returns the name of this type.
+     *
+     * @return string The name of this type
+     */
+    public function getBlockPrefix()
+    {
+        return 'hgabka_kunstmaanextensionbundle_insertpagepageparttype';
+    }
+
+    /**
+     * Sets the default options for this type.
+     *
+     * @param OptionsResolver $resolver the resolver for the options
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => '\Hgabka\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart',
+        ]);
     }
 
     /**
@@ -159,34 +188,13 @@ class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
                                     InsertPagePagePart::class,
                                     InsertablePageInterface::class,
                                     $currentContext
-                                  ));
+                                  )
+                                );
                             }
                         }
                     }
                 }
             }
         }
-    }
-
-    /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
-     */
-    public function getBlockPrefix()
-    {
-        return 'hgabka_kunstmaanextensionbundle_insertpagepageparttype';
-    }
-
-    /**
-     * Sets the default options for this type.
-     *
-     * @param OptionsResolver $resolver The resolver for the options.
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => '\Hgabka\KunstmaanExtensionBundle\Entity\PageParts\InsertPagePagePart'
-        ]);
     }
 }

@@ -1,19 +1,21 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: gabe
- * Date: 2016.03.08.
- * Time: 10:43
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanExtensionBundle\Form\PageParts;
 
+use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
+use Hgabka\KunstmaanExtensionBundle\Form\SliderImageAdminType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\SliderPagePart;
-use Hgabka\KunstmaanExtensionBundle\Form\SliderImageAdminType;
 
 class SliderPagePartAdminType extends AbstractType
 {
@@ -33,16 +35,16 @@ class SliderPagePartAdminType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder->add('images', CollectionType::class, [
-            'label'     => 'wt_kuma_extension.slider.form.images.label',
-            'entry_type'      => SliderImageAdminType::class,
+            'label' => 'wt_kuma_extension.slider.form.images.label',
+            'entry_type' => SliderImageAdminType::class,
             'allow_add' => true,
             'allow_delete' => true,
             'by_reference' => false,
             'attr' => [
-                'nested_form'           => true,
-                'nested_form_min'       => 1,
-                'nested_form_max'       => 4,
-                'nested_sortable'       => true,
+                'nested_form' => true,
+                'nested_form_min' => 1,
+                'nested_form_max' => 4,
+                'nested_sortable' => true,
                 'nested_sortable_field' => 'displayOrder',
             ],
         ]);
@@ -51,7 +53,7 @@ class SliderPagePartAdminType extends AbstractType
     /**
      * Sets the default options for this type.
      *
-     * @param OptionsResolver $resolver The resolver for the options.
+     * @param OptionsResolver $resolver the resolver for the options
      */
     public function configureOptions(OptionsResolver $resolver)
     {
