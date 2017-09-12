@@ -10,12 +10,17 @@
 
 namespace Hgabka\KunstmaanExtensionBundle\Helper;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManager;
 use Kunstmaan\AdminBundle\Helper\DomainConfiguration;
 use Kunstmaan\MediaBundle\Entity\Media;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class KumaUtils
 {
+    /** @var Registry */
+    protected $doctrine;
+
     /** @var DomainConfiguration */
     protected $domainConfiguration;
 
@@ -32,11 +37,12 @@ class KumaUtils
      * @param RequestStack        $requestStack
      * @param string              $projectDir
      */
-    public function __construct(DomainConfiguration $domainConfiguration, RequestStack $requestStack, string $projectDir)
+    public function __construct(Registry $doctrine, DomainConfiguration $domainConfiguration, RequestStack $requestStack, string $projectDir)
     {
         $this->domainConfiguration = $domainConfiguration;
         $this->requestStack = $requestStack;
         $this->projectDir = $projectDir;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -170,5 +176,36 @@ class KumaUtils
         }
 
         return $text;
+    }
+
+    public function entityToArray($entity, $maxLevel = 2, $currentLevel = 0)
+    {
+        if ($currentLevel >= $maxLevel || empty($entity)) {
+            return [];
+        }
+        /** @var EntityManager $em */
+        $em = $this->doctrine->getManager();
+        $md = $em->getClassMetadata(get_class($entity));
+
+        $result = [];
+        if ($md) {
+            foreach ($md->getFieldNames() as $field) {
+                $result[$field] = $md->getFieldValue($entity, $field);
+            }
+
+            foreach ($md->getAssociationMappings() as $field => $data) {
+                $mapping = $md->getFieldValue($entity, $field);
+                if ($mapping instanceof \Traversable) {
+                    $result[$field] = [];
+                    foreach ($mapping as $entity) {
+                        $result[$field][] = $this->entityToArray($entity, $maxLevel, $currentLevel + 1);
+                    }
+                } else {
+                    $result[$field] = $this->entityToArray($mapping, $maxLevel, $currentLevel + 1);
+                }
+            }
+        }
+
+        return $result;
     }
 }
