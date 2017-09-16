@@ -87,6 +87,11 @@ services:
         tags:
             - { name: form.type }
 
+    hgabka_kunstmaan_extension.form.help_type_extension:
+        class: Hgabka\KunstmaanExtensionBundle\Form\Extension\HelpTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
     hgabka_kunstmaan_extension.kuma_utils:
         class: Hgabka\KunstmaanExtensionBundle\Helper\KumaUtils
         arguments:  ["@doctrine", "@kunstmaan_admin.domain_configuration", "@request_stack", "%kernel.project_dir%"]

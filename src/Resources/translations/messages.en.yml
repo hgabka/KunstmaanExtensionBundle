@@ -11,6 +11,12 @@ kuma_admin:
             label:          Clear
 
 wt_kuma_extension:
+    locales:
+        hu: magyar
+        en: angol
+        de: német
+        es: spanyol
+        fr: francia
     slider:
         link:
             more:       More

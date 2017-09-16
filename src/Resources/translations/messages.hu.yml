@@ -11,6 +11,12 @@ kuma_admin:
             label:          Törlés
 
 wt_kuma_extension:
+    locales:
+        hu: Hungarian
+        en: English
+        de: German
+        es: Spanish
+        fr: French
     slider:
         link:
             more:       Részletek

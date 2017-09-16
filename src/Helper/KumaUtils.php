@@ -94,6 +94,18 @@ class KumaUtils
     }
 
     /**
+     * @param bool $frontend
+     *
+     * @return array
+     */
+    public function getLocaleChoices(bool $frontend = true): array
+    {
+        $locales = $this->getAvailableLocales($frontend);
+
+        return $this->prefixArrayElements($locales, 'wt_kuma_extension.locales.');
+    }
+
+    /**
      * @return string
      */
     public function getDefaultLocale()
@@ -1004,11 +1016,11 @@ class KumaUtils
     /**
      * DatePeriod hívás shortcut. Két dátum között visszaadja az összes, $interval paraméternek megfelelő dátumot.
      * Ha a végdátum 00:00:00 időpontot tartalmaz akkor nem lesz benne az eredményben, egyébként igen.
-     * @param date $from
-     * @param date $to
+     * @param mixed $from
+     * @param mixed $to
      * @param string $interval
      * @param bool $returnArray Tömbben adja vissza a dátumokat?
-     * @return DatePeriod|array
+     * @return \DatePeriod|array
      */
     public function getDatePeriod($from, $to, $interval = null, $returnArray = false)
     {
@@ -1146,12 +1158,12 @@ class KumaUtils
         return $classes;
     }
 
-
     /**
      * DateTime készítése egy bejövő dátumból vagy timestampból
-     * @param DateTime|string|int $date
+     * @param \DateTime|string|int $date
      * @param bool $throwOnError
-     * @return DateTime|null
+     * @return \DateTime|null
+     * @throws \Exception
      */
     public function createDateTime($date, $throwOnError = false)
     {
