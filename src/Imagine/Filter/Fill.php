@@ -44,36 +44,20 @@ class Fill implements FilterInterface
      */
     public function apply(ImageInterface $image)
     {
-        $origWidth = $image->getSize()->getWidth();
-        $origHeight = $image->getSize()->getHeight();
-
         $width = $this->width;
         $height = $this->height;
 
-        if ($origWidth === $width && $height === $origHeight) {
+        $filter = new Fit($width, $height, Fit::MODE_INSET);
+        $image = $filter->apply($image);
+
+        $newWidth = $image->getSize()->getWidth();
+        $newHeight = $image->getSize()->getHeight();
+        if ($newWidth === $width && $newHeight === $height) {
             return $image;
         }
 
-        if (null === $width || null === $height) {
-            if (null === $height) {
-                $height = (int) ceil(($width / $origWidth) * $origHeight);
-            } elseif (null === $width) {
-                $width = (int) ceil(($height / $origHeight) * $origWidth);
-            }
-        }
-
-        if ($width / $origWidth > $height / $origHeight) {
-            $newWidth = $width;
-            $newHeight = ceil($origHeight * ($newWidth / $origWidth));
-        } else {
-            $newHeight = $height;
-            $newWidth = ceil($origWidth * ($newHeight / $origHeight));
-        }
-        $size = new Box($newWidth, $newHeight);
-        $image->resize($size);
-        $newWidth = $image->getSize()->getWidth();
-        $newHeight = $image->getSize()->getHeight();
         $position = $this->position;
+
         if (false !== strstr($position, 'top')) {
             $top = 0;
         } elseif (false !== strstr($position, 'bottom')) {

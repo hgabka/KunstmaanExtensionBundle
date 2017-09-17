@@ -10,6 +10,7 @@
 
 namespace Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Loader;
 
+use Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Fit;
 use Imagine\Image\Box;
 use Imagine\Image\Color;
 use Imagine\Image\ImageInterface;
@@ -41,8 +42,8 @@ class FitFilterLoader implements LoaderInterface
     public function load(ImageInterface $image, array $options = [])
     {
         list($width, $height) = $options['size'];
-        if (!empty($options['inside-size'])) {
-            list($insideWidth, $insideHeight) = $options['inside-size'];
+        if (!empty($options['inside_size'])) {
+            list($insideWidth, $insideHeight) = $options['inside_size'];
         }
 
         $background = new Color(
@@ -50,27 +51,15 @@ class FitFilterLoader implements LoaderInterface
             isset($options['transparency']) ? $options['transparency'] : null
         );
 
-        $origWidth = $image->getSize()->getWidth();
-        $origHeight = $image->getSize()->getHeight();
-
-        $imgWidth = $insideWidth ?? $width;
-        $imgHeight = $insideHeight ?? $height;
-        if ($origWidth === $width && $imgHeight === $height) {
-            return $image;
-        }
-
-        if ($imgWidth / $origWidth < $imgHeight / $origHeight) {
-            $newWidth = $imgWidth;
-            $newHeight = ceil($origHeight * ($newWidth / $origWidth));
-        } else {
-            $newHeight = $imgHeight;
-            $newWidth = ceil($origWidth * ($newHeight / $origHeight));
-        }
-        $size = new Box($newWidth, $newHeight);
-        $image->resize($size);
+        $fitFilter = new Fit($insideWidth ?? $width, $insideHeight ?? $height);
+        $image = $fitFilter->apply($image);
 
         $newWidth = $image->getSize()->getWidth();
         $newHeight = $image->getSize()->getHeight();
+
+        if ($newWidth === $width && $newHeight === $height) {
+            return $image;
+        }
         $position = $options['position'] ?? 'center';
 
         if (false !== strstr($position, 'top')) {
