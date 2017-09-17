@@ -1,107 +1,115 @@
 <?php
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Helper\Words;
 
 use Hgabka\KunstmaanExtensionBundle\Helper\Number\Words;
 
 /**
  * Class for translating numbers into Italian.
- * It supports up to quadrilions
+ * It supports up to quadrilions.
  *
  * @category Numbers
- * @package  Numbers_Words
+ *
  * @author   Filippo Beltramini <phil@esight.it>
  * @author   Davide Caironi     <cairo@esight.it>
  * @license  PHP 3.01 http://www.php.net/license/3_01.txt
- * @link     http://pear.php.net/package/Numbers_Words
+ *
+ * @see     http://pear.php.net/package/Numbers_Words
  */
-
 class Words_it extends Words
 {
     /**
-     * Locale name
+     * Locale name.
+     *
      * @var string
-     * @access public
      */
-    var $locale = 'it';
+    public $locale = 'it';
 
     /**
-     * Language name in English
+     * Language name in English.
+     *
      * @var string
-     * @access public
      */
-    var $lang = 'Italian';
+    public $lang = 'Italian';
 
     /**
-     * Native language name
+     * Native language name.
+     *
      * @var string
-     * @access public
      */
-    var $lang_native = 'Italiano';
+    public $lang_native = 'Italiano';
 
     /**
-     * The word for the minus sign
+     * The word for the minus sign.
+     *
      * @var string
-     * @access private
      */
-    var $_minus = 'meno ';
+    public $_minus = 'meno ';
 
     /**
-     * The sufixes for exponents (singular and plural)
+     * The sufixes for exponents (singular and plural).
+     *
      * @var array
-     * @access private
      */
-    var $_exponent = array(
-        0 => array('',''),
-        3 => array('mille','mila'),
-        6 => array('milione','miloni'),
-        12 => array('miliardo','miliardi'),
-        18 => array('trillone','trilloni'),
-        24 => array('quadrilione','quadrilioni'),
-    );
+    public $_exponent = [
+        0 => ['', ''],
+        3 => ['mille', 'mila'],
+        6 => ['milione', 'miloni'],
+        12 => ['miliardo', 'miliardi'],
+        18 => ['trillone', 'trilloni'],
+        24 => ['quadrilione', 'quadrilioni'],
+    ];
     /**
      * The array containing the digits (indexed by the digits themselves).
+     *
      * @var array
-     * @access private
      */
-    var $_digits = array(
+    public $_digits = [
         0 => 'zero', 'uno', 'due', 'tre', 'quattro',
-        'cinque', 'sei', 'sette', 'otto', 'nove'
-    );
+        'cinque', 'sei', 'sette', 'otto', 'nove',
+    ];
 
     /**
-     * The word separator
+     * The word separator.
+     *
      * @var string
-     * @access private
      */
-    var $_sep = '';
+    public $_sep = '';
 
     /**
      * Converts a number to its word representation
      * in italiano.
      *
-     * @param integer $num   An integer between -infinity and infinity inclusive :)
-     *                        that should be converted to a words representation
-     * @param integer $power The power of ten for the rest of the number to the right.
-     *                        For example toWords(12,3) should give "doce mil".
-     *                        Optional, defaults to 0.
+     * @param int $num   An integer between -infinity and infinity inclusive :)
+     *                   that should be converted to a words representation
+     * @param int $power The power of ten for the rest of the number to the right.
+     *                   For example toWords(12,3) should give "doce mil".
+     *                   Optional, defaults to 0.
      *
-     * @return string  The corresponding word representation
+     * @return string The corresponding word representation
      *
-     * @access protected
      * @author Filippo Beltramini
+     *
      * @since  Numbers_Words 0.16.3
      */
-    function _toWords($num, $power = 0)
+    public function _toWords($num, $power = 0)
     {
         // The return string;
         $ret = '';
 
         // add a the word for the minus sign if necessary
-        if (substr($num, 0, 1) == '-') {
-            $ret = $this->_sep . $this->_minus;
+        if ('-' === substr($num, 0, 1)) {
+            $ret = $this->_sep.$this->_minus;
             $num = substr($num, 1);
         }
-
 
         // strip excessive zero signs
         $num = preg_replace('/^0+/', '', $num);
@@ -114,16 +122,16 @@ class Words_it extends Words
                 // with it's corresponding $power.
                 $snum = substr($num, 0, -6);
                 $snum = preg_replace('/^0+/', '', $snum);
-                if ($snum !== '') {
+                if ('' !== $snum) {
                     $ret .= $this->_toWords($snum, $power + 6);
                 }
             }
             $num = substr($num, -6);
-            if ($num == 0) {
+            if (0 === $num) {
                 return $ret;
             }
-        } elseif ($num == 0 || $num == '') {
-            return(' '.$this->_digits[0].' ');
+        } elseif (0 === $num || '' === $num) {
+            return ' '.$this->_digits[0].' ';
             $current_power = strlen($num);
         } else {
             $current_power = strlen($num);
@@ -131,10 +139,10 @@ class Words_it extends Words
 
         // See if we need "thousands"
         $thousands = floor($num / 1000);
-        if ($thousands == 1) {
-            $ret .= $this->_sep . 'mille' . $this->_sep;
+        if (1 === $thousands) {
+            $ret .= $this->_sep.'mille'.$this->_sep;
         } elseif ($thousands > 1) {
-            $ret .= $this->_toWords($thousands, 3) . $this->_sep;//. 'mil' . $this->_sep;
+            $ret .= $this->_toWords($thousands, 3).$this->_sep; //. 'mil' . $this->_sep;
         }
 
         // values for digits, tens and hundreds
@@ -145,185 +153,212 @@ class Words_it extends Words
         // centinaia: duecento, trecento, etc...
         switch ($h) {
             case 1:
-                if (($d == 0) and ($t == 0)) { // is it's '100' use 'cien'
-                    $ret .= $this->_sep . 'cento';
+                if ((0 === $d) and (0 === $t)) { // is it's '100' use 'cien'
+                    $ret .= $this->_sep.'cento';
                 } else {
-                    $ret .= $this->_sep . 'cento';
+                    $ret .= $this->_sep.'cento';
                 }
+
                 break;
             case 2:
             case 3:
             case 4:
             case 6:
             case 8:
-                $ret .= $this->_sep . $this->_digits[$h] . 'cento';
+                $ret .= $this->_sep.$this->_digits[$h].'cento';
+
                 break;
             case 5:
-                $ret .= $this->_sep . 'cinquecento';
+                $ret .= $this->_sep.'cinquecento';
+
                 break;
             case 7:
-                $ret .= $this->_sep . 'settecento';
+                $ret .= $this->_sep.'settecento';
+
                 break;
             case 9:
-                $ret .= $this->_sep . 'novecento';
+                $ret .= $this->_sep.'novecento';
+
                 break;
         }
 
         // decine: venti trenta, etc...
         switch ($t) {
             case 9:
-                switch ($d){
+                switch ($d) {
                     case 1:
                     case 8:
-                        $ret .= $this->_sep . 'novant' ;
+                        $ret .= $this->_sep.'novant';
+
                         break;
                     default:
-                        $ret .= $this->_sep . 'novanta' ;
+                        $ret .= $this->_sep.'novanta';
+
                         break;
                 }
 
                 break;
             case 8:
-                switch ($d){
+                switch ($d) {
                     case 1:
                     case 8:
-                        $ret .= $this->_sep . 'ottant' ;
+                        $ret .= $this->_sep.'ottant';
+
                         break;
                     default:
-                        $ret .= $this->_sep . 'ottanta' ;
+                        $ret .= $this->_sep.'ottanta';
+
                         break;
                 }
 
                 break;
             case 7:
-                switch ($d){
+                switch ($d) {
                     case 1:
                     case 8:
-                        $ret .= $this->_sep . 'settant' ;
+                        $ret .= $this->_sep.'settant';
+
                         break;
                     default:
-                        $ret .= $this->_sep . 'settanta' ;
+                        $ret .= $this->_sep.'settanta';
+
                         break;
                 }
+
                 break;
             case 6:
-                switch ($d){
+                switch ($d) {
                     case 1:
                     case 8:
-                        $ret .= $this->_sep . 'sessant' ;
+                        $ret .= $this->_sep.'sessant';
+
                         break;
                     default:
-                        $ret .= $this->_sep . 'sessanta' ;
+                        $ret .= $this->_sep.'sessanta';
+
                         break;
                 }
+
                 break;
             case 5:
-                switch ($d){
+                switch ($d) {
                     case 1:
                     case 8:
-                        $ret .= $this->_sep . 'cinquant' ;
+                        $ret .= $this->_sep.'cinquant';
+
                         break;
                     default:
-                        $ret .= $this->_sep . 'cinquanta' ;
+                        $ret .= $this->_sep.'cinquanta';
+
                         break;
                 }
+
                 break;
             case 4:
-                switch ($d){
+                switch ($d) {
                     case 1:
                     case 8:
-                        $ret .= $this->_sep . 'quarant' ;
+                        $ret .= $this->_sep.'quarant';
+
                         break;
                     default:
-                        $ret .= $this->_sep . 'quaranta' ;
+                        $ret .= $this->_sep.'quaranta';
+
                         break;
                 }
+
                 break;
             case 3:
-                switch ($d){
+                switch ($d) {
                     case 1:
                     case 8:
-                        $ret .= $this->_sep . 'trent' ;
+                        $ret .= $this->_sep.'trent';
+
                         break;
                     default:
-                        $ret .= $this->_sep . 'trenta' ;
+                        $ret .= $this->_sep.'trenta';
+
                         break;
                 }
+
                 break;
             case 2:
-                switch ($d){
+                switch ($d) {
                     case 0:
-                        $ret .= $this->_sep . 'venti';
+                        $ret .= $this->_sep.'venti';
+
                         break;
                     case 1:
                     case 8:
-                        $ret .= $this->_sep . 'vent' . $this->_digits[$d];
+                        $ret .= $this->_sep.'vent'.$this->_digits[$d];
+
                         break;
                     default:
-                        $ret .= $this->_sep . 'venti'  . $this->_digits[$d];
+                        $ret .= $this->_sep.'venti'.$this->_digits[$d];
+
                         break;
                 }
 
-
                 break;
-
             case 1:
                 switch ($d) {
                     case 0:
-                        $ret .= $this->_sep . 'dieci';
-                        break;
+                        $ret .= $this->_sep.'dieci';
 
+                        break;
                     case 1:
-                        $ret .= $this->_sep . 'undici';
-                        break;
+                        $ret .= $this->_sep.'undici';
 
+                        break;
                     case 2:
-                        $ret .= $this->_sep . 'dodici';
-                        break;
+                        $ret .= $this->_sep.'dodici';
 
+                        break;
                     case 3:
-                        $ret .= $this->_sep . 'tredici';
-                        break;
+                        $ret .= $this->_sep.'tredici';
 
+                        break;
                     case 4:
-                        $ret .= $this->_sep . 'quattordici';
-                        break;
+                        $ret .= $this->_sep.'quattordici';
 
+                        break;
                     case 5:
-                        $ret .= $this->_sep . 'quindici';
-                        break;
+                        $ret .= $this->_sep.'quindici';
 
+                        break;
                     case 6:
-                        $ret .= $this->_sep . 'sedici';
-                        break;
+                        $ret .= $this->_sep.'sedici';
 
+                        break;
                     case 7:
-                        $ret .= $this->_sep . 'diciassette';
-                        break;
+                        $ret .= $this->_sep.'diciassette';
 
+                        break;
                     case 8:
-                        $ret .= $this->_sep . 'diciotto';
-                        break;
+                        $ret .= $this->_sep.'diciotto';
 
+                        break;
                     case 9:
-                        $ret .= $this->_sep . 'diciannove';
+                        $ret .= $this->_sep.'diciannove';
+
                         break;
                 }
+
                 break;
         }
 
         // add digits only if it is a multiple of 10 and not 1x or 2x
-        if (($t != 1) and ($t != 2) and ($d > 0)) {
+        if ((1 !== $t) and (2 !== $t) and ($d > 0)) {
             // don't add 'e' for numbers below 10
-            if ($t != 0) {
+            if (0 !== $t) {
                 // use 'un' instead of 'uno' when there is a suffix ('mila', 'milloni', etc...)
-                if (($power > 0) and ($d == 1)) {
+                if (($power > 0) and (1 === $d)) {
                     $ret .= $this->_sep.' e un';
                 } else {
                     $ret .= $this->_sep.''.$this->_digits[$d];
                 }
             } else {
-                if (($power > 0) and ($d == 1)) {
+                if (($power > 0) and (1 === $d)) {
                     $ret .= $this->_sep.'un ';
                 } else {
                     $ret .= $this->_sep.$this->_digits[$d];
@@ -341,13 +376,13 @@ class Words_it extends Words
             }
 
             // if it's only one use the singular suffix
-            if (($d == 1) and ($t == 0) and ($h == 0)) {
+            if ((1 === $d) and (0 === $t) and (0 === $h)) {
                 $suffix = $lev[0];
             } else {
                 $suffix = $lev[1];
             }
-            if ($num != 0) {
-                $ret .= $this->_sep . $suffix;
+            if (0 !== $num) {
+                $ret .= $this->_sep.$suffix;
             }
         }
 

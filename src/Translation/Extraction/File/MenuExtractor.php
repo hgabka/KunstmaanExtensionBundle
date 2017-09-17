@@ -34,7 +34,7 @@ class MenuExtractor extends DefaultPhpFileExtractor
         if (!$node instanceof Node\Expr\MethodCall
             || !is_string($node->name)
             || !in_array(strtolower($node->name), $functions, true)
-            || count($node->args) === 0
+            || 0 === count($node->args)
             || !$node->args[0]->value instanceof String_
         ) {
             $this->previousNode = $node;

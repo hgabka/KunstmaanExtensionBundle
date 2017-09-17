@@ -38,7 +38,7 @@ class SettingsMenuAdaptor implements MenuAdaptorInterface
                 ->setLabel('kuma_admin.settings.cache.menu_label')
                 ->setUniqueId('Cache')
                 ->setParent($parent);
-            if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+            if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                 $menuItem->setActive(true);
                 $parent->setActive(true);
             }

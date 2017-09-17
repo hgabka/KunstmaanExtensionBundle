@@ -1,4 +1,13 @@
 <?php
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Helper\Words;
 
 use Hgabka\KunstmaanExtensionBundle\Helper\Number\Words;
@@ -7,270 +16,270 @@ use Hgabka\KunstmaanExtensionBundle\Helper\Number\Words;
  * Class for translating numbers into American English.
  *
  * @category Numbers
- * @package  Numbers_Words
+ *
  * @author   Piotr Klaban <makler@man.torun.pl>
  * @license  PHP 3.01 http://www.php.net/license/3_01.txt
- * @link     http://pear.php.net/package/Numbers_Words
+ *
+ * @see     http://pear.php.net/package/Numbers_Words
  */
 class Words_en_US extends Words
 {
-
     // {{{ properties
 
     /**
-     * Locale name
+     * Locale name.
+     *
      * @var string
-     * @access public
      */
-    var $locale = 'en_US';
+    public $locale = 'en_US';
 
     /**
-     * Language name in English
+     * Language name in English.
+     *
      * @var string
-     * @access public
      */
-    var $lang = 'American English';
+    public $lang = 'American English';
 
     /**
-     * Native language name
+     * Native language name.
+     *
      * @var string
-     * @access public
      */
-    var $lang_native = 'American English';
+    public $lang_native = 'American English';
 
     /**
-     * The word for the minus sign
+     * The word for the minus sign.
+     *
      * @var string
-     * @access private
      */
-    var $_minus = 'minus'; // minus sign
+    public $_minus = 'minus'; // minus sign
 
     /**
      * The sufixes for exponents (singular and plural)
      * Names partly based on:
      * http://home.earthlink.net/~mrob/pub/math/largenum.html
      * http://mathforum.org/dr.math/faq/faq.large.numbers.html
-     * http://www.mazes.com/AmericanNumberingSystem.html
+     * http://www.mazes.com/AmericanNumberingSystem.html.
+     *
      * @var array
-     * @access private
      */
-    var $_exponent = array(
-        0 => array(''),
-        3 => array('thousand'),
-        6 => array('million'),
-        9 => array('billion'),
-       12 => array('trillion'),
-       15 => array('quadrillion'),
-       18 => array('quintillion'),
-       21 => array('sextillion'),
-       24 => array('septillion'),
-       27 => array('octillion'),
-       30 => array('nonillion'),
-       33 => array('decillion'),
-       36 => array('undecillion'),
-       39 => array('duodecillion'),
-       42 => array('tredecillion'),
-       45 => array('quattuordecillion'),
-       48 => array('quindecillion'),
-       51 => array('sexdecillion'),
-       54 => array('septendecillion'),
-       57 => array('octodecillion'),
-       60 => array('novemdecillion'),
-       63 => array('vigintillion'),
-       66 => array('unvigintillion'),
-       69 => array('duovigintillion'),
-       72 => array('trevigintillion'),
-       75 => array('quattuorvigintillion'),
-       78 => array('quinvigintillion'),
-       81 => array('sexvigintillion'),
-       84 => array('septenvigintillion'),
-       87 => array('octovigintillion'),
-       90 => array('novemvigintillion'),
-       93 => array('trigintillion'),
-       96 => array('untrigintillion'),
-       99 => array('duotrigintillion'),
+    public $_exponent = [
+        0 => [''],
+        3 => ['thousand'],
+        6 => ['million'],
+        9 => ['billion'],
+       12 => ['trillion'],
+       15 => ['quadrillion'],
+       18 => ['quintillion'],
+       21 => ['sextillion'],
+       24 => ['septillion'],
+       27 => ['octillion'],
+       30 => ['nonillion'],
+       33 => ['decillion'],
+       36 => ['undecillion'],
+       39 => ['duodecillion'],
+       42 => ['tredecillion'],
+       45 => ['quattuordecillion'],
+       48 => ['quindecillion'],
+       51 => ['sexdecillion'],
+       54 => ['septendecillion'],
+       57 => ['octodecillion'],
+       60 => ['novemdecillion'],
+       63 => ['vigintillion'],
+       66 => ['unvigintillion'],
+       69 => ['duovigintillion'],
+       72 => ['trevigintillion'],
+       75 => ['quattuorvigintillion'],
+       78 => ['quinvigintillion'],
+       81 => ['sexvigintillion'],
+       84 => ['septenvigintillion'],
+       87 => ['octovigintillion'],
+       90 => ['novemvigintillion'],
+       93 => ['trigintillion'],
+       96 => ['untrigintillion'],
+       99 => ['duotrigintillion'],
        // 100 => array('googol') - not latin name
        // 10^googol = 1 googolplex
-      102 => array('trestrigintillion'),
-      105 => array('quattuortrigintillion'),
-      108 => array('quintrigintillion'),
-      111 => array('sextrigintillion'),
-      114 => array('septentrigintillion'),
-      117 => array('octotrigintillion'),
-      120 => array('novemtrigintillion'),
-      123 => array('quadragintillion'),
-      126 => array('unquadragintillion'),
-      129 => array('duoquadragintillion'),
-      132 => array('trequadragintillion'),
-      135 => array('quattuorquadragintillion'),
-      138 => array('quinquadragintillion'),
-      141 => array('sexquadragintillion'),
-      144 => array('septenquadragintillion'),
-      147 => array('octoquadragintillion'),
-      150 => array('novemquadragintillion'),
-      153 => array('quinquagintillion'),
-      156 => array('unquinquagintillion'),
-      159 => array('duoquinquagintillion'),
-      162 => array('trequinquagintillion'),
-      165 => array('quattuorquinquagintillion'),
-      168 => array('quinquinquagintillion'),
-      171 => array('sexquinquagintillion'),
-      174 => array('septenquinquagintillion'),
-      177 => array('octoquinquagintillion'),
-      180 => array('novemquinquagintillion'),
-      183 => array('sexagintillion'),
-      186 => array('unsexagintillion'),
-      189 => array('duosexagintillion'),
-      192 => array('tresexagintillion'),
-      195 => array('quattuorsexagintillion'),
-      198 => array('quinsexagintillion'),
-      201 => array('sexsexagintillion'),
-      204 => array('septensexagintillion'),
-      207 => array('octosexagintillion'),
-      210 => array('novemsexagintillion'),
-      213 => array('septuagintillion'),
-      216 => array('unseptuagintillion'),
-      219 => array('duoseptuagintillion'),
-      222 => array('treseptuagintillion'),
-      225 => array('quattuorseptuagintillion'),
-      228 => array('quinseptuagintillion'),
-      231 => array('sexseptuagintillion'),
-      234 => array('septenseptuagintillion'),
-      237 => array('octoseptuagintillion'),
-      240 => array('novemseptuagintillion'),
-      243 => array('octogintillion'),
-      246 => array('unoctogintillion'),
-      249 => array('duooctogintillion'),
-      252 => array('treoctogintillion'),
-      255 => array('quattuoroctogintillion'),
-      258 => array('quinoctogintillion'),
-      261 => array('sexoctogintillion'),
-      264 => array('septoctogintillion'),
-      267 => array('octooctogintillion'),
-      270 => array('novemoctogintillion'),
-      273 => array('nonagintillion'),
-      276 => array('unnonagintillion'),
-      279 => array('duononagintillion'),
-      282 => array('trenonagintillion'),
-      285 => array('quattuornonagintillion'),
-      288 => array('quinnonagintillion'),
-      291 => array('sexnonagintillion'),
-      294 => array('septennonagintillion'),
-      297 => array('octononagintillion'),
-      300 => array('novemnonagintillion'),
-      303 => array('centillion'),
-      309 => array('duocentillion'),
-      312 => array('trecentillion'),
-      366 => array('primo-vigesimo-centillion'),
-      402 => array('trestrigintacentillion'),
-      603 => array('ducentillion'),
-      624 => array('septenducentillion'),
+      102 => ['trestrigintillion'],
+      105 => ['quattuortrigintillion'],
+      108 => ['quintrigintillion'],
+      111 => ['sextrigintillion'],
+      114 => ['septentrigintillion'],
+      117 => ['octotrigintillion'],
+      120 => ['novemtrigintillion'],
+      123 => ['quadragintillion'],
+      126 => ['unquadragintillion'],
+      129 => ['duoquadragintillion'],
+      132 => ['trequadragintillion'],
+      135 => ['quattuorquadragintillion'],
+      138 => ['quinquadragintillion'],
+      141 => ['sexquadragintillion'],
+      144 => ['septenquadragintillion'],
+      147 => ['octoquadragintillion'],
+      150 => ['novemquadragintillion'],
+      153 => ['quinquagintillion'],
+      156 => ['unquinquagintillion'],
+      159 => ['duoquinquagintillion'],
+      162 => ['trequinquagintillion'],
+      165 => ['quattuorquinquagintillion'],
+      168 => ['quinquinquagintillion'],
+      171 => ['sexquinquagintillion'],
+      174 => ['septenquinquagintillion'],
+      177 => ['octoquinquagintillion'],
+      180 => ['novemquinquagintillion'],
+      183 => ['sexagintillion'],
+      186 => ['unsexagintillion'],
+      189 => ['duosexagintillion'],
+      192 => ['tresexagintillion'],
+      195 => ['quattuorsexagintillion'],
+      198 => ['quinsexagintillion'],
+      201 => ['sexsexagintillion'],
+      204 => ['septensexagintillion'],
+      207 => ['octosexagintillion'],
+      210 => ['novemsexagintillion'],
+      213 => ['septuagintillion'],
+      216 => ['unseptuagintillion'],
+      219 => ['duoseptuagintillion'],
+      222 => ['treseptuagintillion'],
+      225 => ['quattuorseptuagintillion'],
+      228 => ['quinseptuagintillion'],
+      231 => ['sexseptuagintillion'],
+      234 => ['septenseptuagintillion'],
+      237 => ['octoseptuagintillion'],
+      240 => ['novemseptuagintillion'],
+      243 => ['octogintillion'],
+      246 => ['unoctogintillion'],
+      249 => ['duooctogintillion'],
+      252 => ['treoctogintillion'],
+      255 => ['quattuoroctogintillion'],
+      258 => ['quinoctogintillion'],
+      261 => ['sexoctogintillion'],
+      264 => ['septoctogintillion'],
+      267 => ['octooctogintillion'],
+      270 => ['novemoctogintillion'],
+      273 => ['nonagintillion'],
+      276 => ['unnonagintillion'],
+      279 => ['duononagintillion'],
+      282 => ['trenonagintillion'],
+      285 => ['quattuornonagintillion'],
+      288 => ['quinnonagintillion'],
+      291 => ['sexnonagintillion'],
+      294 => ['septennonagintillion'],
+      297 => ['octononagintillion'],
+      300 => ['novemnonagintillion'],
+      303 => ['centillion'],
+      309 => ['duocentillion'],
+      312 => ['trecentillion'],
+      366 => ['primo-vigesimo-centillion'],
+      402 => ['trestrigintacentillion'],
+      603 => ['ducentillion'],
+      624 => ['septenducentillion'],
      // bug on a earthlink page: 903 => array('trecentillion'),
-     2421 => array('sexoctingentillion'),
-     3003 => array('millillion'),
-     3000003 => array('milli-millillion')
-        );
+     2421 => ['sexoctingentillion'],
+     3003 => ['millillion'],
+     3000003 => ['milli-millillion'],
+        ];
 
     /**
      * The array containing the digits (indexed by the digits themselves).
+     *
      * @var array
-     * @access private
      */
-    var $_digits = array(
+    public $_digits = [
         0 => 'zero', 'one', 'two', 'three', 'four',
-        'five', 'six', 'seven', 'eight', 'nine'
-    );
+        'five', 'six', 'seven', 'eight', 'nine',
+    ];
 
     /**
-     * The word separator
+     * The word separator.
+     *
      * @var string
-     * @access private
      */
-    var $_sep = ' ';
+    public $_sep = ' ';
 
     /**
      * The currency names (based on the below links,
-     * informations from central bank websites and on encyclopedias)
+     * informations from central bank websites and on encyclopedias).
      *
      * @var array
-     * @link http://30-03-67.dreamstation.com/currency_alfa.htm World Currency Information
-     * @link http://www.jhall.demon.co.uk/currency/by_abbrev.html World currencies
-     * @link http://www.shoestring.co.kr/world/p.visa/change.htm Currency names in English
-     * @access private
+     *
+     * @see http://30-03-67.dreamstation.com/currency_alfa.htm World Currency Information
+     * @see http://www.jhall.demon.co.uk/currency/by_abbrev.html World currencies
+     * @see http://www.shoestring.co.kr/world/p.visa/change.htm Currency names in English
      */
-    var $_currency_names = array(
-      'ALL' => array(array('lek'), array('qindarka')),
-      'AUD' => array(array('Australian dollar'), array('cent')),
-      'BAM' => array(array('convertible marka'), array('fenig')),
-      'BGN' => array(array('lev'), array('stotinka')),
-      'BRL' => array(array('real'), array('centavos')),
-      'BYR' => array(array('Belarussian rouble'), array('kopiejka')),
-      'CAD' => array(array('Canadian dollar'), array('cent')),
-      'CHF' => array(array('Swiss franc'), array('rapp')),
-      'CYP' => array(array('Cypriot pound'), array('cent')),
-      'CZK' => array(array('Czech koruna'), array('halerz')),
-      'DKK' => array(array('Danish krone'), array('ore')),
-      'EEK' => array(array('kroon'), array('senti')),
-      'EUR' => array(array('euro'), array('euro-cent')),
-      'GBP' => array(array('pound', 'pounds'), array('pence', 'pence')),
-      'HKD' => array(array('Hong Kong dollar'), array('cent')),
-      'HRK' => array(array('Croatian kuna'), array('lipa')),
-      'HUF' => array(array('forint'), array('filler')),
-      'ILS' => array(array('new sheqel','new sheqels'), array('agora','agorot')),
-      'ISK' => array(array('Icelandic króna'), array('aurar')),
-      'JPY' => array(array('yen'), array('sen')),
-      'LTL' => array(array('litas'), array('cent')),
-      'LVL' => array(array('lat'), array('sentim')),
-      'MKD' => array(array('Macedonian dinar'), array('deni')),
-      'MTL' => array(array('Maltese lira'), array('centym')),
-      'NOK' => array(array('Norwegian krone'), array('oere')),
-      'PLN' => array(array('zloty', 'zlotys'), array('grosz')),
-      'ROL' => array(array('Romanian leu'), array('bani')),
-      'RUB' => array(array('Russian Federation rouble'), array('kopiejka')),
-      'SEK' => array(array('Swedish krona'), array('oere')),
-      'SIT' => array(array('Tolar'), array('stotinia')),
-      'SKK' => array(array('Slovak koruna'), array()),
-      'TRL' => array(array('lira'), array('kuruţ')),
-      'UAH' => array(array('hryvna'), array('cent')),
-      'USD' => array(array('dollar'), array('cent')),
-      'YUM' => array(array('dinars'), array('para')),
-      'ZAR' => array(array('rand'), array('cent'))
-    );
+    public $_currency_names = [
+      'ALL' => [['lek'], ['qindarka']],
+      'AUD' => [['Australian dollar'], ['cent']],
+      'BAM' => [['convertible marka'], ['fenig']],
+      'BGN' => [['lev'], ['stotinka']],
+      'BRL' => [['real'], ['centavos']],
+      'BYR' => [['Belarussian rouble'], ['kopiejka']],
+      'CAD' => [['Canadian dollar'], ['cent']],
+      'CHF' => [['Swiss franc'], ['rapp']],
+      'CYP' => [['Cypriot pound'], ['cent']],
+      'CZK' => [['Czech koruna'], ['halerz']],
+      'DKK' => [['Danish krone'], ['ore']],
+      'EEK' => [['kroon'], ['senti']],
+      'EUR' => [['euro'], ['euro-cent']],
+      'GBP' => [['pound', 'pounds'], ['pence', 'pence']],
+      'HKD' => [['Hong Kong dollar'], ['cent']],
+      'HRK' => [['Croatian kuna'], ['lipa']],
+      'HUF' => [['forint'], ['filler']],
+      'ILS' => [['new sheqel', 'new sheqels'], ['agora', 'agorot']],
+      'ISK' => [['Icelandic króna'], ['aurar']],
+      'JPY' => [['yen'], ['sen']],
+      'LTL' => [['litas'], ['cent']],
+      'LVL' => [['lat'], ['sentim']],
+      'MKD' => [['Macedonian dinar'], ['deni']],
+      'MTL' => [['Maltese lira'], ['centym']],
+      'NOK' => [['Norwegian krone'], ['oere']],
+      'PLN' => [['zloty', 'zlotys'], ['grosz']],
+      'ROL' => [['Romanian leu'], ['bani']],
+      'RUB' => [['Russian Federation rouble'], ['kopiejka']],
+      'SEK' => [['Swedish krona'], ['oere']],
+      'SIT' => [['Tolar'], ['stotinia']],
+      'SKK' => [['Slovak koruna'], []],
+      'TRL' => [['lira'], ['kuruţ']],
+      'UAH' => [['hryvna'], ['cent']],
+      'USD' => [['dollar'], ['cent']],
+      'YUM' => [['dinars'], ['para']],
+      'ZAR' => [['rand'], ['cent']],
+    ];
 
     /**
-     * The default currency name
+     * The default currency name.
+     *
      * @var string
-     * @access public
      */
-    var $def_currency = 'USD'; // American dollar
+    public $def_currency = 'USD'; // American dollar
 
     // }}}
     // {{{ _toWords()
 
     /**
      * Converts a number to its word representation
-     * in American English language
+     * in American English language.
      *
-     * @param integer $num       An integer between -infinity and infinity inclusive :)
-     *                           that need to be converted to words
-     * @param integer $power     The power of ten for the rest of the number to the right.
-     *                           Optional, defaults to 0.
-     * @param integer $powsuffix The power name to be added to the end of the return string.
-     *                            Used internally. Optional, defaults to ''.
+     * @param int $num       An integer between -infinity and infinity inclusive :)
+     *                       that need to be converted to words
+     * @param int $power     The power of ten for the rest of the number to the right.
+     *                       Optional, defaults to 0.
+     * @param int $powsuffix The power name to be added to the end of the return string.
+     *                       Used internally. Optional, defaults to ''.
      *
-     * @return string  The corresponding word representation
+     * @return string The corresponding word representation
      *
-     * @access protected
      * @author Piotr Klaban <makler@man.torun.pl>
+     *
      * @since  Numbers_Words 0.16.3
      */
-    function _toWords($num, $power = 0, $powsuffix = '')
+    public function _toWords($num, $power = 0, $powsuffix = '')
     {
         $ret = '';
 
         // add a minus sign
-        if (substr($num, 0, 1) == '-') {
-            $ret = $this->_sep . $this->_minus;
+        if ('-' === substr($num, 0, 1)) {
+            $ret = $this->_sep.$this->_minus;
             $num = substr($num, 1);
         }
 
@@ -279,55 +288,57 @@ class Words_en_US extends Words
         $num = preg_replace('/^0+/', '', $num);
 
         if (strlen($num) > 3) {
-            $maxp = strlen($num)-1;
+            $maxp = strlen($num) - 1;
             $curp = $maxp;
             for ($p = $maxp; $p > 0; --$p) { // power
-
                 // check for highest power
                 if (isset($this->_exponent[$p])) {
                     // send substr from $curp to $p
                     $snum = substr($num, $maxp - $curp, $curp - $p + 1);
                     $snum = preg_replace('/^0+/', '', $snum);
-                    if ($snum !== '') {
-                        $cursuffix = $this->_exponent[$power][count($this->_exponent[$power])-1];
-                        if ($powsuffix != '') {
-                            $cursuffix .= $this->_sep . $powsuffix;
+                    if ('' !== $snum) {
+                        $cursuffix = $this->_exponent[$power][count($this->_exponent[$power]) - 1];
+                        if ('' !== $powsuffix) {
+                            $cursuffix .= $this->_sep.$powsuffix;
                         }
 
                         $ret .= $this->_toWords($snum, $p, $cursuffix);
                     }
                     $curp = $p - 1;
+
                     continue;
                 }
             }
             $num = substr($num, $maxp - $curp, $curp - $p + 1);
-            if ($num == 0) {
+            if (0 === $num) {
                 return $ret;
             }
-        } elseif ($num == 0 || $num == '') {
-            return $this->_sep . $this->_digits[0];
+        } elseif (0 === $num || '' === $num) {
+            return $this->_sep.$this->_digits[0];
         }
 
         $h = $t = $d = 0;
 
-        switch(strlen($num)) {
+        switch (strlen($num)) {
         case 3:
-            $h = (int)substr($num, -3, 1);
+            $h = (int) substr($num, -3, 1);
 
+            // no break
         case 2:
-            $t = (int)substr($num, -2, 1);
+            $t = (int) substr($num, -2, 1);
 
+            // no break
         case 1:
-            $d = (int)substr($num, -1, 1);
-            break;
+            $d = (int) substr($num, -1, 1);
 
+            break;
         case 0:
             return;
             break;
         }
 
         if ($h) {
-            $ret .= $this->_sep . $this->_digits[$h] . $this->_sep . 'hundred';
+            $ret .= $this->_sep.$this->_digits[$h].$this->_sep.'hundred';
 
             // in English only - add ' and' for [1-9]01..[1-9]99
             // (also for 1001..1099, 10001..10099 but it is harder)
@@ -342,71 +353,73 @@ class Words_en_US extends Words
         case 9:
         case 7:
         case 6:
-            $ret .= $this->_sep . $this->_digits[$t] . 'ty';
-            break;
+            $ret .= $this->_sep.$this->_digits[$t].'ty';
 
+            break;
         case 8:
-            $ret .= $this->_sep . 'eighty';
-            break;
+            $ret .= $this->_sep.'eighty';
 
+            break;
         case 5:
-            $ret .= $this->_sep . 'fifty';
-            break;
+            $ret .= $this->_sep.'fifty';
 
+            break;
         case 4:
-            $ret .= $this->_sep . 'forty';
-            break;
+            $ret .= $this->_sep.'forty';
 
+            break;
         case 3:
-            $ret .= $this->_sep . 'thirty';
-            break;
+            $ret .= $this->_sep.'thirty';
 
+            break;
         case 2:
-            $ret .= $this->_sep . 'twenty';
-            break;
+            $ret .= $this->_sep.'twenty';
 
+            break;
         case 1:
             switch ($d) {
             case 0:
-                $ret .= $this->_sep . 'ten';
-                break;
+                $ret .= $this->_sep.'ten';
 
+                break;
             case 1:
-                $ret .= $this->_sep . 'eleven';
-                break;
+                $ret .= $this->_sep.'eleven';
 
+                break;
             case 2:
-                $ret .= $this->_sep . 'twelve';
-                break;
+                $ret .= $this->_sep.'twelve';
 
+                break;
             case 3:
-                $ret .= $this->_sep . 'thirteen';
-                break;
+                $ret .= $this->_sep.'thirteen';
 
+                break;
             case 4:
             case 6:
             case 7:
             case 9:
-                $ret .= $this->_sep . $this->_digits[$d] . 'teen';
-                break;
+                $ret .= $this->_sep.$this->_digits[$d].'teen';
 
+                break;
             case 5:
-                $ret .= $this->_sep . 'fifteen';
-                break;
+                $ret .= $this->_sep.'fifteen';
 
+                break;
             case 8:
-                $ret .= $this->_sep . 'eighteen';
+                $ret .= $this->_sep.'eighteen';
+
                 break;
             }
+
             break;
         }
 
-        if ($t != 1 && $d > 0) { // add digits only in <0>,<1,9> and <21,inf>
+        if (1 !== $t && $d > 0) { // add digits only in <0>,<1,9> and <21,inf>
             // add minus sign between [2-9] and digit
             if ($t > 1) {
-                $ret .= '-' . $this->_digits[$d];
+                $ret .= '-'.$this->_digits[$d];
             } else {
-                $ret .= $this->_sep . $this->_digits[$d];
+                $ret .= $this->_sep.$this->_digits[$d];
             }
         }
 
@@ -419,37 +432,38 @@ class Words_en_US extends Words
                 return null;
             }
 
-            $ret .= $this->_sep . $lev[0];
+            $ret .= $this->_sep.$lev[0];
         }
 
-        if ($powsuffix != '') {
-            $ret .= $this->_sep . $powsuffix;
+        if ('' !== $powsuffix) {
+            $ret .= $this->_sep.$powsuffix;
         }
 
         return $ret;
     }
+
     // }}}
     // {{{ toCurrencyWords()
 
     /**
      * Converts a currency value to its word representation
-     * (with monetary units) in English language
+     * (with monetary units) in English language.
      *
-     * @param integer $int_curr         An international currency symbol
-     *                                  as defined by the ISO 4217 standard (three characters)
-     * @param integer $decimal          A money total amount without fraction part (e.g. amount of dollars)
-     * @param integer $fraction         Fractional part of the money amount (e.g. amount of cents)
-     *                                  Optional. Defaults to false.
-     * @param integer $convert_fraction Convert fraction to words (left as numeric if set to false).
-     *                                  Optional. Defaults to true.
+     * @param int $int_curr         An international currency symbol
+     *                              as defined by the ISO 4217 standard (three characters)
+     * @param int $decimal          A money total amount without fraction part (e.g. amount of dollars)
+     * @param int $fraction         Fractional part of the money amount (e.g. amount of cents)
+     *                              Optional. Defaults to false.
+     * @param int $convert_fraction Convert fraction to words (left as numeric if set to false).
+     *                              Optional. Defaults to true.
      *
-     * @return string  The corresponding word representation for the currency
+     * @return string The corresponding word representation for the currency
      *
-     * @access public
      * @author Piotr Klaban <makler@man.torun.pl>
+     *
      * @since  Numbers_Words 0.4
      */
-    function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true)
+    public function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true)
     {
         $int_curr = strtoupper($int_curr);
         if (!isset($this->_currency_names[$int_curr])) {
@@ -458,36 +472,37 @@ class Words_en_US extends Words
         $curr_names = $this->_currency_names[$int_curr];
 
         $ret = trim($this->_toWords($decimal));
-        $lev = ($decimal == 1) ? 0 : 1;
+        $lev = (1 === $decimal) ? 0 : 1;
         if ($lev > 0) {
             if (count($curr_names[0]) > 1) {
-                $ret .= $this->_sep . $curr_names[0][$lev];
+                $ret .= $this->_sep.$curr_names[0][$lev];
             } else {
-                $ret .= $this->_sep . $curr_names[0][0] . 's';
+                $ret .= $this->_sep.$curr_names[0][0].'s';
             }
         } else {
-            $ret .= $this->_sep . $curr_names[0][0];
+            $ret .= $this->_sep.$curr_names[0][0];
         }
 
-        if ($fraction !== false) {
+        if (false !== $fraction) {
             if ($convert_fraction) {
-                $ret .= $this->_sep . trim($this->_toWords($fraction));
+                $ret .= $this->_sep.trim($this->_toWords($fraction));
             } else {
-                $ret .= $this->_sep . $fraction;
+                $ret .= $this->_sep.$fraction;
             }
-            $lev = ($fraction == 1) ? 0 : 1;
+            $lev = (1 === $fraction) ? 0 : 1;
             if ($lev > 0) {
                 if (count($curr_names[1]) > 1) {
-                    $ret .= $this->_sep . $curr_names[1][$lev];
+                    $ret .= $this->_sep.$curr_names[1][$lev];
                 } else {
-                    $ret .= $this->_sep . $curr_names[1][0] . 's';
+                    $ret .= $this->_sep.$curr_names[1][0].'s';
                 }
             } else {
-                $ret .= $this->_sep . $curr_names[1][0];
+                $ret .= $this->_sep.$curr_names[1][0];
             }
         }
+
         return $ret;
     }
-    // }}}
 
+    // }}}
 }

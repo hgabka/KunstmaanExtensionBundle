@@ -180,7 +180,7 @@ class InsertPagePagePartAdminType extends \Symfony\Component\Form\AbstractType
                 foreach ($pagePartConfigs as $config) {
                     if ($config->getContext() === $currentContext) {
                         foreach ($config->getPossiblePagePartTypes() as $pagePartType) {
-                            if ($pagePartType['class'] === InsertPagePagePart::class) {
+                            if (InsertPagePagePart::class === $pagePartType['class']) {
                                 throw new \LogicException(
                                   sprintf(
                                     'The %s page must not allow %s as possible page part, because it implements %s! You must modify the "%s" context.',

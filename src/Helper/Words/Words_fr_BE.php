@@ -1,4 +1,13 @@
 <?php
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Helper\Words;
 
 use Hgabka\KunstmaanExtensionBundle\Helper\Number\Words;
@@ -7,121 +16,121 @@ use Hgabka\KunstmaanExtensionBundle\Helper\Number\Words;
  * Class for translating numbers into French (Belgium).
  *
  * @category Numbers
- * @package  Numbers_Words
+ *
  * @author   Kouber Saparev <kouber@php.net>
  * @author   Philippe Bajoit <phil@lebutch.org
  * @license  PHP 3.01 http://www.php.net/license/3_01.txt
- * @link     http://pear.php.net/package/Numbers_Words
+ *
+ * @see     http://pear.php.net/package/Numbers_Words
  */
 class Words_fr_BE extends Words
 {
     /**
      * Locale name.
+     *
      * @var string
-     * @access public
      */
-    var $locale = 'fr';
+    public $locale = 'fr';
 
     /**
      * Language name in English.
+     *
      * @var string
-     * @access public
      */
-    var $lang = 'French';
+    public $lang = 'French';
 
     /**
      * Native language name.
+     *
      * @var string
-     * @access public
      */
-    var $lang_native = 'Français';
+    public $lang_native = 'Français';
 
     /**
      * The words for some numbers.
+     *
      * @var string
-     * @access private
      */
-    var $_misc_numbers = array(
-        10=>'dix',      // 10
+    public $_misc_numbers = [
+        10 => 'dix',      // 10
         'onze',     // 11
         'douze',    // 12
         'treize',   // 13
         'quatorze', // 14
         'quinze',   // 15
         'seize',    // 16
-        20=>'vingt',    // 20
-        30=>'trente',   // 30
-        40=>'quarante', // 40
-        50=>'cinquante',// 50
-        60=>'soixante', // 60
-        70=>'septante', // 70
-        90=>'nonante',  // 90
-        100=>'cent'      // 100
-    );
-
+        20 => 'vingt',    // 20
+        30 => 'trente',   // 30
+        40 => 'quarante', // 40
+        50 => 'cinquante', // 50
+        60 => 'soixante', // 60
+        70 => 'septante', // 70
+        90 => 'nonante',  // 90
+        100 => 'cent',      // 100
+    ];
 
     /**
      * The words for digits (except zero).
+     *
      * @var string
-     * @access private
      */
-    var $_digits = array(1=>"un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf");
+    public $_digits = [1 => 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
 
     /**
      * The word for zero.
+     *
      * @var string
-     * @access private
      */
-    var $_zero = 'zéro';
+    public $_zero = 'zéro';
 
     /**
      * The word for infinity.
+     *
      * @var string
-     * @access private
      */
-    var $_infinity = 'infini';
+    public $_infinity = 'infini';
 
     /**
      * The word for the "and" language construct.
+     *
      * @var string
-     * @access private
      */
-    var $_and = 'et';
+    public $_and = 'et';
 
     /**
      * The word separator.
+     *
      * @var string
-     * @access private
      */
-    var $_sep = ' ';
+    public $_sep = ' ';
 
     /**
      * The dash liaison.
+     *
      * @var string
-     * @access private
      */
-    var $_dash = '-';
+    public $_dash = '-';
 
     /**
      * The word for the minus sign.
+     *
      * @var string
-     * @access private
      */
-    var $_minus = 'moins'; // minus sign
+    public $_minus = 'moins'; // minus sign
 
     /**
      * The plural suffix (except for hundred).
+     *
      * @var string
-     * @access private
      */
-    var $_plural = 's'; // plural suffix
+    public $_plural = 's'; // plural suffix
 
     /**
      * The suffixes for exponents (singular).
+     *
      * @var array
-     * @access private
      */
-    var $_exponent = array(
+    public $_exponent = [
         0 => '',
         3 => 'mille',
         6 => 'million',
@@ -223,8 +232,8 @@ class Words_fr_BE extends Words
         294 => 'septennonagintillion',
         297 => 'octononagintillion',
         300 => 'novemnonagintillion',
-        303 => 'centillion'
-    );
+        303 => 'centillion',
+    ];
     // }}}
 
     // {{{ _splitNumber()
@@ -235,20 +244,21 @@ class Words_fr_BE extends Words
      * @param mixed $num An integer or its string representation
      *                   that need to be split
      *
-     * @return array  Groups of three-digit numbers.
-     * @access private
+     * @return array groups of three-digit numbers
+     *
      * @author Kouber Saparev <kouber@php.net>
+     *
      * @since  PHP 4.2.3
      */
-    function _splitNumber($num)
+    public function _splitNumber($num)
     {
         if (is_string($num)) {
-            $ret    = array();
+            $ret = [];
             $strlen = strlen($num);
-            $first  = substr($num, 0, $strlen%3);
+            $first = substr($num, 0, $strlen % 3);
 
-            preg_match_all('/\d{3}/', substr($num, $strlen%3, $strlen), $m);
-            $ret =& $m[0];
+            preg_match_all('/\d{3}/', substr($num, $strlen % 3, $strlen), $m);
+            $ret = &$m[0];
 
             if ($first) {
                 array_unshift($ret, $first);
@@ -256,6 +266,7 @@ class Words_fr_BE extends Words
 
             return $ret;
         }
+
         return explode(' ', number_format($num, 0, '', ' ')); // a faster version for integers
     }
 
@@ -263,27 +274,27 @@ class Words_fr_BE extends Words
      * Converts a three-digit number to its word representation
      * in French language.
      *
-     * @param integer $num  An integer between 1 and 999 inclusive.
-     * @param boolean $last A flag, that determines if it is the last group of digits -
-     *                      this is used to accord the plural suffix of the "hundreds".
-     *                      Example: 200 = "deux cents", but 200000 = "deux cent mille".
+     * @param int  $num  an integer between 1 and 999 inclusive
+     * @param bool $last A flag, that determines if it is the last group of digits -
+     *                   this is used to accord the plural suffix of the "hundreds".
+     *                   Example: 200 = "deux cents", but 200000 = "deux cent mille".
      *
-     * @return string   The words for the given number.
-     * @access private
+     * @return string the words for the given number
+     *
      * @author Kouber Saparev <kouber@php.net>
      */
-    function _showDigitsGroup($num, $last = false)
+    public function _showDigitsGroup($num, $last = false)
     {
         $ret = '';
 
         // extract the value of each digit from the three-digit number
-        $e = $num%10;                  // ones
-        $d = ($num-$e)%100/10;         // tens
-        $s = ($num-$d*10-$e)%1000/100; // hundreds
+        $e = $num % 10;                  // ones
+        $d = ($num - $e) % 100 / 10;         // tens
+        $s = ($num - $d * 10 - $e) % 1000 / 100; // hundreds
 
         // process the "hundreds" digit.
         if ($s) {
-            if ($s>1) {
+            if ($s > 1) {
                 $ret .= $this->_digits[$s].$this->_sep.$this->_misc_numbers[100];
                 if ($last && !$e && !$d) {
                     $ret .= $this->_plural;
@@ -297,16 +308,16 @@ class Words_fr_BE extends Words
         // process the "tens" digit, and optionally the "ones" digit.
         if ($d) {
             // in the case of 1, the "ones" digit also must be processed
-            if ($d==1) {
-                if ($e<=6) {
-                    $ret .= $this->_misc_numbers[10+$e];
+            if (1 === $d) {
+                if ($e <= 6) {
+                    $ret .= $this->_misc_numbers[10 + $e];
                 } else {
                     $ret .= $this->_misc_numbers[10].'-'.$this->_digits[$e];
                 }
                 $e = 0;
-            } elseif ($d==8) {
+            } elseif (8 === $d) {
                 $ret .= $this->_digits[4].$this->_dash.$this->_misc_numbers[20];
-                $resto = $d*10+$e-80;
+                $resto = $d * 10 + $e - 80;
                 if ($resto) {
                     $ret .= $this->_dash;
                     $ret .= $this->_showDigitsGroup($resto);
@@ -315,14 +326,14 @@ class Words_fr_BE extends Words
                     $ret .= $this->_plural;
                 }
             } else {
-                $ret .= $this->_misc_numbers[$d*10];
+                $ret .= $this->_misc_numbers[$d * 10];
             }
         }
 
         // process the "ones" digit
         if ($e) {
             if ($d) {
-                if ($e==1) {
+                if (1 === $e) {
                     $ret .= $this->_sep.$this->_and.$this->_sep;
                 } else {
                     $ret .= $this->_dash;
@@ -341,15 +352,16 @@ class Words_fr_BE extends Words
      * Converts a number to its word representation
      * in French language.
      *
-     * @param integer $num An integer (or its string representation) between 9.99*-10^302
-     *                        and 9.99*10^302 (999 centillions) that need to be converted to words
+     * @param int $num An integer (or its string representation) between 9.99*-10^302
+     *                 and 9.99*10^302 (999 centillions) that need to be converted to words
      *
-     * @return string  The corresponding word representation
-     * @access protected
+     * @return string The corresponding word representation
+     *
      * @author Kouber Saparev <kouber@php.net>
+     *
      * @since  Numbers_Words 0.16.3
      */
-    function _toWords($num = 0)
+    public function _toWords($num = 0)
     {
         $ret = '';
 
@@ -359,14 +371,14 @@ class Words_fr_BE extends Words
         }
 
         // add a minus sign
-        if (substr($num, 0, 1) == '-') {
-            $ret = $this->_minus . $this->_sep;
+        if ('-' === substr($num, 0, 1)) {
+            $ret = $this->_minus.$this->_sep;
             $num = substr($num, 1);
         }
 
         // if the absolute value is greater than 9.99*10^302, return infinity
-        if (strlen($num)>306) {
-            return $ret . $this->_infinity;
+        if (strlen($num) > 306) {
+            return $ret.$this->_infinity;
         }
 
         // strip excessive zero signs
@@ -377,17 +389,17 @@ class Words_fr_BE extends Words
 
         $sizeof_numgroups = count($num_groups);
 
-        foreach ($num_groups as $i=>$number) {
+        foreach ($num_groups as $i => $number) {
             // what is the corresponding exponent for the current group
-            $pow = $sizeof_numgroups-$i;
+            $pow = $sizeof_numgroups - $i;
 
             // skip processment for empty groups
-            if ($number!='000') {
-                if ($number!=1 || $pow!=2) {
-                    $ret .= $this->_showDigitsGroup($number, $i+1==$sizeof_numgroups).$this->_sep;
+            if ('000' !== $number) {
+                if (1 !== $number || 2 !== $pow) {
+                    $ret .= $this->_showDigitsGroup($number, $i + 1 === $sizeof_numgroups).$this->_sep;
                 }
-                $ret .= $this->_exponent[($pow-1)*3];
-                if ($pow>2 && $number>1) {
+                $ret .= $this->_exponent[($pow - 1) * 3];
+                if ($pow > 2 && $number > 1) {
                     $ret .= $this->_plural;
                 }
                 $ret .= $this->_sep;

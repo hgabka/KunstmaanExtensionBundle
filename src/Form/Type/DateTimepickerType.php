@@ -23,7 +23,7 @@ class DateTimepickerType extends DatepickerType
     {
         $builder->addModelTransformer(new CallbackTransformer(
             function ($transform) {
-                if ($transform !== null) {
+                if (null !== $transform) {
                     /** @var $transform \DateTime */
                     $transform = $transform->format('Y-m-d H:i:s');
                 }
@@ -31,7 +31,7 @@ class DateTimepickerType extends DatepickerType
                 return $transform;
             },
             function ($reverse) {
-                if ($reverse !== null) {
+                if (null !== $reverse) {
                     $reverse = new \DateTime($reverse);
                 }
 

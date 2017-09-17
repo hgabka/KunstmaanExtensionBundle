@@ -12,11 +12,11 @@ kuma_admin:
 
 wt_kuma_extension:
     locales:
-        hu: magyar
-        en: angol
-        de: német
-        es: spanyol
-        fr: francia
+        hu: Hungarian
+        en: English
+        de: German
+        es: Spanish
+        fr: French
     slider:
         link:
             more:       More

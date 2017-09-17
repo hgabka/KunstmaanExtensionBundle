@@ -130,7 +130,7 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
          */
         if ($node instanceof Node\Stmt\ClassMethod
             && is_string($node->name)
-            && $node->name === 'getPossibleChildTypes'
+            && 'getPossibleChildTypes' === $node->name
             // Interface esetén ez üres.
             && $node->getStmts()
         ) {
@@ -144,7 +144,7 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
                             /** @var Node\Expr\ArrayItem $subArrayItem */
                             foreach ($arrayItem->value->items as $subArrayItem) {
                                 if ($subArrayItem->key instanceof Node\Scalar\String_
-                                    && $subArrayItem->key->value === 'name'
+                                    && 'name' === $subArrayItem->key->value
                                     && $subArrayItem->value instanceof Node\Scalar\String_
                                 ) {
                                     $id = $subArrayItem->value->value;
@@ -175,7 +175,7 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
          */
         if ($node instanceof Node\Stmt\ClassMethod
             && is_string($node->name)
-            && $node->name === 'getSearchType'
+            && 'getSearchType' === $node->name
             // Interface esetén ez üres.
             && $node->getStmts()
         ) {
@@ -203,11 +203,11 @@ class KunstmaanExtractor extends DefaultPhpFileExtractor
      */
     public function visitFile(\SplFileInfo $file, MessageCatalogue $catalogue)
     {
-        if ($file->getExtension() !== 'yml') {
+        if ('yml' !== $file->getExtension()) {
             return;
         }
         $path = strtr($file->getRealPath(), DIRECTORY_SEPARATOR, '/');
-        if (strpos($path, 'Resources/config/pageparts') === false) {
+        if (false === strpos($path, 'Resources/config/pageparts')) {
             return;
         }
         $parser = $this->getYmlParser();

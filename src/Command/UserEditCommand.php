@@ -280,7 +280,7 @@ EOL;
         $newProps->setEmail($this->ask(new Question('E-mail address', $user->getEmail())));
         $password = $this->ask(new Question('Password', '***'));
         // replace default *** value if empty is given
-        $newProps->setPassword($password !== '***' ? $password : '');
+        $newProps->setPassword('***' !== $password ? $password : '');
 
         return $newProps;
     }

@@ -31,7 +31,7 @@ class DatepickerType extends AbstractType
     {
         $builder->addModelTransformer(new CallbackTransformer(
             function ($transform) {
-                if ($transform !== null) {
+                if (null !== $transform) {
                     /** @var $transform \DateTime */
                     $transform = $transform->format('Y-m-d');
                 }
@@ -39,7 +39,7 @@ class DatepickerType extends AbstractType
                 return $transform;
             },
             function ($reverse) {
-                if ($reverse !== null) {
+                if (null !== $reverse) {
                     $reverse = new \DateTime($reverse);
                 }
 

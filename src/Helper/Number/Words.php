@@ -1,32 +1,38 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanExtensionBundle\Helper\Number;
 
 use Hgabka\KunstmaanExtensionBundle\Helper\Math\BigInteger;
 
 class Words
 {
-
     /**
-     * Default Locale name
+     * Default Locale name.
+     *
      * @var string
-     * @access public
      */
     protected $locale = 'en_US';
 
-
     /**
-     * Converts a number to its word representation
+     * Converts a number to its word representation.
      *
-     * @param integer $num     An integer between -infinity and infinity inclusive :)
-     *                         that should be converted to a words representation
-     * @param string  $locale  Language name abbreviation. Optional. Defaults to
-     *                         current loaded driver or en_US if any.
-     * @param array   $options Specific driver options
+     * @param int    $num     An integer between -infinity and infinity inclusive :)
+     *                        that should be converted to a words representation
+     * @param string $locale  Language name abbreviation. Optional. Defaults to
+     *                        current loaded driver or en_US if any.
+     * @param array  $options Specific driver options
      *
-     * @return string  The corresponding word representation
+     * @return string The corresponding word representation
      */
-    public function toWords($num, $locale = '', $options = array())
+    public function toWords($num, $locale = '', $options = [])
     {
         if (empty($locale)) {
             $locale = $this->locale;
@@ -44,7 +50,7 @@ class Words
 
         $methods = get_class_methods($classname);
 
-        if (!in_array('_toWords', $methods) && !in_array('_towords', $methods)) {
+        if (!in_array('_toWords', $methods, true) && !in_array('_towords', $methods, true)) {
             return $this->raiseError("Unable to find _toWords method in '$classname' class");
         }
 
@@ -53,43 +59,31 @@ class Words
             $num = preg_replace('/^[^\d]*?(-?)[ \t\n]*?(\d+)([^\d].*?)?$/', '$1$2', $num);
         }
 
-        $truth_table  = ($classname == get_class($this)) ? 'T' : 'F';
+        $truth_table = ($classname === get_class($this)) ? 'T' : 'F';
         $truth_table .= (empty($options)) ? 'T' : 'F';
 
         switch ($truth_table) {
-
-        /**
-         * We are a language driver
-         */
+        // We are a language driver
         case 'TT':
             return trim($this->_toWords($num));
             break;
-
-        /**
-         * We are a language driver with custom options
-         */
+        // We are a language driver with custom options
         case 'TF':
             return trim($this->_toWords($num, $options));
             break;
-
-        /**
-         * We are the parent class
-         */
+        // We are the parent class
         case 'FT':
-            @$obj = new $classname;
+            @$obj = new $classname();
+
             return trim($obj->_toWords($num));
             break;
-
-        /**
-         * We are the parent class and should pass driver options
-         */
+        // We are the parent class and should pass driver options
         case 'FF':
-            @$obj = new $classname;
+            @$obj = new $classname();
+
             return trim($obj->_toWords($num, $options));
             break;
-
         }
-
     }
 
     /**
@@ -97,20 +91,17 @@ class Words
      * If the number has not any fraction part, the "cents" number is omitted.
      *
      * @param float  $num      A float/integer/string number representing currency value
-     *
      * @param string $locale   Language name abbreviation. Optional. Defaults to en_US.
-     *
      * @param string $int_curr International currency symbol
-     *                 as defined by the ISO 4217 standard (three characters).
-     *                 E.g. 'EUR', 'USD', 'PLN'. Optional.
-     *                 Defaults to $def_currency defined in the language class.
+     *                         as defined by the ISO 4217 standard (three characters).
+     *                         E.g. 'EUR', 'USD', 'PLN'. Optional.
+     *                         Defaults to $def_currency defined in the language class.
      *
-     * @return string  The corresponding word representation
+     * @return string The corresponding word representation
      */
     public function toCurrency($num, $locale = 'en_US', $int_curr = '')
     {
         $ret = $num;
-
 
         $classname = "Hgabka\KunstmaanExtensionBundle\Helper\Words\Words_${locale}";
 
@@ -120,18 +111,18 @@ class Words
 
         $methods = get_class_methods($classname);
 
-        if (!in_array('toCurrencyWords', $methods) && !in_array('tocurrencywords', $methods)) {
+        if (!in_array('toCurrencyWords', $methods, true) && !in_array('tocurrencywords', $methods, true)) {
             return $this->raiseError("Unable to find toCurrencyWords method in '$classname' class");
         }
 
-        @$obj = new $classname;
+        @$obj = new $classname();
 
         // round if a float is passed, use Math_BigInteger otherwise
         if (is_float($num)) {
             $num = round($num, 2);
         }
 
-        if (strpos($num, '.') === false) {
+        if (false === strpos($num, '.')) {
             return trim($obj->toCurrencyWords($int_curr, $num));
         }
 
@@ -139,20 +130,20 @@ class Words
 
         $len = strlen($currency[1]);
 
-        if ($len == 1) {
+        if (1 === $len) {
             // add leading zero
             $currency[1] .= '0';
         } elseif ($len > 2) {
             // get the 3rd digit after the comma
             $round_digit = substr($currency[1], 2, 1);
-            
+
             // cut everything after the 2nd digit
             $currency[1] = substr($currency[1], 0, 2);
-            
+
             if ($round_digit >= 5) {
                 // round up without losing precision
 
-                $int = new BigInteger(join($currency));
+                $int = new BigInteger(implode($currency));
                 $int = $int->add(new BigInteger(1));
                 $int_str = $int->toString();
 
@@ -160,7 +151,7 @@ class Words
                 $currency[1] = substr($int_str, -2);
 
                 // check if the rounded decimal part became zero
-                if ($currency[1] == '00') {
+                if ('00' === $currency[1]) {
                     $currency[1] = false;
                 }
             }
@@ -170,32 +161,45 @@ class Words
     }
 
     /**
-     * Lists available locales for Numbers_Words
+     * Trigger a PEAR error.
+     *
+     * To improve performances, the PEAR.php file is included dynamically.
+     *
+     * @param string $msg error message
+     *
+     * @return PEAR_Error
+     */
+    public function raiseError($msg)
+    {
+        throw new \Exception($msg);
+    }
+
+    /**
+     * Lists available locales for Numbers_Words.
      *
      * @param mixed $locale string/array of strings $locale
-     *                 Optional searched language name abbreviation.
-     *                 Default: all available locales.
+     *                      Optional searched language name abbreviation.
+     *                      Default: all available locales.
      *
      * @return array   The available locales (optionaly only the requested ones)
-     *
      * @return mixed[]
      */
     protected function getLocales($locale = null)
     {
-        $ret = array();
+        $ret = [];
         if (isset($locale) && is_string($locale)) {
-            $locale = array($locale);
+            $locale = [$locale];
         }
 
-        $dname = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Words' . DIRECTORY_SEPARATOR;
+        $dname = __DIR__.DIRECTORY_SEPARATOR.'Words'.DIRECTORY_SEPARATOR;
 
         $dh = opendir($dname);
 
         if ($dh) {
             while ($fname = readdir($dh)) {
                 if (preg_match('#^Words_\.([a-z_]+)\.php$#i', $fname, $matches)) {
-                    if (is_file($dname . $fname) && is_readable($dname . $fname) &&
-                        (!isset($locale) || in_array($matches[1], $locale))) {
+                    if (is_file($dname.$fname) && is_readable($dname.$fname) &&
+                        (!isset($locale) || in_array($matches[1], $locale, true))) {
                         $ret[] = $matches[1];
                     }
                 }
@@ -207,19 +211,6 @@ class Words
         return $ret;
     }
 
-    /**
-     * Trigger a PEAR error
-     *
-     * To improve performances, the PEAR.php file is included dynamically.
-     *
-     * @param string $msg error message
-     *
-     * @return PEAR_Error
-     */
-    function raiseError($msg)
-    {
-        throw new \Exception($msg);
-    }
     // }}}
 }
 

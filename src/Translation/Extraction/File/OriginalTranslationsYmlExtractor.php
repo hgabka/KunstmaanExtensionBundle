@@ -117,7 +117,7 @@ class OriginalTranslationsYmlExtractor implements FileVisitorInterface
         // Ha ez éppen az adott nyelven készített fájl, pl: messages.hu.yml...
         if ($fileLocale && $fileLocale === $locale) {
             return false;
-        } elseif ($fileLocale !== 'en') {
+        } elseif ('en' !== $fileLocale) {
             return true;
         }
 
