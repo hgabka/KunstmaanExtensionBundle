@@ -102,10 +102,16 @@ services:
     hgabka_kunstmaan_extension.fill_filter:
         class: Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Loader\FillFilterLoader
         tags:
-            - { name: "liip_imagine.filter.loader", loader: fill }
+            - { name: "liip_imagine.filter.loader", loader: hg_fill }
 
     hgabka_kunstmaan_extension.fit_filter:
         class: Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Loader\FitFilterLoader
         arguments: ["@liip_imagine"]
         tags:
-            - { name: "liip_imagine.filter.loader", loader: fit }
+            - { name: "liip_imagine.filter.loader", loader: hg_fit }
+
+    hgabka_kunstmaan_extension.paste_filter:
+        class: Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Loader\PasteFilterLoader
+        arguments: ["@liip_imagine"]
+        tags:
+            - { name: "liip_imagine.filter.loader", loader: hg_paste }

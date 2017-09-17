@@ -47,7 +47,7 @@ class Fill implements FilterInterface
         $width = $this->width;
         $height = $this->height;
 
-        $filter = new Fit($width, $height, Fit::MODE_INSET);
+        $filter = new Fit($width, $height, Fit::MODE_OUTBOUND);
         $image = $filter->apply($image);
 
         $newWidth = $image->getSize()->getWidth();

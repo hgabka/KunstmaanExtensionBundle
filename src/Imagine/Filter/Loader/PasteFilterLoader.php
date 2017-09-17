@@ -10,13 +10,13 @@
 
 namespace Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Loader;
 
-use Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Fit;
 use Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Paste;
+use Imagine\Image\Color;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 
-class FitFilterLoader implements LoaderInterface
+class PasteFilterLoader implements LoaderInterface
 {
     /** @var ImagineInterface */
     protected $imagine;
@@ -41,19 +41,15 @@ class FitFilterLoader implements LoaderInterface
     {
         list($width, $height) = $options['size'];
 
-        $fitFilter = new Fit($width, $height);
-
-        $image = $fitFilter->apply($image);
-
-        $pasteFilter = new Paste(
+        $filter = new Paste(
             $this->imagine,
             $width,
             $height,
             $options['position'] ?? 'center',
-            $options['background_color'] ?? '#fff',
+            $options['color'] ?? '#fff',
             $options['transparency'] ?? 0
         );
 
-        return $pasteFilter->apply($image);
+        return $filter->apply($image);
     }
 }

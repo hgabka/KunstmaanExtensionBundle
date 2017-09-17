@@ -35,7 +35,7 @@ class Fit implements FilterInterface
      * @param null|int $height
      * @param string   $mode
      */
-    public function __construct($width, $height, $mode = self::MODE_OUTBOUND)
+    public function __construct($width, $height, $mode = self::MODE_INSET)
     {
         $this->width = $width;
         $this->height = $height;
@@ -63,7 +63,7 @@ class Fit implements FilterInterface
             }
         }
 
-        if (self::MODE_INSET !== $mode) {
+        if (self::MODE_OUTBOUND !== $mode) {
             if ($imgWidth / $origWidth < $imgHeight / $origHeight) {
                 $newWidth = $imgWidth;
                 $newHeight = ceil($origHeight * ($newWidth / $origWidth));
