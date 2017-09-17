@@ -98,3 +98,14 @@ services:
 
     hgabka_kunstmaan_extension.number_to_text:
         class: Hgabka\KunstmaanExtensionBundle\Helper\Number\NumberToText
+
+    hgabka_kunstmaan_extension.fill_filter:
+        class: Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Loader\FillFilterLoader
+        tags:
+            - { name: "liip_imagine.filter.loader", loader: fill }
+
+    hgabka_kunstmaan_extension.fit_filter:
+        class: Hgabka\KunstmaanExtensionBundle\Imagine\Filter\Loader\FitFilterLoader
+        arguments: ["@liip_imagine"]
+        tags:
+            - { name: "liip_imagine.filter.loader", loader: fit }

@@ -1,0 +1,97 @@
+<?php
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+namespace Hgabka\KunstmaanExtensionBundle\Imagine\Filter;
+
+use Imagine\Filter\FilterInterface;
+use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
+use Imagine\Image\Point;
+
+class Fill implements FilterInterface
+{
+    /** @var null|int */
+    private $width;
+
+    /** @var null|int */
+    private $height;
+
+    private $position;
+
+    /**
+     * Fill constructor.
+     *
+     * @param null|int $width
+     * @param null|int $height
+     * @param $position
+     */
+    public function __construct($width, $height, $position)
+    {
+        $this->width = $width;
+        $this->height = $height;
+        $this->position = $position;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function apply(ImageInterface $image)
+    {
+        $origWidth = $image->getSize()->getWidth();
+        $origHeight = $image->getSize()->getHeight();
+
+        $width = $this->width;
+        $height = $this->height;
+
+        if ($origWidth === $width && $height === $origHeight) {
+            return $image;
+        }
+
+        if (null === $width || null === $height) {
+            if (null === $height) {
+                $height = (int) ceil(($width / $origWidth) * $origHeight);
+            } elseif (null === $width) {
+                $width = (int) ceil(($height / $origHeight) * $origWidth);
+            }
+        }
+
+        if ($width / $origWidth > $height / $origHeight) {
+            $newWidth = $width;
+            $newHeight = ceil($origHeight * ($newWidth / $origWidth));
+        } else {
+            $newHeight = $height;
+            $newWidth = ceil($origWidth * ($newHeight / $origHeight));
+        }
+        $size = new Box($newWidth, $newHeight);
+        $image->resize($size);
+        $newWidth = $image->getSize()->getWidth();
+        $newHeight = $image->getSize()->getHeight();
+        $position = $this->position;
+        if (false !== strstr($position, 'top')) {
+            $top = 0;
+        } elseif (false !== strstr($position, 'bottom')) {
+            $top = $newHeight - $height;
+        } else {
+            $top = (int) ceil(($newHeight - $height) / 2);
+        }
+
+        if (false !== strstr($position, 'left')) {
+            $left = 0;
+        } elseif (false !== strstr($position, 'right')) {
+            $left = $newWidth - $width;
+        } else {
+            $left = (int) ceil(($newWidth - $width) / 2);
+        }
+
+        $image->crop(new Point($left, $top), new Box($width, $height));
+
+        return $image;
+    }
+}
