@@ -17,23 +17,13 @@ class RecaptchaPagePartAdminType extends AbstractType
     protected $siteKey;
 
     /**
-     * @return string
-     */
-    public function getSiteKey(): string
-    {
-        return $this->siteKey;
-    }
-
-    /**
-     * @param string $siteKey
+     * RecaptchaPagePartAdminType constructor.
      *
-     * @return RecaptchaPagePartAdminType
+     * @param string $siteKey
      */
-    public function setSiteKey($siteKey)
+    public function __construct($siteKey)
     {
         $this->siteKey = $siteKey;
-
-        return $this;
     }
 
     /**
@@ -51,8 +41,7 @@ class RecaptchaPagePartAdminType extends AbstractType
     {
         parent::buildForm($builder, $options);
 
-        $recaptchaType = new RecaptchaType($this->siteKey);
-        $builder->add('content', $recaptchaType, [
+        $builder->add('content', RecaptchaType::class, [
             'attr' => ['class' => '', 'height' => 140],
         ]);
     }

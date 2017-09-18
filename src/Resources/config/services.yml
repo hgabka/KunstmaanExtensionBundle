@@ -124,6 +124,7 @@ services:
 
     hgabka_kunstmaan_extension.form.recaptcha_admin_type:
         class: Hgabka\KunstmaanExtensionBundle\Form\PageParts\RecaptchaPagePartAdminType
+        arguments: ['']
         tags:
             - { name: form.type }
 

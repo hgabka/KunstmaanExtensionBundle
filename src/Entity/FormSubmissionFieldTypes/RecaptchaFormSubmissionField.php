@@ -3,7 +3,6 @@
 namespace Hgabka\KunstmaanExtensionBundle\Entity\FormSubmissionFieldTypes;
 
 use Doctrine\ORM\Mapping as ORM;
-use Hgabka\KunstmaanExtensionBundle\Form\PageParts\RecaptchaPagePartAdminType;
 use Kunstmaan\FormBundle\Entity\FormSubmissionField;
 
 /**
@@ -38,7 +37,7 @@ class RecaptchaFormSubmissionField extends FormSubmissionField
      */
     public function getDefaultAdminType()
     {
-        return RecaptchaPagePartAdminType::class;
+        return 'hgabka_kunstmaan_extension.form.recaptcha_admin_type';
     }
 
     /**

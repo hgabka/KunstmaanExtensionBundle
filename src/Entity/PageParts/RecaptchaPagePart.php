@@ -5,7 +5,6 @@ namespace Hgabka\KunstmaanExtensionBundle\Entity\PageParts;
 use ArrayObject;
 use Doctrine\ORM\Mapping as ORM;
 use Hgabka\KunstmaanExtensionBundle\Entity\FormSubmissionFieldTypes\RecaptchaFormSubmissionField;
-use Hgabka\KunstmaanExtensionBundle\Form\PageParts\RecaptchaPagePartAdminType;
 use Hgabka\KunstmaanExtensionBundle\Form\RecaptchaFormSubmissionType;
 use Kunstmaan\FormBundle\Entity\PageParts\AbstractFormPagePart;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -68,6 +67,6 @@ class RecaptchaPagePart extends AbstractFormPagePart
      */
     public function getDefaultAdminType()
     {
-        return RecaptchaPagePartAdminType::class;
+        return 'hgabka_kunstmaan_extension.form.recaptcha_admin_type';
     }
 }

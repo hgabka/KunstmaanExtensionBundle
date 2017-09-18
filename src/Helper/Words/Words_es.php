@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Hgabka\KunstmaanExtensionBundle\Helper\Words;
 
 use Hgabka\KunstmaanExtensionBundle\Helper\Number\Words;

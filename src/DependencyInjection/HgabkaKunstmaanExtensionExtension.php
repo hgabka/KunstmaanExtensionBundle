@@ -33,7 +33,7 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
         $recaptchaTypeDefinition->replaceArgument(0, $config['recaptcha']['site_key'] ?? null);
 
         $recaptchaAdminTypeDefinition = $container->getDefinition('hgabka_kunstmaan_extension.form.recaptcha_admin_type');
-        $recaptchaAdminTypeDefinition->addMethodCall('setSiteKey',  [$config['recaptcha']['site_key'] ?? null]);
+        $recaptchaAdminTypeDefinition->replaceArgument(0, $config['recaptcha']['site_key'] ?? null);
 
         $recaptchaValidatorDefinition = $container->getDefinition('hgabka_kunstmaan_extension.validator.recaptcha');
         $recaptchaValidatorDefinition->replaceArgument(2, $config['recaptcha']['secret'] ?? null);
