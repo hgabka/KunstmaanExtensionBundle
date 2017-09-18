@@ -122,6 +122,11 @@ services:
         tags:
             - { name: form.type }
 
+    hgabka_kunstmaan_extension.form.recaptcha_admin_type:
+        class: Hgabka\KunstmaanExtensionBundle\Form\PageParts\RecaptchaPagePartAdminType
+        tags:
+            - { name: form.type }
+
     hgabka_kunstmaan_extension.validator.recaptcha:
         class: Hgabka\KunstmaanExtensionBundle\Validator\Constraints\RecaptchaValidator
         arguments: ["@request_stack", "@hgabka_kunstmaan_extension.kuma_utils", '']

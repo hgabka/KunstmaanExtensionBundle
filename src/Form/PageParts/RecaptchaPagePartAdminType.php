@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of PHP CS Fixer.
- * (c) Fabien Potencier <fabien@symfony.com>
- *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 namespace Hgabka\KunstmaanExtensionBundle\Form\PageParts;
 
 use Hgabka\KunstmaanExtensionBundle\Entity\PageParts\RecaptchaPagePart;
@@ -21,6 +13,29 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class RecaptchaPagePartAdminType extends AbstractType
 {
+    /** @var string */
+    protected $siteKey;
+
+    /**
+     * @return string
+     */
+    public function getSiteKey(): string
+    {
+        return $this->siteKey;
+    }
+
+    /**
+     * @param string $siteKey
+     *
+     * @return RecaptchaPagePartAdminType
+     */
+    public function setSiteKey($siteKey)
+    {
+        $this->siteKey = $siteKey;
+
+        return $this;
+    }
+
     /**
      * Builds the form.
      *
@@ -36,7 +51,7 @@ class RecaptchaPagePartAdminType extends AbstractType
     {
         parent::buildForm($builder, $options);
 
-        $recaptchaType = new RecaptchaType('6LdEOhMUAAAAAC-Ir9F1fknqtCoyzSWmoqu0395J');
+        $recaptchaType = new RecaptchaType($this->siteKey);
         $builder->add('content', $recaptchaType, [
             'attr' => ['class' => '', 'height' => 140],
         ]);
