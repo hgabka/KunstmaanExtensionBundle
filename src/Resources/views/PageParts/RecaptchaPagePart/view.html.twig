@@ -1,0 +1,7 @@
+{% if frontendform is defined %}
+    <div class="form-group{% if frontendform['formwidget_'~resource.uniqueId]['value'].vars.errors | length > 0 %} has-error{% endif %}">
+        {{ form_widget(frontendform['formwidget_'~resource.uniqueId]['value'], { 'attr' : {'bound' : frontendformobject.bound, 'style' : 'display:none' } }) }}
+        {{ form_widget(frontendform['formwidget_'~resource.uniqueId]['captcha']) }}
+        {{ form_errors(frontendform['formwidget_'~resource.uniqueId]['value']) }}
+    </div>
+{% endif %}

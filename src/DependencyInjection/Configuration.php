@@ -28,9 +28,15 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('hgabka_kunstmaan_extension');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->arrayNode('recaptcha')
+                ->children()
+                    ->scalarNode('site_key')->end()
+                    ->scalarNode('secret')->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

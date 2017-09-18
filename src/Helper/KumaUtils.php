@@ -14,6 +14,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Kunstmaan\AdminBundle\Helper\DomainConfiguration;
 use Kunstmaan\MediaBundle\Entity\Media;
+use Kunstmaan\MediaBundle\Helper\MediaManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class KumaUtils
@@ -29,6 +30,9 @@ class KumaUtils
 
     /** @var string */
     protected $projectDir;
+
+    /** @var MediaManager */
+    protected $mediaManager;
 
     protected $roman_values = [
         'I' => 1,
@@ -51,12 +55,13 @@ class KumaUtils
      * @param RequestStack        $requestStack
      * @param string              $projectDir
      */
-    public function __construct(Registry $doctrine, DomainConfiguration $domainConfiguration, RequestStack $requestStack, string $projectDir)
+    public function __construct(Registry $doctrine, DomainConfiguration $domainConfiguration, RequestStack $requestStack, MediaManager $mediaManager, string $projectDir)
     {
         $this->domainConfiguration = $domainConfiguration;
         $this->requestStack = $requestStack;
         $this->projectDir = $projectDir;
         $this->doctrine = $doctrine;
+        $this->mediaManager = $mediaManager;
     }
 
     /**
@@ -147,7 +152,9 @@ class KumaUtils
      */
     public function getMediaContent(Media $media)
     {
-        return file_get_contents($this->getMediaPath($media));
+        $file = $this->mediaManager->getHandler($media)->getOriginalFile($media);
+
+        return $file ? $file->getContent() : null;
     }
 
     /**
@@ -1391,5 +1398,34 @@ class KumaUtils
         }
 
         return $object->$property;
+    }
+
+    /**
+     * @param $mediaId
+     *
+     * @return Response
+     */
+    public function createMediaDownloadResponse($mediaId)
+    {
+        /** @var Media $media */
+        $media = $this->doctrine->getManager()->getRepository('KunstmaanMediaBundle:Media')->findOneBy(['id' => $mediaId]);
+
+        if (!$media) {
+            throw new NotFoundHttpException('Ervenytelen media id');
+        }
+
+        $response = new Response($this->getMediaContent($media));
+
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $media->getOriginalFilename()
+        );
+
+        $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-type', $media->getContentType());
+        $response->headers->set('Content-length', $media->getFileSizeBytes());
+
+        return $response;
     }
 }

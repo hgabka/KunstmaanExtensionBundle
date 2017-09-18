@@ -94,7 +94,7 @@ services:
 
     hgabka_kunstmaan_extension.kuma_utils:
         class: Hgabka\KunstmaanExtensionBundle\Helper\KumaUtils
-        arguments:  ["@doctrine", "@kunstmaan_admin.domain_configuration", "@request_stack", "%kernel.project_dir%"]
+        arguments:  ["@doctrine", "@kunstmaan_admin.domain_configuration", "@request_stack", "@kunstmaan_media.media_manager", "%kernel.project_dir%"]
 
     hgabka_kunstmaan_extension.number_to_text:
         class: Hgabka\KunstmaanExtensionBundle\Helper\Number\NumberToText
@@ -115,3 +115,20 @@ services:
         arguments: ["@liip_imagine"]
         tags:
             - { name: "liip_imagine.filter.loader", loader: hg_paste }
+
+    hgabka_kunstmaan_extension.form.recaptcha_type:
+        class: Hgabka\KunstmaanExtensionBundle\Form\Type\RecaptchaType
+        arguments: ['']
+        tags:
+            - { name: form.type }
+
+    hgabka_kunstmaan_extension.validator.recaptcha:
+        class: Hgabka\KunstmaanExtensionBundle\Validator\Constraints\RecaptchaValidator
+        arguments: ["@request_stack", "@hgabka_kunstmaan_extension.kuma_utils", '']
+        tags:
+            - { name: validator.constraint_validator }
+
+    hgabka_kunstmaan_extension.recaptcha.subscriber:
+        class: Hgabka\KunstmaanExtensionBundle\EventListener\RecaptchaEventSubscriber
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }

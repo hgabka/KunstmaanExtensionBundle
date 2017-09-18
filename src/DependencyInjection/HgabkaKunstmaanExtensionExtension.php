@@ -36,6 +36,12 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $recaptchaTypeDefinition = $container->getDefinition('hgabka_kunstmaan_extension.form.recaptcha_type');
+        $recaptchaTypeDefinition->replaceArgument(0, $config['recaptcha']['site_key'] ?? null);
+
+        $recaptchaValidatorDefinition = $container->getDefinition('hgabka_kunstmaan_extension.validator.recaptcha');
+        $recaptchaValidatorDefinition->replaceArgument(2, $config['recaptcha']['secret'] ?? null);
     }
 
     /**
