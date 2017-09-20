@@ -2,7 +2,9 @@
 
 namespace Hgabka\KunstmaanExtensionBundle\DependencyInjection;
 
+use Hgabka\KunstmaanExtensionBundle\Doctrine\Hydrator\KeyValueHydrator;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
@@ -13,7 +15,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExtensionInterface
+class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExtensionInterface, CompilerPassInterface
 {
     /** @var string */
     protected $formTypeTemplate = 'HgabkaKunstmaanExtensionBundle:Form:fields.html.twig';
@@ -61,6 +63,18 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
 
                     break;
             }
+        }
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    public function process(ContainerBuilder $container)
+    {
+        $hydrator = [KeyValueHydrator::HYDRATOR_NAME, KeyValueHydrator::class];
+        foreach ($container->getParameter('doctrine.entity_managers') as $name => $serviceName) {
+            $definition = $container->getDefinition('doctrine.orm.' . $name . '_configuration');
+            $definition->addMethodCall('addCustomHydrationMode', $hydrator);
         }
     }
 }
