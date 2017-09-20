@@ -6,7 +6,7 @@
 </div>
 
 <div class="form-group">
-    <select name="{{nameprefix}}value{{namesuffix}}[]" class="form-control">
+    <select name="{{nameprefix}}value{{namesuffix}}" class="form-control">
     {% for key,option in options %}
         {% if option is iterable %}
             <optgroup label="{{ key | trans }}">
