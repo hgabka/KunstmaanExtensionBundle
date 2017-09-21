@@ -4,6 +4,7 @@ namespace Hgabka\KunstmaanExtensionBundle\DependencyInjection;
 
 use Hgabka\KunstmaanExtensionBundle\Doctrine\Hydrator\KeyValueHydrator;
 use Hgabka\KunstmaanExtensionBundle\DQL\Rand;
+use Hgabka\KunstmaanExtensionBundle\DQL\Repeat;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
