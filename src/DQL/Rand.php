@@ -8,11 +8,10 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
 /**
- * Class Rand
+ * Class Rand.
  *
  *
  * A RAND SQL függvény DQL-es megvalósítása
- *
  */
 class Rand extends FunctionNode
 {

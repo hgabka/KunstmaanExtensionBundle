@@ -150,7 +150,6 @@ class KumaUtils
         return $file ? $file->getContent() : null;
     }
 
-
     /**
      * @param Media $media
      *

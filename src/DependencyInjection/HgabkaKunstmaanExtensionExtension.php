@@ -53,6 +53,20 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
         $this->configureTwigBundle($container);
     }
 
+    /**
+     * @param ContainerBuilder $container
+     */
+    public function process(ContainerBuilder $container)
+    {
+        $hydrator = [KeyValueHydrator::HYDRATOR_NAME, KeyValueHydrator::class];
+        foreach ($container->getParameter('doctrine.entity_managers') as $name => $serviceName) {
+            $definition = $container->getDefinition('doctrine.orm.'.$name.'_configuration');
+            $definition->addMethodCall('addCustomHydrationMode', $hydrator);
+            $definition->addMethodCall('addCustomNumericFunction', [Rand::FUNCTION_NAME, Rand::class]);
+            $definition->addMethodCall('addCustomStringFunction', [Repeat::FUNCTION_NAME, Repeat::class]);
+        }
+    }
+
     protected function configureTwigBundle(ContainerBuilder $container)
     {
         foreach (array_keys($container->getExtensions()) as $name) {
@@ -65,20 +79,6 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
 
                     break;
             }
-        }
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    public function process(ContainerBuilder $container)
-    {
-        $hydrator = [KeyValueHydrator::HYDRATOR_NAME, KeyValueHydrator::class];
-        foreach ($container->getParameter('doctrine.entity_managers') as $name => $serviceName) {
-            $definition = $container->getDefinition('doctrine.orm.' . $name . '_configuration');
-            $definition->addMethodCall('addCustomHydrationMode', $hydrator);
-            $definition->addMethodCall('addCustomNumericFunction', [Rand::FUNCTION_NAME, Rand::class]);
-            $definition->addMethodCall('addCustomStringFunction', [Repeat::FUNCTION_NAME, Repeat::class]);
         }
     }
 }

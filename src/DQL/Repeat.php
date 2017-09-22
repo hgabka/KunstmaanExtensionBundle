@@ -8,21 +8,20 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
 /**
- * Class Repeat
+ * Class Repeat.
  *
  *
  * A REPEAT SQL függvény DQL-es megvalósítása
- *
  */
 class Repeat extends FunctionNode
 {
     const FUNCTION_NAME = 'REPEAT';
 
-    /** @var string   */
-    public $repeatString = null;
+    /** @var string */
+    public $repeatString;
 
-    /** @var int   */
-    public $repetition = null;
+    /** @var int */
+    public $repetition;
 
     /**
      * @param Parser $parser
@@ -45,9 +44,9 @@ class Repeat extends FunctionNode
     public function getSql(SqlWalker $sqlWalker)
     {
         return
-            'REPEAT(' .
-            $this->repeatString->dispatch($sqlWalker) . ', ' .
-            $this->repetition->dispatch($sqlWalker) .
+            'REPEAT('.
+            $this->repeatString->dispatch($sqlWalker).', '.
+            $this->repetition->dispatch($sqlWalker).
             ')'
             ;
     }
