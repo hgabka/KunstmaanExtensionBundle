@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Kunstmaan\AdminBundle\Helper\DomainConfiguration;
 use Kunstmaan\MediaBundle\Entity\Media;
 use Kunstmaan\MediaBundle\Helper\MediaManager;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class KumaUtils
@@ -147,6 +148,20 @@ class KumaUtils
         $file = $this->mediaManager->getHandler($media)->getOriginalFile($media);
 
         return $file ? $file->getContent() : null;
+    }
+
+
+    /**
+     * @param Media $media
+     *
+     * @return bool|string
+     */
+    public function getMediaSize(Media $media)
+    {
+        /** @var SplFileInfo $file */
+        $file = $this->mediaManager->getHandler($media)->getOriginalFile($media);
+
+        return $file ? $file->getSize() : 0;
     }
 
     /**
