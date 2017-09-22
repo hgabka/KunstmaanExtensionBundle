@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Kunstmaan\AdminBundle\Helper\DomainConfiguration;
 use Kunstmaan\MediaBundle\Entity\Media;
 use Kunstmaan\MediaBundle\Helper\MediaManager;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,23 +17,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class KumaUtils
 {
-    /** @var Registry */
-    protected $doctrine;
-
-    /** @var DomainConfiguration */
-    protected $domainConfiguration;
-
-    /** @var RequestStack */
-    protected $requestStack;
-
-    /** @var string */
-    protected $projectDir;
-
-    /** @var MediaManager */
-    protected $mediaManager;
-
-    /** @var  RouterInterface */
-    protected $router;
+    /** @var  ContainerInterface */
+    protected $container;
 
     protected $roman_values = [
         'I' => 1,
@@ -51,38 +37,11 @@ class KumaUtils
     /**
      * KumaUtils constructor.
      *
-     * @param Registry $doctrine
-     * @param DomainConfiguration $domainConfiguration
-     * @param RequestStack $requestStack
-     * @param MediaManager $mediaManager
-     * @param string $projectDir
+     * @param ContainerInterface $container
      */
-    public function __construct(Registry $doctrine, DomainConfiguration $domainConfiguration, RequestStack $requestStack, MediaManager $mediaManager, string $projectDir)
+    public function __construct(ContainerInterface $container)
     {
-        $this->domainConfiguration = $domainConfiguration;
-        $this->requestStack = $requestStack;
-        $this->projectDir = $projectDir;
-        $this->doctrine = $doctrine;
-        $this->mediaManager = $mediaManager;
-    }
-
-    /**
-     * @return RouterInterface
-     */
-    public function getRouter(): RouterInterface
-    {
-        return $this->router;
-    }
-
-    /**
-     * @param RouterInterface $router
-     * @return KumaUtils
-     */
-    public function setRouter($router)
-    {
-        $this->router = $router;
-
-        return $this;
+        $this->container = $container;
     }
 
     /**
@@ -99,7 +58,10 @@ class KumaUtils
             return $baseLocale;
         }
 
-        $request = $this->requestStack->getMasterRequest();
+        $requestStack = $this->container->get('request_stack');
+        $domainConfiguration= $this->container->get('kunstmaan_admin.domain_configuration');
+
+        $request = $requestStack->getMasterRequest();
 
         $locale = $request ? $request->getLocale() : null;
 
@@ -107,7 +69,7 @@ class KumaUtils
             return $locale;
         }
 
-        return $this->domainConfiguration->getDefaultLocale();
+        return $domainConfiguration->getDefaultLocale();
     }
 
     /**
@@ -117,7 +79,9 @@ class KumaUtils
      */
     public function getAvailableLocales(bool $frontend = true): array
     {
-        return $frontend ? $this->domainConfiguration->getFrontendLocales() : $this->domainConfiguration->getBackendLocales();
+        $domainConfiguration= $this->container->get('kunstmaan_admin.domain_configuration');
+
+        return $frontend ? $domainConfiguration->getFrontendLocales() : $domainConfiguration->getBackendLocales();
     }
 
     /**
@@ -137,7 +101,9 @@ class KumaUtils
      */
     public function getDefaultLocale()
     {
-        return $this->domainConfiguration->getDefaultLocale();
+        $domainConfiguration= $this->container->get('kunstmaan_admin.domain_configuration');
+
+        return $domainConfiguration->getDefaultLocale();
     }
 
     /**
@@ -145,7 +111,9 @@ class KumaUtils
      */
     public function getMasterRequest()
     {
-        return $this->requestStack->getMasterRequest();
+        $requestStack = $this->container->get('request_stack');
+
+        return $requestStack->getMasterRequest();
     }
 
     /**
@@ -153,7 +121,9 @@ class KumaUtils
      */
     public function isMultiLanguage()
     {
-        return $this->domainConfiguration->isMultiLanguage();
+        $domainConfiguration= $this->container->get('kunstmaan_admin.domain_configuration');
+
+        return $domainConfiguration->isMultiLanguage();
     }
 
     /**
@@ -163,7 +133,7 @@ class KumaUtils
      */
     public function getMediaPath(Media $media)
     {
-        return $this->projectDir . '/web/' . $media->getUrl();
+        return $this->container->getParameter('kernel.project_dir') . '/web/' . $media->getUrl();
     }
 
     /**
@@ -173,7 +143,8 @@ class KumaUtils
      */
     public function getMediaContent(Media $media)
     {
-        $file = $this->mediaManager->getHandler($media)->getOriginalFile($media);
+        $mediaManager = $this->container->get('kunstmaan_media.media_manager');
+        $file = $mediaManager->getHandler($media)->getOriginalFile($media);
 
         return $file ? $file->getContent() : null;
     }
@@ -185,8 +156,9 @@ class KumaUtils
      */
     public function getMediaSize(Media $media)
     {
+        $mediaManager = $this->container->get('kunstmaan_media.media_manager');
         /** @var SplFileInfo $file */
-        $file = $this->mediaManager->getHandler($media)->getOriginalFile($media);
+        $file = $mediaManager->getHandler($media)->getOriginalFile($media);
 
         return $file ? $file->getSize() : 0;
     }
@@ -196,7 +168,7 @@ class KumaUtils
      */
     public function getDomainConfiguration(): DomainConfiguration
     {
-        return $this->domainConfiguration;
+        return $this->container->get('kunstmaan_admin.domain_configuration');
     }
 
     /**
@@ -204,7 +176,7 @@ class KumaUtils
      */
     public function getRequestStack(): RequestStack
     {
-        return $this->requestStack;
+        return $this->container->get('request_stack');
     }
 
     /**
@@ -212,7 +184,7 @@ class KumaUtils
      */
     public function getProjectDir(): string
     {
-        return $this->projectDir;
+        return $this->container->getParameter('kernel.project_dir');
     }
 
     /**
@@ -220,7 +192,7 @@ class KumaUtils
      */
     public function getWebDir(): string
     {
-        return $this->projectDir . '/web';
+        return $this->container->getParameter('kernel.project_dir') . '/web';
     }
 
     public static function slugify($text, $subst = '-')
@@ -250,8 +222,10 @@ class KumaUtils
         if ($currentLevel >= $maxLevel || empty($entity)) {
             return [];
         }
+        $doctrine = $this->container->get('doctrine');
+
         /** @var EntityManager $em */
-        $em = $this->doctrine->getManager();
+        $em = $doctrine->getManager();
         $md = $em->getClassMetadata(get_class($entity));
 
         $result = [];
@@ -281,6 +255,7 @@ class KumaUtils
      *
      * @param mixed $search subject to search
      * @param array $replacePairs array of search => replace pairs
+     * @return mixed
      */
     public function pregtr($search, $replacePairs)
     {
@@ -1441,8 +1416,10 @@ class KumaUtils
      */
     public function createMediaDownloadResponse($mediaId)
     {
+        $doctrine = $this->container->get('doctrine');
+
         /** @var Media $media */
-        $media = $this->doctrine
+        $media = $doctrine
             ->getManager()
             ->getRepository('KunstmaanMediaBundle:Media')
             ->findOneBy(['id' => $mediaId])
@@ -1472,8 +1449,11 @@ class KumaUtils
      */
     public function getSchemeAndHttpHost()
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $context = $this->router->getContext();
+        $router = $this->container->get('router');
+        $requestStack = $this->container->get('request_stack');
+
+        $request = $requestStack->getCurrentRequest();
+        $context = $router->getContext();
 
         return $request ? $request->getSchemeAndHttpHost() : $context->getScheme() . '://' . $context->getHost();
     }
@@ -1483,8 +1463,11 @@ class KumaUtils
      */
     public function getScheme()
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $context = $this->router->getContext();
+        $router = $this->container->get('router');
+        $requestStack = $this->container->get('request_stack');
+
+        $request = $requestStack->getCurrentRequest();
+        $context = $router->getContext();
 
         return $request ? $request->getScheme() : $context->getScheme();
     }
@@ -1494,8 +1477,11 @@ class KumaUtils
      */
     public function getHost()
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $context = $this->router->getContext();
+        $router = $this->container->get('router');
+        $requestStack = $this->container->get('request_stack');
+
+        $request = $requestStack->getCurrentRequest();
+        $context = $router->getContext();
 
         return $request ? $request->getHost() : $context->getHost();
     }
@@ -1505,8 +1491,11 @@ class KumaUtils
      */
     public function getPort()
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $context = $this->router->getContext();
+        $router = $this->container->get('router');
+        $requestStack = $this->container->get('request_stack');
+
+        $request = $requestStack->getCurrentRequest();
+        $context = $router->getContext();
         $scheme = $context->getScheme();
 
         return $request ? $request->getPort() : ($scheme == 'https' ? $context->getHttpsPort() : $context->getHttpPort());
@@ -1521,8 +1510,11 @@ class KumaUtils
      */
     public function getHttpHost()
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $context = $this->router->getContext();
+        $router = $this->container->get('router');
+        $requestStack = $this->container->get('request_stack');
+
+        $request = $requestStack->getCurrentRequest();
+        $context = $router->getContext();
         if ($request) {
             return $request->getHttpHost();
         }
