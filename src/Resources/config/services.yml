@@ -94,7 +94,7 @@ services:
 
     hgabka_kunstmaan_extension.kuma_utils:
         class: Hgabka\KunstmaanExtensionBundle\Helper\KumaUtils
-        arguments:  ["@doctrine", "@kunstmaan_admin.domain_configuration", "@request_stack", "@kunstmaan_media.media_manager", "%kernel.project_dir%"]
+        arguments:  ["@doctrine", "@kunstmaan_admin.domain_configuration", "@request_stack", "@kunstmaan_media.media_manager", "@router", "%kernel.project_dir%"]
 
     hgabka_kunstmaan_extension.number_to_text:
         class: Hgabka\KunstmaanExtensionBundle\Helper\Number\NumberToText
