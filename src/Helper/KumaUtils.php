@@ -55,17 +55,34 @@ class KumaUtils
      * @param DomainConfiguration $domainConfiguration
      * @param RequestStack $requestStack
      * @param MediaManager $mediaManager
-     * @param RouterInterface $router
      * @param string $projectDir
      */
-    public function __construct(Registry $doctrine, DomainConfiguration $domainConfiguration, RequestStack $requestStack, MediaManager $mediaManager, RouterInterface $router, string $projectDir)
+    public function __construct(Registry $doctrine, DomainConfiguration $domainConfiguration, RequestStack $requestStack, MediaManager $mediaManager, string $projectDir)
     {
         $this->domainConfiguration = $domainConfiguration;
         $this->requestStack = $requestStack;
         $this->projectDir = $projectDir;
         $this->doctrine = $doctrine;
         $this->mediaManager = $mediaManager;
+    }
+
+    /**
+     * @return RouterInterface
+     */
+    public function getRouter(): RouterInterface
+    {
+        return $this->router;
+    }
+
+    /**
+     * @param RouterInterface $router
+     * @return KumaUtils
+     */
+    public function setRouter($router)
+    {
         $this->router = $router;
+
+        return $this;
     }
 
     /**
