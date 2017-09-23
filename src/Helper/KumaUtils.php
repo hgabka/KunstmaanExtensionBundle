@@ -217,7 +217,7 @@ class KumaUtils
 
     public function entityToArray($entity, $maxLevel = 2, $currentLevel = 0)
     {
-        if ($currentLevel >= $maxLevel || empty($entity)) {
+        if ($currentLevel > $maxLevel || empty($entity)) {
             return [];
         }
         $doctrine = $this->container->get('doctrine');
@@ -231,21 +231,34 @@ class KumaUtils
             foreach ($md->getFieldNames() as $field) {
                 $result[$field] = $md->getFieldValue($entity, $field);
             }
-
-            foreach ($md->getAssociationMappings() as $field => $data) {
-                $mapping = $md->getFieldValue($entity, $field);
-                if ($mapping instanceof \Traversable) {
-                    $result[$field] = [];
-                    foreach ($mapping as $entity) {
-                        $result[$field][] = $this->entityToArray($entity, $maxLevel, $currentLevel + 1);
+            if ($currentLevel < $maxLevel) {
+                foreach ($md->getAssociationMappings() as $field => $data) {
+                    $mapping = $md->getFieldValue($entity, $field);
+                    if ($mapping instanceof \Traversable) {
+                        $result[$field] = [];
+                        foreach ($mapping as $ent) {
+                            $result[$field][] = $this->entityToArray($ent, $maxLevel, $currentLevel + 1);
+                        }
+                    } else {
+                        $result[$field] = $this->entityToArray($mapping, $maxLevel, $currentLevel + 1);
                     }
-                } else {
-                    $result[$field] = $this->entityToArray($mapping, $maxLevel, $currentLevel + 1);
                 }
             }
         }
 
         return $result;
+    }
+
+    public function entityFromArray($entity, array $array)
+    {
+        foreach ($array as $key => $value) {
+            $method = 'set'.ucfirst($key);
+            if (method_exists($entity, $method)) {
+                $entity->$method($value);
+            }
+        }
+
+        return $entity;
     }
 
     /**
