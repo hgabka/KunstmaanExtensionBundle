@@ -2,22 +2,19 @@
 
 namespace Hgabka\KunstmaanExtensionBundle\Helper;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Kunstmaan\AdminBundle\Helper\DomainConfiguration;
 use Kunstmaan\MediaBundle\Entity\Media;
-use Kunstmaan\MediaBundle\Helper\MediaManager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\RouterInterface;
 
 class KumaUtils
 {
-    /** @var  ContainerInterface */
+    /** @var ContainerInterface */
     protected $container;
 
     protected $roman_values = [
@@ -59,7 +56,7 @@ class KumaUtils
         }
 
         $requestStack = $this->container->get('request_stack');
-        $domainConfiguration= $this->container->get('kunstmaan_admin.domain_configuration');
+        $domainConfiguration = $this->container->get('kunstmaan_admin.domain_configuration');
 
         $request = $requestStack->getMasterRequest();
 
@@ -79,21 +76,22 @@ class KumaUtils
      */
     public function getAvailableLocales(bool $frontend = true): array
     {
-        $domainConfiguration= $this->container->get('kunstmaan_admin.domain_configuration');
+        $domainConfiguration = $this->container->get('kunstmaan_admin.domain_configuration');
 
         return $frontend ? $domainConfiguration->getFrontendLocales() : $domainConfiguration->getBackendLocales();
     }
 
     /**
-     * @param bool $frontend
+     * @param bool   $frontend
+     * @param string $prefix
      *
      * @return array
      */
-    public function getLocaleChoices(bool $frontend = true): array
+    public function getLocaleChoices(bool $frontend = true, $prefix = 'wt_kuma_extension.locales.'): array
     {
         $locales = $this->getAvailableLocales($frontend);
 
-        return $this->prefixArrayElements($locales, 'wt_kuma_extension.locales.');
+        return $this->prefixArrayElements($locales, $prefix);
     }
 
     /**
@@ -101,7 +99,7 @@ class KumaUtils
      */
     public function getDefaultLocale()
     {
-        $domainConfiguration= $this->container->get('kunstmaan_admin.domain_configuration');
+        $domainConfiguration = $this->container->get('kunstmaan_admin.domain_configuration');
 
         return $domainConfiguration->getDefaultLocale();
     }
@@ -121,7 +119,7 @@ class KumaUtils
      */
     public function isMultiLanguage()
     {
-        $domainConfiguration= $this->container->get('kunstmaan_admin.domain_configuration');
+        $domainConfiguration = $this->container->get('kunstmaan_admin.domain_configuration');
 
         return $domainConfiguration->isMultiLanguage();
     }
@@ -133,7 +131,7 @@ class KumaUtils
      */
     public function getMediaPath(Media $media)
     {
-        return $this->container->getParameter('kernel.project_dir') . '/web/' . $media->getUrl();
+        return $this->container->getParameter('kernel.project_dir').'/web/'.$media->getUrl();
     }
 
     /**
@@ -192,7 +190,7 @@ class KumaUtils
      */
     public function getWebDir(): string
     {
-        return $this->container->getParameter('kernel.project_dir') . '/web';
+        return $this->container->getParameter('kernel.project_dir').'/web';
     }
 
     public static function slugify($text, $subst = '-')
@@ -204,11 +202,11 @@ class KumaUtils
         $text = trim($text, '-');
         $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); // TRANSLIT does the whole job
         $text = strtolower($text);
-        $text = preg_replace('~[^-a-z0-9_' . $subst . ']+~', '', $text); // keep only letters, numbers, '_' and separator  $text = preg_replace('~[^\\pL0-9_]+~u', '-', $text); // substitutes anything but letters, numbers and '_' with separator
+        $text = preg_replace('~[^-a-z0-9_'.$subst.']+~', '', $text); // keep only letters, numbers, '_' and separator  $text = preg_replace('~[^\\pL0-9_]+~u', '-', $text); // substitutes anything but letters, numbers and '_' with separator
         $text = trim($text, '-');
         $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); // TRANSLIT does the whole job
         $text = strtolower($text);
-        $text = preg_replace('~[^-a-z0-9_' . $subst . ']+~', '', $text); // keep only letters, numbers, '_' and separator
+        $text = preg_replace('~[^-a-z0-9_'.$subst.']+~', '', $text); // keep only letters, numbers, '_' and separator
 
         if (empty($text)) {
             return '';
@@ -253,8 +251,9 @@ class KumaUtils
     /**
      * Returns subject replaced with regular expression matchs.
      *
-     * @param mixed $search subject to search
+     * @param mixed $search       subject to search
      * @param array $replacePairs array of search => replace pairs
+     *
      * @return mixed
      */
     public function pregtr($search, $replacePairs)
@@ -265,7 +264,7 @@ class KumaUtils
                 $search = preg_replace_callback($pattern, function ($matches) use ($replacement) {
                     preg_match("/('::'\.)?([a-z]*)\('\\\\([0-9]{1})'\)/", $replacement, $match);
 
-                    return ('' === $match[1] ? '' : '::') . call_user_func($match[2], $matches[$match[3]]);
+                    return ('' === $match[1] ? '' : '::').call_user_func($match[2], $matches[$match[3]]);
                 }, $search);
             } else {
                 $search = preg_replace($pattern, $replacement, $search);
@@ -301,7 +300,7 @@ class KumaUtils
         $tmp = str_replace('::', '/', $tmp);
         $tmp = $this->pregtr($tmp, [
             '/([A-Z]+)([A-Z][a-z])/' => '\\1_\\2',
-            '/([a-z\d])([A-Z])/'     => '\\1_\\2',
+            '/([a-z\d])([A-Z])/' => '\\1_\\2',
         ]);
 
         return strtolower($tmp);
@@ -323,14 +322,14 @@ class KumaUtils
      * Returns classname in underscored form, with "_id" tacked on at the end.
      * This is for use in dealing with foreign keys in the database.
      *
-     * @param string $class_name class name
-     * @param bool $separate_with_underscore separate with underscore
+     * @param string $class_name               class name
+     * @param bool   $separate_with_underscore separate with underscore
      *
      * @return strong Foreign key
      */
     public function foreign_key($class_name, $separate_with_underscore = true)
     {
-        return $this->underscore($this->demodulize($class_name)) . ($separate_with_underscore ? '_id' : 'id');
+        return $this->underscore($this->demodulize($class_name)).($separate_with_underscore ? '_id' : 'id');
     }
 
     /**
@@ -377,7 +376,7 @@ class KumaUtils
     /**
      * Adds a path to the PHP include_path setting.
      *
-     * @param mixed $path Single string path or an array of paths
+     * @param mixed  $path     Single string path or an array of paths
      * @param string $position Either 'front' or 'back'
      *
      * @return string The old include path
@@ -421,7 +420,7 @@ class KumaUtils
      * This file comes from Prado (BSD License)
      *
      * @param string $string the UTF-8 string for conversion
-     * @param string $to new encoding
+     * @param string $to     new encoding
      *
      * @return string encoded string
      */
@@ -443,7 +442,7 @@ class KumaUtils
      * This file comes from Prado (BSD License)
      *
      * @param string $string string to convert to UTF-8
-     * @param string $from current encoding
+     * @param string $from   current encoding
      *
      * @return string UTF-8 encoded string, original string if iconv failed
      */
@@ -473,7 +472,7 @@ class KumaUtils
         foreach (['php5', 'php'] as $phpCli) {
             foreach ($suffixes as $suffix) {
                 foreach (explode(PATH_SEPARATOR, $path) as $dir) {
-                    if (is_file($file = $dir . DIRECTORY_SEPARATOR . $phpCli . $suffix) && is_executable($file)) {
+                    if (is_file($file = $dir.DIRECTORY_SEPARATOR.$phpCli.$suffix) && is_executable($file)) {
                         return $file;
                     }
                 }
@@ -486,9 +485,9 @@ class KumaUtils
     /**
      * Returns an array value for a path.
      *
-     * @param array $values The values to search
-     * @param string $name The token name
-     * @param array $default Default if not found
+     * @param array  $values  The values to search
+     * @param string $name    The token name
+     * @param array  $default Default if not found
      *
      * @return array
      */
@@ -761,18 +760,18 @@ class KumaUtils
 
         while (false !== ($file = readdir($fp))) {
             if (!in_array($file, $ignore, true)) {
-                if (is_link($directory . '/' . $file)) {
+                if (is_link($directory.'/'.$file)) {
                     // delete symlink
-                    unlink($directory . '/' . $file);
-                } elseif (is_dir($directory . '/' . $file)) {
+                    unlink($directory.'/'.$file);
+                } elseif (is_dir($directory.'/'.$file)) {
                     // recurse through directory
-                    $this->clearDirectory($directory . '/' . $file);
+                    $this->clearDirectory($directory.'/'.$file);
 
                     // delete the directory
-                    rmdir($directory . '/' . $file);
+                    rmdir($directory.'/'.$file);
                 } else {
                     // delete the file
-                    unlink($directory . '/' . $file);
+                    unlink($directory.'/'.$file);
                 }
             }
         }
@@ -870,7 +869,7 @@ class KumaUtils
         } else {
             $str_end = mb_substr($str, 1, mb_strlen($str, $encoding), $encoding);
         }
-        $str = $first_letter . $str_end;
+        $str = $first_letter.$str_end;
 
         return $str;
     }
@@ -917,7 +916,7 @@ class KumaUtils
 
         $tsz = '';
         $ej = ($nsz < 0 ? '- ' : '');
-        $sz = trim('' . floor($nsz));
+        $sz = trim(''.floor($nsz));
         $hj = 0;
         if ('0' === $sz) {
             $tsz = 'nulla';
@@ -925,11 +924,11 @@ class KumaUtils
             while ($sz > '') {
                 ++$hj;
                 $t = '';
-                $wsz = substr('00' . substr($sz, -3), -3);
+                $wsz = substr('00'.substr($sz, -3), -3);
                 $tizesek[0] = ('0' === $wsz[2] ? 'tíz' : 'tizen');
                 $tizesek[1] = ('0' === $wsz[2] ? 'húsz' : 'huszon');
                 if ($c = $wsz[0]) {
-                    $t = $szamok[$c - 1] . 'száz';
+                    $t = $szamok[$c - 1].'száz';
                 }
                 if ($c = $wsz[1]) {
                     $t .= $tizesek[$c - 1];
@@ -938,12 +937,12 @@ class KumaUtils
                     $t .= $szamok[$c - 1];
                 }
                 //        $tsz=($t?$t.$hatv[$hj-1]:'').($tsz==''?'':'-').$tsz;
-                $tsz = ($t ? $t . $hatv[$hj - 1] : '') . ('' === $tsz ? '' : ($nsz > 2000 ? '-' : '')) . $tsz;
+                $tsz = ($t ? $t.$hatv[$hj - 1] : '').('' === $tsz ? '' : ($nsz > 2000 ? '-' : '')).$tsz;
                 $sz = substr($sz, 0, -3);
             }
         }
 
-        return ucfirst($ej . $tsz);
+        return ucfirst($ej.$tsz);
     }
 
     public function getKozteruletJellegek()
@@ -1043,10 +1042,10 @@ class KumaUtils
      * DatePeriod hívás shortcut. Két dátum között visszaadja az összes, $interval paraméternek megfelelő dátumot.
      * Ha a végdátum 00:00:00 időpontot tartalmaz akkor nem lesz benne az eredményben, egyébként igen.
      *
-     * @param mixed $from
-     * @param mixed $to
+     * @param mixed  $from
+     * @param mixed  $to
      * @param string $interval
-     * @param bool $returnArray Tömbben adja vissza a dátumokat?
+     * @param bool   $returnArray Tömbben adja vissza a dátumokat?
      *
      * @return array|\DatePeriod
      */
@@ -1084,7 +1083,7 @@ class KumaUtils
      *
      * @param array|string $currentClass
      * @param array|string $newClasses
-     * @param bool $returnAsString
+     * @param bool         $returnAsString
      *
      * @return array|string
      */
@@ -1104,7 +1103,7 @@ class KumaUtils
             }
         }
 
-        $currentClass = !is_array($currentClass) ? (array)$currentClass : $currentClass;
+        $currentClass = !is_array($currentClass) ? (array) $currentClass : $currentClass;
         $currentClass = array_unique($currentClass);
 
         return $returnAsString ? implode(' ', $currentClass) : $currentClass;
@@ -1114,7 +1113,7 @@ class KumaUtils
      * Bootstrap osztályok cserélése. Ha pl btn-primary van egy gombon és btn-default-ra akarjuk
      * cserélni, akkor ez leveszi a primaryt előbb.
      *
-     * @param array $classes
+     * @param array  $classes
      * @param string $newClass
      *
      * @return array
@@ -1127,8 +1126,8 @@ class KumaUtils
             'md',
             'lg',
         ];
-        $sizesStackedRegexp = '(?P<size>' . implode('|', $sizes) . ')'; // ha minden méretből lehet egy
-        $sizesRegexp = '(' . implode('|', $sizes) . ')'; // ha csak egy féle méret lehet
+        $sizesStackedRegexp = '(?P<size>'.implode('|', $sizes).')'; // ha minden méretből lehet egy
+        $sizesRegexp = '('.implode('|', $sizes).')'; // ha csak egy féle méret lehet
 
         $states = [
             'default',
@@ -1140,33 +1139,33 @@ class KumaUtils
             'link',
             'muted',
         ];
-        $statesRegexp = '(' . implode('|', $states) . ')';
+        $statesRegexp = '('.implode('|', $states).')';
 
         $map = [
             'glyphicon-.+',
-            'col-' . $sizesStackedRegexp . '-\d+',
-            'col-' . $sizesStackedRegexp . '-push-\d+',
-            'col-' . $sizesStackedRegexp . '-pull-\d+',
-            'col-' . $sizesStackedRegexp . '-offset-\d+',
-            'btn-' . $sizesRegexp,
-            'btn-' . $statesRegexp,
-            'btn-group-' . $sizesRegexp,
-            'bg-' . $statesRegexp,
-            'text-' . $statesRegexp,
-            'hidden-' . $sizesStackedRegexp,
-            'visible-' . $sizesStackedRegexp . '-block',
-            'visible-' . $sizesStackedRegexp . '-inline',
-            'visible-' . $sizesStackedRegexp . '-inline-block',
-            'well-' . $sizesRegexp,
-            'panel-' . $statesRegexp,
-            'alert-' . $statesRegexp,
-            'label-' . $statesRegexp,
+            'col-'.$sizesStackedRegexp.'-\d+',
+            'col-'.$sizesStackedRegexp.'-push-\d+',
+            'col-'.$sizesStackedRegexp.'-pull-\d+',
+            'col-'.$sizesStackedRegexp.'-offset-\d+',
+            'btn-'.$sizesRegexp,
+            'btn-'.$statesRegexp,
+            'btn-group-'.$sizesRegexp,
+            'bg-'.$statesRegexp,
+            'text-'.$statesRegexp,
+            'hidden-'.$sizesStackedRegexp,
+            'visible-'.$sizesStackedRegexp.'-block',
+            'visible-'.$sizesStackedRegexp.'-inline',
+            'visible-'.$sizesStackedRegexp.'-inline-block',
+            'well-'.$sizesRegexp,
+            'panel-'.$statesRegexp,
+            'alert-'.$statesRegexp,
+            'label-'.$statesRegexp,
             'pull-(left|right)',
         ];
 
         foreach ($map as $regexp) {
             $matches = [];
-            $pattern = '/^' . $regexp . '$/';
+            $pattern = '/^'.$regexp.'$/';
             if (preg_match($pattern, $newClass, $matches)) {
                 foreach ($classes as $idx => $cls) {
                     $submatches = [];
@@ -1194,7 +1193,7 @@ class KumaUtils
      * DateTime készítése egy bejövő dátumból vagy timestampból.
      *
      * @param \DateTime|int|string $date
-     * @param bool $throwOnError
+     * @param bool                 $throwOnError
      *
      * @throws \Exception
      *
@@ -1227,7 +1226,7 @@ class KumaUtils
     /**
      * Egy tömb minden eleme elé rak egy szöveget.
      *
-     * @param array $choices
+     * @param array  $choices
      * @param string $prefix
      *
      * @return array
@@ -1236,7 +1235,7 @@ class KumaUtils
     {
         $data = [];
         foreach ($choices as $choice) {
-            $data[$choice] = $prefix . $choice;
+            $data[$choice] = $prefix.$choice;
         }
 
         return $data;
@@ -1283,8 +1282,8 @@ class KumaUtils
      * Szövegek rövidítése.
      *
      * @param string $text
-     * @param int $max Hány karakternél vágjuk le?
-     * @param bool $addEllipsis ... hozzáadása a végéhez, ha rövidítés történt?
+     * @param int    $max         Hány karakternél vágjuk le?
+     * @param bool   $addEllipsis ... hozzáadása a végéhez, ha rövidítés történt?
      *
      * @return string
      */
@@ -1337,7 +1336,7 @@ class KumaUtils
     public function curlGet($url, $params)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url . (empty($params) ? '' : ('?' . http_build_query($params))));
+        curl_setopt($ch, CURLOPT_URL, $url.(empty($params) ? '' : ('?'.http_build_query($params))));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $result = curl_exec($ch);
@@ -1372,14 +1371,14 @@ class KumaUtils
     public function getGroupedTimezoneChoices()
     {
         $regions = [
-            'Africa'     => \DateTimeZone::AFRICA,
-            'America'    => \DateTimeZone::AMERICA,
+            'Africa' => \DateTimeZone::AFRICA,
+            'America' => \DateTimeZone::AMERICA,
             'Antarctica' => \DateTimeZone::ANTARCTICA,
-            'Asia'       => \DateTimeZone::ASIA,
-            'Atlantic'   => \DateTimeZone::ATLANTIC,
-            'Europe'     => \DateTimeZone::EUROPE,
-            'Indian'     => \DateTimeZone::INDIAN,
-            'Pacific'    => \DateTimeZone::PACIFIC,
+            'Asia' => \DateTimeZone::ASIA,
+            'Atlantic' => \DateTimeZone::ATLANTIC,
+            'Europe' => \DateTimeZone::EUROPE,
+            'Indian' => \DateTimeZone::INDIAN,
+            'Pacific' => \DateTimeZone::PACIFIC,
         ];
         $timezones = [];
         foreach ($regions as $name => $mask) {
@@ -1388,7 +1387,7 @@ class KumaUtils
                 // Lets sample the time there right now
                 $time = new \DateTime(null, new \DateTimeZone($timezone));
                 // Us dumb Americans can't handle millitary time
-                $ampm = $time->format('H') > 12 ? ' (' . $time->format('g:i a') . ')' : '';
+                $ampm = $time->format('H') > 12 ? ' ('.$time->format('g:i a').')' : '';
                 // Remove region name and add a sample time
                 if (empty($timezones[$name])) {
                     $timezones[$name] = [];
@@ -1455,7 +1454,7 @@ class KumaUtils
         $request = $requestStack->getCurrentRequest();
         $context = $router->getContext();
 
-        return $request ? $request->getSchemeAndHttpHost() : $context->getScheme() . '://' . $context->getHost();
+        return $request ? $request->getSchemeAndHttpHost() : $context->getScheme().'://'.$context->getHost();
     }
 
     /**
@@ -1498,7 +1497,7 @@ class KumaUtils
         $context = $router->getContext();
         $scheme = $context->getScheme();
 
-        return $request ? $request->getPort() : ($scheme == 'https' ? $context->getHttpsPort() : $context->getHttpPort());
+        return $request ? $request->getPort() : ('https' === $scheme ? $context->getHttpsPort() : $context->getHttpPort());
     }
 
     /**
@@ -1520,13 +1519,12 @@ class KumaUtils
         }
 
         $scheme = $context->getScheme();
-        $port = $scheme == 'https' ? $context->getHttpsPort() : $context->getHttpPort();
+        $port = 'https' === $scheme ? $context->getHttpsPort() : $context->getHttpPort();
 
-        if (('http' == $scheme && $port == 80) || ('https' == $scheme && $port == 443)) {
+        if (('http' === $scheme && 80 === $port) || ('https' === $scheme && 443 === $port)) {
             return $context->getHost();
         }
 
-        return $context->getHost() . ':' . $port;
+        return $context->getHost().':'.$port;
     }
-
 }

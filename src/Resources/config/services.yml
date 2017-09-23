@@ -87,6 +87,12 @@ services:
         tags:
             - { name: form.type }
 
+    hgabka_kunstmaan_extension.form.type.locale_type:
+        class: Hgabka\KunstmaanExtensionBundle\Form\Type\LocaleType
+        arguments:  ['@hgabka_kunstmaan_extension.kuma_utils']
+        tags:
+            - { name: form.type }
+
     hgabka_kunstmaan_extension.form.help_type_extension:
         class: Hgabka\KunstmaanExtensionBundle\Form\Extension\HelpTypeExtension
         tags:
