@@ -3,6 +3,7 @@
 namespace Hgabka\KunstmaanExtensionBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +15,7 @@ class StaticControlType extends AbstractType
         $resolver->setDefaults([
           'required' => false,
           'disabled' => true,
-          'is_html' => false,
+          'html' => false,
           'format' => '%s',
           'date_format' => null,
         ]);
@@ -22,13 +23,13 @@ class StaticControlType extends AbstractType
 
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['is_html'] = $options['is_html'];
+        $view->vars['is_html'] = !empty($options['html']);
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $isDate = false;
-        $val = $view->vars['value'];
+        $val = !empty($options['html']) ? str_replace('%value%', $view->vars['value'], $options['html']) : $view->vars['value'];
         if ($val instanceof \DateTime) {
             $isDate = true;
         } else {
@@ -42,7 +43,7 @@ class StaticControlType extends AbstractType
 
     public function getParent()
     {
-        return 'text';
+        return TextType::class;
     }
 
     public function getBlockPrefix()
