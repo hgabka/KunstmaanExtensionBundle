@@ -11,8 +11,6 @@ kuma_admin:
             label:          Clear
 
 wt_kuma_extension:
-    recaptcha:
-        message: Please confirm that you are not a robot
     locales:
         hu: Hungarian
         en: English

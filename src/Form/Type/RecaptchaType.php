@@ -32,6 +32,7 @@ class RecaptchaType extends AbstractType
     {
         $resolver->setDefaults([
             'sitekey' => $this->siteKey,
+            'error_bubbling' => false,
         ]);
     }
 

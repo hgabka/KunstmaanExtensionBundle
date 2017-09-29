@@ -56,7 +56,6 @@ class RecaptchaValidator extends ConstraintValidator
         $response = $request->get('g-recaptcha-response');
 
         $isValid = $this->checkAnswer($this->secret, $remoteip, $response);
-
         if (!$isValid) {
             $this->context->addViolation($constraint->message);
         }
