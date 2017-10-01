@@ -8,6 +8,7 @@ use Hgabka\KunstmaanExtensionBundle\Entity\FormSubmissionFieldTypes\RecaptchaFor
 use Hgabka\KunstmaanExtensionBundle\Form\RecaptchaFormSubmissionType;
 use Kunstmaan\FormBundle\Entity\PageParts\AbstractFormPagePart;
 use Symfony\Component\Form\FormBuilderInterface;
+use Hgabka\KunstmaanExtensionBundle\Form\PageParts\RecaptchaPagePartAdminType;
 
 /**
  * RecaptchaPagePart.
@@ -67,6 +68,6 @@ class RecaptchaPagePart extends AbstractFormPagePart
      */
     public function getDefaultAdminType()
     {
-        return 'hgabka_kunstmaan_extension.form.recaptcha_admin_type';
+        return RecaptchaPagePartAdminType::class;
     }
 }
