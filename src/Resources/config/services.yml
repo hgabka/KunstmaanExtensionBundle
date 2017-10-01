@@ -145,3 +145,5 @@ services:
         class: Hgabka\KunstmaanExtensionBundle\EventListener\RecaptchaEventSubscriber
         tags:
             - { name: doctrine.event_subscriber, connection: default }
+
+    Hgabka\KunstmaanExtensionBundle\Helper\KumaUtils: "@hgabka_kunstmaan_extension.kuma_utils"
