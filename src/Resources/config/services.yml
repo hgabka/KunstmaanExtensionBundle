@@ -102,6 +102,9 @@ services:
         class: Hgabka\KunstmaanExtensionBundle\Helper\KumaUtils
         arguments:  ["@service_container"]
 
+    hgabka_kunstmaan_extension.breadcrumb_manager:
+        class: Hgabka\KunstmaanExtensionBundle\Breadcrumb\BreadcrumbManager
+        arguments:  ["@security.token_storage", "@request_stack"]
 
     hgabka_kunstmaan_extension.number_to_text:
         class: Hgabka\KunstmaanExtensionBundle\Helper\Number\NumberToText
@@ -146,4 +149,12 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 
+    hgabka_kunstmaan_extension.breadcrumb_twig_extension:
+        class: Hgabka\KunstmaanExtensionBundle\Twig\Extension\BreadcrumbTwigExtension
+        arguments: ['@hgabka_kunstmaan_extension.breadcrumb_manager']
+        public: false
+        tags:
+            - { name: twig.extension }
+
     Hgabka\KunstmaanExtensionBundle\Helper\KumaUtils: "@hgabka_kunstmaan_extension.kuma_utils"
+    Hgabka\KunstmaanExtensionBundle\Breadcrumb\BreadcrumbManager: "@hgabka_kunstmaan_extension.breadcrumb_manager"
