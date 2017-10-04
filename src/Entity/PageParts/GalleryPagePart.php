@@ -38,11 +38,11 @@ class GalleryPagePart extends AbstractPagePart
     /**
      * Get the admin form type.
      *
-     * @return GalleryPagePartAdminType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return new GalleryPagePartAdminType();
+        return GalleryPagePartAdminType::class;
     }
 
     /**

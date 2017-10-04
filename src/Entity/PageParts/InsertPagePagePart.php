@@ -3,6 +3,7 @@
 namespace Hgabka\KunstmaanExtensionBundle\Entity\PageParts;
 
 use Doctrine\ORM\Mapping as ORM;
+use Hgabka\KunstmaanExtensionBundle\Form\PageParts\InsertPagePagePartAdminType;
 
 /**
  * InsertPagePagePart.
@@ -59,10 +60,10 @@ class InsertPagePagePart extends \Kunstmaan\PagePartBundle\Entity\AbstractPagePa
     /**
      * Get the admin form type.
      *
-     * @return \Hgabka\KunstmaanExtensionBundle\Form\PageParts\InsertPagePagePartAdminType
+     * @return string
      */
     public function getDefaultAdminType()
     {
-        return 'hgabka_kunstmaan_extension.page_insert.admin_form_type';
+        return InsertPagePagePartAdminType::class;
     }
 }

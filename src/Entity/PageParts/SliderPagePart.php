@@ -90,6 +90,6 @@ class SliderPagePart extends AbstractPagePart
      */
     public function getDefaultAdminType()
     {
-        return new SliderPagePartAdminType();
+        return SliderPagePartAdminType::class;
     }
 }
