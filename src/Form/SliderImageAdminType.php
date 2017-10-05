@@ -21,6 +21,7 @@ class SliderImageAdminType extends AbstractType
         $builder->add('media', MediaType::class, [
             'label' => 'wt_kuma_extension.slider.form.image.label',
             'mediatype' => 'image',
+            'foldername' => 'slider',
             'required' => true,
         ]);
         $builder->add('captionTitle', TextType::class, [
