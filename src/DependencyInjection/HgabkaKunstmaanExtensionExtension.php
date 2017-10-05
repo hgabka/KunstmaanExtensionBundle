@@ -65,6 +65,19 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
             $definition->addMethodCall('addCustomNumericFunction', [Rand::FUNCTION_NAME, Rand::class]);
             $definition->addMethodCall('addCustomStringFunction', [Repeat::FUNCTION_NAME, Repeat::class]);
         }
+
+        $filterSets = $container->getParameter('liip_imagine.filter_sets');
+        $filterSets['hgabka_extension_slider_fill'] = [
+            'quality' => 95,
+            'format' => 'jpg',
+            'filters' => [
+                'hg_fill' => [
+                    'size' => [600, 400]
+                ]
+            ]
+        ];
+
+        $container->setParameter('liip_imagine.filter_sets', $filterSets);
     }
 
     protected function configureTwigBundle(ContainerBuilder $container)

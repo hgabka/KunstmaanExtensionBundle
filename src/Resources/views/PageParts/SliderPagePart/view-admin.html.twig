@@ -3,7 +3,7 @@
 + # @see https://getbootstrap.com/javascript/#carousel
 + #}
 {% set id = "carousel-" ~ resource.id %}
-<div id="{{ id }}" class="carousel slide" data-ride="carousel">
+<div id="{{ id }}" class="carousel slide" data-ride="carousel" style="width:600px">
         <!-- Indicators -->
         <ol class="carousel-indicators">
                 {% for i in 0..(resource.images|length - 1) %}
@@ -15,7 +15,7 @@
         <div class="carousel-inner" role="listbox">
                 {% for image in resource.images %}
                         <div class="item {% if loop.first %}active{% endif %}">
-                                <img src="{{ asset(image.media.url) }}" alt="{{ image.altText }}">
+                                <img src="{{ asset(image.media.url)  | imagine_filter('hgabka_extension_slider_fill') }}" alt="{{ image.altText }}">
                                 {% if image.caption or image.captionTitle or image.link %}
                                         <div class="carousel-caption">
                                                 {% if image.captionTitle %}
