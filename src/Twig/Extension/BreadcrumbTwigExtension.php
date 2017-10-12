@@ -15,7 +15,6 @@ class BreadcrumbTwigExtension extends \Twig_Extension implements \Twig_Extension
      * PublicTwigExtension constructor.
      *
      * @param BreadcrumbManager $manager
-     *
      */
     public function __construct(BreadcrumbManager $manager)
     {

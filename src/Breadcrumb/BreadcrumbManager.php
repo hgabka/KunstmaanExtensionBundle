@@ -7,25 +7,26 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class BreadcrumbManager implements \IteratorAggregate, \Countable
 {
-    /** @var array  */
+    /** @var array */
     protected $breadCrumbs = [];
 
-    /** @var  TokenStorageInterface */
+    /** @var TokenStorageInterface */
     protected $tokenStorage;
 
-    /** @var  RequestStack */
+    /** @var RequestStack */
     protected $requestStack;
 
-    /** @var bool  */
+    /** @var bool */
     protected $addHomepage = true;
 
-    /** @var array  */
+    /** @var array */
     protected $predefinedLabels = [];
 
     private $waitingForLabel;
 
     /**
      * BreadcrumbManager constructor.
+     *
      * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(TokenStorageInterface $tokenStorage, RequestStack $requestStack)
@@ -34,21 +35,14 @@ class BreadcrumbManager implements \IteratorAggregate, \Countable
         $this->requestStack = $requestStack;
     }
 
-    protected function getUser()
-    {
-        $user = $this->tokenStorage->getToken()->getUser();
-
-        return is_object($user) ? $user : null;
-    }
-
     /**
-     * Visszaadja a breadcrumbs-okat
+     * Visszaadja a breadcrumbs-okat.
+     *
      * @return BreadCrumb[]
      */
     public function getBreadcrumbs()
     {
-        if ($this->addHomepage && !empty($this->breadCrumbs))
-        {
+        if ($this->addHomepage && !empty($this->breadCrumbs)) {
             array_unshift($this->breadCrumbs, $this->getHomepageBreadcrumb());
             $this->addHomepage = false;
         }
@@ -56,46 +50,36 @@ class BreadcrumbManager implements \IteratorAggregate, \Countable
         return $this->breadCrumbs;
     }
 
-
     /**
-     * Egy új breadcrumb hozzáadása
+     * Egy új breadcrumb hozzáadása.
      *
      * @param BreadCrumb|BreadcrumbInterface|string $bc
-     * @param string $label
+     * @param string                                $label
+     * @param mixed                                 $routeParams
+     *
      * @return BreadcrumbManager
      */
     public function add($bc = null, $label = null, $routeParams = [])
     {
-        if ($bc instanceof BreadCrumbInterface)
-        {
+        if ($bc instanceof BreadCrumbInterface) {
             $bcs = $bc->getBreadcrumb($this->getUser());
-            if (!is_array($bcs))
-            {
-                $bcs = array($bcs);
+            if (!is_array($bcs)) {
+                $bcs = [$bcs];
             }
 
-            foreach (array_filter($bcs) as $b)
-            {
+            foreach (array_filter($bcs) as $b) {
                 $this->add($b);
             }
-        }
-        elseif (is_null($bc))
-        {
+        } elseif (null === $bc) {
             return $this->addCurrentRoute($label);
-        }
-        else
-        {
-            if (!$bc instanceof Breadcrumb)
-            {
+        } else {
+            if (!$bc instanceof Breadcrumb) {
                 $bc = new Breadcrumb($bc, $routeParams, $label);
 
-                if (is_null($label))
-                {
+                if (null === $label) {
                     $bc->setLabel($this->getPredefinedLabel($bc->getRoute()));
                 }
-            }
-            elseif (is_null($bc->getRoute()))
-            {
+            } elseif (null === $bc->getRoute()) {
                 $request = $this->requestStack->getCurrentRequest();
 
                 $bc->setRoute($request->attributes->get('_route'));
@@ -109,8 +93,10 @@ class BreadcrumbManager implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Automatán megpróbálja kitalálni a route-ot
+     * Automatán megpróbálja kitalálni a route-ot.
+     *
      * @param string $label
+     *
      * @return BreadCrumbManager
      */
     public function addCurrentRoute($label = null)
@@ -119,8 +105,7 @@ class BreadcrumbManager implements \IteratorAggregate, \Countable
         $route = $request->attributes->get('_route');
         $routeParams = $request->attributes->get('_route_params');
 
-        if (is_null($label))
-        {
+        if (null === $label) {
             return $this->add($this->waitingForLabel = new Breadcrumb($route, $routeParams, $this->getPredefinedLabel($route)));
         }
 
@@ -133,17 +118,18 @@ class BreadcrumbManager implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Összes beállított breadcrumb törlése
+     * Összes beállított breadcrumb törlése.
      */
     public function clear()
     {
-        $this->breadCrumbs = array();
+        $this->breadCrumbs = [];
 
         return $this;
     }
 
     /**
-     * Nyitólap breadcrumb
+     * Nyitólap breadcrumb.
+     *
      * @return BreadCrumb
      */
     public function getHomepageBreadcrumb()
@@ -153,25 +139,28 @@ class BreadcrumbManager implements \IteratorAggregate, \Countable
 
     /**
      * Beállítja, hogy hozzáadja-e a manager automatán a nyitólapot a breadcrumb lista elejére?
+     *
      * @param bool $switch
+     *
      * @return BreadCrumbManager
      */
     public function setAddHomepage($switch)
     {
-        $this->addHomepage = (bool)$switch;
+        $this->addHomepage = (bool) $switch;
 
         return $this;
     }
 
     /**
-     * Ha egy breadcrumbnak labelre van szükséges mert nem adtunk meg neki előtte, akkor ezzel be lehet állítani neki a megfelelő labelt
+     * Ha egy breadcrumbnak labelre van szükséges mert nem adtunk meg neki előtte, akkor ezzel be lehet állítani neki a megfelelő labelt.
+     *
      * @param string $label
+     *
      * @return BreadCrumbManager
      */
     public function setExternalLabel($label)
     {
-        if (!is_null($this->waitingForLabel))
-        {
+        if (null !== $this->waitingForLabel) {
             $this->waitingForLabel->setLabel($label);
         }
 
@@ -179,8 +168,10 @@ class BreadcrumbManager implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Törli az utolsó $count db breadcrumbot a lista végéről
+     * Törli az utolsó $count db breadcrumbot a lista végéről.
+     *
      * @param int $count
+     *
      * @return BreadCrumbManager
      */
     public function trim($count)
@@ -191,15 +182,16 @@ class BreadcrumbManager implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Visszaadja a választott route-hoz az előre beállított labelt
+     * Visszaadja a választott route-hoz az előre beállított labelt.
+     *
      * @param string $route
+     *
      * @return string
      */
     public function getPredefinedLabel($route)
     {
-        $map = array(
-
-        );
+        $map = [
+        ];
 
         return isset($map[$route]) ? $map[$route] : 'breadcrumb.'.$route;
     }
@@ -218,6 +210,13 @@ class BreadcrumbManager implements \IteratorAggregate, \Countable
     {
         $bc = $this->getBreadcrumbs();
 
-        return count($bc) == ($this->addHomepage ? 0 : 1);
+        return count($bc) === ($this->addHomepage ? 0 : 1);
+    }
+
+    protected function getUser()
+    {
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        return is_object($user) ? $user : null;
     }
 }

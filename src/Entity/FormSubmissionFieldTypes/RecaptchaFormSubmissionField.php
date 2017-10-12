@@ -3,8 +3,8 @@
 namespace Hgabka\KunstmaanExtensionBundle\Entity\FormSubmissionFieldTypes;
 
 use Doctrine\ORM\Mapping as ORM;
-use Kunstmaan\FormBundle\Entity\FormSubmissionField;
 use Hgabka\KunstmaanExtensionBundle\Form\PageParts\RecaptchaPagePartAdminType;
+use Kunstmaan\FormBundle\Entity\FormSubmissionField;
 
 /**
  * The RecaptchaFormSubmissionField can be used to store recaptcha values to a FormSubmission.

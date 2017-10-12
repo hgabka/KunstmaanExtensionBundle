@@ -5,10 +5,10 @@ namespace Hgabka\KunstmaanExtensionBundle\Entity\PageParts;
 use ArrayObject;
 use Doctrine\ORM\Mapping as ORM;
 use Hgabka\KunstmaanExtensionBundle\Entity\FormSubmissionFieldTypes\RecaptchaFormSubmissionField;
+use Hgabka\KunstmaanExtensionBundle\Form\PageParts\RecaptchaPagePartAdminType;
 use Hgabka\KunstmaanExtensionBundle\Form\RecaptchaFormSubmissionType;
 use Kunstmaan\FormBundle\Entity\PageParts\AbstractFormPagePart;
 use Symfony\Component\Form\FormBuilderInterface;
-use Hgabka\KunstmaanExtensionBundle\Form\PageParts\RecaptchaPagePartAdminType;
 
 /**
  * RecaptchaPagePart.

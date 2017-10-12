@@ -43,7 +43,7 @@ class RecaptchaPagePartAdminType extends AbstractType
 
         $builder->add('content', RecaptchaType::class, [
             'attr' => ['class' => '', 'height' => 140],
-			'label' => false,
+            'label' => false,
         ]);
     }
 

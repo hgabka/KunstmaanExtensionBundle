@@ -74,9 +74,9 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
             'format' => 'jpg',
             'filters' => [
                 'hg_fill' => [
-                    'size' => [600, 400]
-                ]
-            ]
+                    'size' => [600, 400],
+                ],
+            ],
         ];
 
         $container->setParameter('liip_imagine.filter_sets', $filterSets);

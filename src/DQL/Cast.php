@@ -23,7 +23,8 @@ class Cast extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return sprintf("CAST(%s AS %s)",
+        return sprintf(
+            'CAST(%s AS %s)',
             $this->first->dispatch($sqlWalker),
             $this->second
         );
@@ -31,8 +32,6 @@ class Cast extends FunctionNode
 
     /**
      * @param Parser $parser
-     *
-     * @return void
      */
     public function parse(Parser $parser)
     {

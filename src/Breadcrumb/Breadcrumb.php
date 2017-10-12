@@ -12,7 +12,7 @@ class Breadcrumb
     protected $label;
     protected $i18nParams;
 
-    public function __construct($route, $routeParams = [], $label = null, array $i18nParams = array())
+    public function __construct($route, $routeParams = [], $label = null, array $i18nParams = [])
     {
         $this->setRoute($route);
         $this->setRouteParams($routeParams);
@@ -42,6 +42,7 @@ class Breadcrumb
 
     /**
      * @param mixed $routeParams
+     *
      * @return Breadcrumb
      */
     public function setRouteParams($routeParams)
@@ -58,8 +59,7 @@ class Breadcrumb
 
     public function setLabel($label)
     {
-        if (empty($label))
-        {
+        if (empty($label)) {
             $label = self::LABEL_PREFIX.$this->getRoute().self::LABEL_SUFFIX;
         }
 
@@ -78,6 +78,7 @@ class Breadcrumb
 
     /**
      * @param array $i18nParams
+     *
      * @return $this
      */
     public function setI18nParams(array $i18nParams)
