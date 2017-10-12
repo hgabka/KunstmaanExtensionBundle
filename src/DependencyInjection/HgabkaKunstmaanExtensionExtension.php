@@ -3,6 +3,7 @@
 namespace Hgabka\KunstmaanExtensionBundle\DependencyInjection;
 
 use Hgabka\KunstmaanExtensionBundle\Doctrine\Hydrator\KeyValueHydrator;
+use Hgabka\KunstmaanExtensionBundle\DQL\Cast;
 use Hgabka\KunstmaanExtensionBundle\DQL\Rand;
 use Hgabka\KunstmaanExtensionBundle\DQL\Repeat;
 use Symfony\Component\Config\FileLocator;
@@ -63,6 +64,7 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
             $definition = $container->getDefinition('doctrine.orm.'.$name.'_configuration');
             $definition->addMethodCall('addCustomHydrationMode', $hydrator);
             $definition->addMethodCall('addCustomNumericFunction', [Rand::FUNCTION_NAME, Rand::class]);
+            $definition->addMethodCall('addCustomNumericFunction', [Cast::FUNCTION_NAME, Cast::class]);
             $definition->addMethodCall('addCustomStringFunction', [Repeat::FUNCTION_NAME, Repeat::class]);
         }
 
