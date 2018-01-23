@@ -40,7 +40,6 @@ class SliderImage extends AbstractEntity
      *
      * @ORM\ManyToOne(targetEntity="Kunstmaan\MediaBundle\Entity\Media")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id")
-     * @Assert\NotNull()
      */
     private $media;
 
@@ -92,7 +91,7 @@ class SliderImage extends AbstractEntity
      *
      * @return $this
      */
-    public function setSliderPagePart(SliderPagePart $sliderPagePart)
+    public function setSliderPagePart(SliderPagePart $sliderPagePart = null)
     {
         $this->sliderPagePart = $sliderPagePart;
 
@@ -112,7 +111,7 @@ class SliderImage extends AbstractEntity
      *
      * @return $this
      */
-    public function setMedia(Media $media)
+    public function setMedia(Media $media = null)
     {
         $this->media = $media;
 
