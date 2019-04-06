@@ -2,6 +2,7 @@
 
 namespace Hgabka\KunstmaanExtensionBundle\Form\Type;
 
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
@@ -10,26 +11,48 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StaticControlType extends AbstractType
 {
+    /** @var EngineInterface */
+    protected $templating;
+
+    /**
+     * StaticControlType constructor.
+     *
+     * @param TemplateRegistryInterface $twig
+     */
+    public function __construct(EngineInterface $templating)
+    {
+        $this->templating = $templating;
+    }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-          'required' => false,
-          'disabled' => true,
-          'html' => false,
-          'format' => '%s',
-          'date_format' => null,
+            'required' => false,
+            'disabled' => true,
+            'html' => false,
+            'template' => false,
+            'format' => '%s',
+            'date_format' => null,
         ]);
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['is_html'] = !empty($options['html']);
+        $view->vars['is_html'] = !empty($options['html']) || !empty($options['template']);
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $isDate = false;
-        $val = !empty($options['html']) ? str_replace('%value%', $view->vars['value'], $options['html']) : $view->vars['value'];
+        $value = \is_string($view->vars['value']) ? $view->vars['value'] : '';
+        if (!empty($options['template'])) {
+            $val = $this->templating->render($options['template'], [
+                'value' => $value,
+                'options' => $options,
+            ]);
+        } else {
+            $val = !empty($options['html']) ? str_replace('%value%', $value, $options['html']) : $value;
+        }
         if ($val instanceof \DateTime) {
             $isDate = true;
         } else {
@@ -48,6 +71,6 @@ class StaticControlType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'hgabka_kunstmaanextension_plain';
+        return 'hgabka_plain';
     }
 }
