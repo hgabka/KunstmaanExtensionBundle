@@ -71,6 +71,6 @@ class StaticControlType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'hgabka_plain';
+        return 'hgabka_kunstmaanextension_plain';
     }
 }
