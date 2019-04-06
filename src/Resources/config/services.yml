@@ -84,6 +84,7 @@ services:
 
     hgabka_kunstmaan_extension.form.type.plain_widget:
         class: Hgabka\KunstmaanExtensionBundle\Form\Type\StaticControlType
+        arguments: ['@templating']
         tags:
             - { name: form.type }
 
