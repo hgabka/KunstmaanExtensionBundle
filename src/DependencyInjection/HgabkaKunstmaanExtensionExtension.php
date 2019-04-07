@@ -3,6 +3,7 @@
 namespace Hgabka\KunstmaanExtensionBundle\DependencyInjection;
 
 use Hgabka\KunstmaanExtensionBundle\Doctrine\Hydrator\KeyValueHydrator;
+use Hgabka\KunstmaanExtensionBundle\Doctrine\Hydrator\ColumnHydrator;
 use Hgabka\KunstmaanExtensionBundle\DQL\Cast;
 use Hgabka\KunstmaanExtensionBundle\DQL\Rand;
 use Hgabka\KunstmaanExtensionBundle\DQL\Repeat;
