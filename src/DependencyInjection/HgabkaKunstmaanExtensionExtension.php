@@ -60,9 +60,12 @@ class HgabkaKunstmaanExtensionExtension extends Extension implements PrependExte
     public function process(ContainerBuilder $container)
     {
         $hydrator = [KeyValueHydrator::HYDRATOR_NAME, KeyValueHydrator::class];
+        $columnHydrator = [ColumnHydrator::HYDRATOR_NAME, ColumnHydrator::class];
+        
         foreach ($container->getParameter('doctrine.entity_managers') as $name => $serviceName) {
             $definition = $container->getDefinition('doctrine.orm.'.$name.'_configuration');
             $definition->addMethodCall('addCustomHydrationMode', $hydrator);
+            $definition->addMethodCall('addCustomHydrationMode', $columnHydrator);
             $definition->addMethodCall('addCustomNumericFunction', [Rand::FUNCTION_NAME, Rand::class]);
             $definition->addMethodCall('addCustomNumericFunction', [Cast::FUNCTION_NAME, Cast::class]);
             $definition->addMethodCall('addCustomStringFunction', [Repeat::FUNCTION_NAME, Repeat::class]);
